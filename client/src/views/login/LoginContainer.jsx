@@ -15,7 +15,9 @@ class LoginContainer extends Component {
   }
 
   handleSubmit = (event) => {
-    event.preventDefault();
+    // Send form
+    // or
+    // reroute user to next page 
   }
 
   handleChange = prop => event => {
@@ -23,6 +25,9 @@ class LoginContainer extends Component {
     this.setState({ [prop] : event.target.value})
   }
 
+  handleClickShowPassword = () => {
+    // change showPassword state to true or false depending on icon state.
+  }
 }
 
 export default LoginContainer;
