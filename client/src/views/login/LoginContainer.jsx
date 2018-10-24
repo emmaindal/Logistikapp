@@ -11,7 +11,13 @@ class LoginContainer extends Component {
   }
 
   render() {
-    return <Login showPassword={this.state.showPassword} handleSubmit={this.handleSubmit} handleChange={this.handleChange}/>;
+    return <Login
+      showPassword={this.state.showPassword}
+      handleSubmit={this.handleSubmit}
+      handleChange={this.handleChange}
+      handleClickShowPassword={this.handleClickShowPassword}
+
+    />;
   }
 
   handleSubmit = (event) => {
@@ -22,10 +28,13 @@ class LoginContainer extends Component {
 
   handleChange = prop => event => {
     event.preventDefault();
-    this.setState({ [prop] : event.target.value})
+    this.setState({ [prop]: event.target.value })
   }
 
   handleClickShowPassword = () => {
+    console.log(this.state.showPassword);
+    
+    this.setState({showPassword: !this.state.showPassword})
     // change showPassword state to true or false depending on icon state.
   }
 }
