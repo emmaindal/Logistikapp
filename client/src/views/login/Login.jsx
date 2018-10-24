@@ -2,18 +2,22 @@ import React from "react";
 
 
 //import MuiThemeProvider from '@material-ui/styles/MuiThemeProvider';
-import {AppBar, Button, TextField, Input} from '@material-ui/core';
+import { Button, Input } from '@material-ui/core';
 
-const Login = () => {
+const Login = (props) => {
+
+
   return (
+
     <div>
-      <div>
+      <form onSubmit={props.handleSubmit}>
         <Input
           id="standard"
           placeholder="Username"
-          //className={classes.textField}
+          ////className={classes.textField}
           autoComplete="current-password"
           margin="normal"
+          onChange={props.handleChange('username')}
         />
         <br />
         <Input
@@ -23,12 +27,13 @@ const Login = () => {
           type="password"
           autoComplete="current-password"
           margin="normal"
+          onChange={props.handleChange('password')}
         />
         <br />
-        <Button variant="contained" color="blue">
-          Primary
+        <Button variant="contained" color="blue" type="submit">
+          LOGGA IN
         </Button>
-      </div>
+      </form>
     </div>
   );
 };
