@@ -10,10 +10,19 @@ class ExampleContainer extends Component {
   };
 
   handleOnClick = () => {
+    //destructuring
+    const {
+      props: { exampleAction },
+      state: { count }
+    } = this;
+
+    //sets the comonent state to previous state + 1
     this.setState(prevState => ({
       count: prevState.count + 1
     }));
-    this.props.exampleAction(this.state.count);
+
+    //triggers the action in redux
+    exampleAction(count);
   };
 
   render() {
