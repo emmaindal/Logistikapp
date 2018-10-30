@@ -1,16 +1,11 @@
 import React from "react";
 
-
-//import MuiThemeProvider from '@material-ui/styles/MuiThemeProvider';
 import { Button, Input, Grid, Paper, Divider, InputAdornment, IconButton } from '@material-ui/core';
 import { Visibility, VisibilityOff } from "@material-ui/icons";
 import styled from "styled-components";
 
-const Login = (props) => {
-
-
+const Login = ({ handleChange, handleClickShowPassword, handleSubmit, showPassword }) => {
   return (
-
     <Grid
       container
       spacing={40}
@@ -19,16 +14,15 @@ const Login = (props) => {
       justify="center"
       style={{ minHeight: '100vh' }}
     >
-
       <StyledPaper elevation={18}>
         <h1> LOGISTIKAPP </h1>
         <Divider />
-        <form onSubmit={props.handleSubmit} >
+        <form onSubmit={handleSubmit} >
           <Grid item xs={11}>
             <StyledInput
               id="standard"
               placeholder="Username"
-              onChange={props.handleChange('username')}
+              onChange={handleChange('username')}
               autoFocus={true}
             />
           </Grid>
@@ -36,16 +30,16 @@ const Login = (props) => {
             <StyledInput
               id="standard-password-input"
               placeholder="Password"
-              type={props.showPassword ? 'password' : 'text'}
+              type={showPassword ? 'password' : 'text'}
               autoComplete="current-password"
-              onChange={props.handleChange('password')}
+              onChange={handleChange('password')}
               endAdornment={
                 <InputAdornment position="end">
                   <IconButton
                     aria-label="Toggle password visibility"
-                    onClick={props.handleClickShowPassword}
+                    onClick={handleClickShowPassword}
                   >
-                    {props.showPassword ? <VisibilityOff /> : <Visibility /> }
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
                   </IconButton>
                 </InputAdornment>
               }
@@ -54,15 +48,15 @@ const Login = (props) => {
           <Grid item xs={12}>
             <StyledButton variant="contained" type="submit">
               LOGGA IN
-        </StyledButton>
+            </StyledButton>
           </Grid>
         </form>
       </StyledPaper>
     </Grid>
   );
-
-
 };
+
+export default Login;
 
 const StyledInput = styled(Input)`
   margin: 10px;
@@ -80,7 +74,7 @@ const StyledPaper = styled(Paper)`
   &&&{
     padding: 30px;
     background-color: #eee;
+    text-align: center;
   }
-
 `
-export default Login;
+
