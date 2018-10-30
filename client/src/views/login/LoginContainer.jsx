@@ -16,7 +16,6 @@ class LoginContainer extends Component {
       handleSubmit={this.handleSubmit}
       handleChange={this.handleChange}
       handleClickShowPassword={this.handleClickShowPassword}
-
     />;
   }
 
@@ -32,10 +31,9 @@ class LoginContainer extends Component {
   }
 
   handleClickShowPassword = () => {
-    console.log(this.state.showPassword);
-    
-    this.setState({showPassword: !this.state.showPassword})
     // change showPassword state to true or false depending on icon state.
+    this.setState({showPassword: !this.state.showPassword})
+    
   }
 }
 

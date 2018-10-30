@@ -83,6 +83,4 @@ const StyledPaper = styled(Paper)`
   }
 
 `
-
-//427df4
 export default Login;
