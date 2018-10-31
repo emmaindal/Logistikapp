@@ -1,28 +1,40 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 
 import Navbar from "./Navbar";
 import Menu from "./components/Menu";
+import toggleMenu from "./redux/actions";
 
 class NavbarContainer extends Component {
   state = {
-    menuIsOpen: false
+    isOpen: false
   };
 
-  toggleMenu = () => {
-    this.setState(prevState => ({
-      menuIsOpen: !prevState.menuIsOpen
-    }));
-  };
+  // toggleMenu = () => {
+  //   const { isOpen } = this.state;
+  //   this.setState(prevState => ({
+  //     isOpen: !prevState.isOpen
+  //   }));
+  //
+  //   toggleMenu(isOpen);
+  // };
 
   render() {
-    const { menuIsOpen } = this.state;
+    const { isOpen, toggleMenu } = this.props;
     return (
       <div>
-        {menuIsOpen && <Menu />}
-        <Navbar menuIsOpen={menuIsOpen} toggleMenu={this.toggleMenu} />
+        {isOpen && <Menu />}
+        <Navbar isOpen={isOpen} toggleMenu={toggleMenu} />
       </div>
     );
   }
 }
 
-export default NavbarContainer;
+const mapStateToProps = state => {
+  return { isOpen: state.menu.isOpen };
+};
+
+export default connect(
+  mapStateToProps,
+  { toggleMenu }
+)(NavbarContainer);

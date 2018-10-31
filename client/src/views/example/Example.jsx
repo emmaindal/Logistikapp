@@ -2,12 +2,12 @@ import React from "react";
 
 import styled from "styled-components";
 
-const Example = ({ handleOnClick, count }) => {
+const Example = ({ exampleAction, count }) => {
   return (
     <div>
       <p>Simple Redux Example</p>
       <p>Number: {count}</p>
-      <Button onClick={handleOnClick}>Click here</Button>
+      <Button onClick={exampleAction}>Click here</Button>
     </div>
   );
 };

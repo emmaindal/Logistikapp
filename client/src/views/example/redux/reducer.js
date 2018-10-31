@@ -6,7 +6,7 @@ export default (state = initalState, action) => {
   switch (action.type) {
     case "EXAMPLE_ACTION":
       return {
-        count: action.count
+        count: state.count + 1
       };
     default:
       return state;

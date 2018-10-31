@@ -6,7 +6,7 @@ import { AppBar, Toolbar, IconButton, Typography } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import CloseIcon from "@material-ui/icons/Close";
 
-const Navbar = ({ menuIsOpen, toggleMenu }) => {
+const Navbar = ({ isOpen, toggleMenu }) => {
   return (
     <StyledAppBar position="static">
       <Toolbar>
@@ -15,8 +15,8 @@ const Navbar = ({ menuIsOpen, toggleMenu }) => {
           color="inherit"
           aria-label="Menu"
         >
-          {!menuIsOpen && <MenuIcon />}
-          {menuIsOpen && <CloseIcon />}
+          {!isOpen && <MenuIcon />}
+          {isOpen && <CloseIcon />}
         </StyledIconButton>
         <StyledTypography variant="h6" color="inherit">
           LogistikApp
