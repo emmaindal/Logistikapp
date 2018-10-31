@@ -1,39 +1,45 @@
 import React, { Component } from "react";
-
+import { connect } from "react-redux";
 import Login from "./Login";
 
+import handleShowPassword from "./redux/actions";
+
 class LoginContainer extends Component {
-
   state = {
-    username: '',
-    password: '',
-    showPassword: 'false',
-  }
+    username: "",
+    password: ""
+  };
 
-  handleSubmit = (event) => {
+  handleSubmit = event => {
     // Send form
     // or
-    // reroute user to next page 
-  }
+    // reroute user to next page
+  };
 
   handleChange = prop => event => {
     event.preventDefault();
-    this.setState({ [prop]: event.target.value })
-  }
-
-  handleClickShowPassword = () => {
-    // change showPassword state to true or false depending on icon state.
-    this.setState({showPassword: !this.state.showPassword})
-  }
+    this.setState({ [prop]: event.target.value });
+  };
 
   render() {
-    return <Login
-      showPassword={this.state.showPassword}
-      handleSubmit={this.handleSubmit}
-      handleChange={this.handleChange}
-      handleClickShowPassword={this.handleClickShowPassword}
-    />;
+    const { showPassword, handleShowPassword } = this.props;
+
+    return (
+      <Login
+        showPassword={showPassword}
+        handleSubmit={this.handleSubmit}
+        handleChange={this.handleChange}
+        handleClickShowPassword={handleShowPassword}
+      />
+    );
   }
 }
 
-export default LoginContainer;
+const mapStateToProps = state => {
+  return { showPassword: state.login.showPassword };
+};
+
+export default connect(
+  mapStateToProps,
+  { handleShowPassword }
+)(LoginContainer);
