@@ -6,19 +6,6 @@ import Menu from "./components/Menu";
 import toggleMenu from "./redux/actions";
 
 class NavbarContainer extends Component {
-  state = {
-    isOpen: false
-  };
-
-  // toggleMenu = () => {
-  //   const { isOpen } = this.state;
-  //   this.setState(prevState => ({
-  //     isOpen: !prevState.isOpen
-  //   }));
-  //
-  //   toggleMenu(isOpen);
-  // };
-
   render() {
     const { isOpen, toggleMenu } = this.props;
     return (
