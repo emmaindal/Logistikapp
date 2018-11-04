@@ -6,9 +6,10 @@ import salespositionAction from "./redux/actions";
 
 class SalespositionContainer extends Component {
 
-  handleClickSettings = () => {
+  handleClickSettings = saleposition => () => {
     //Popup with settings for that specific sales position
-    console.log('Clicked on handleclickshowsettings');
+    console.log(saleposition);
+    
   }
   render() {
     const { salespositions, salespositionAction } = this.props;

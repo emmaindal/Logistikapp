@@ -1,5 +1,5 @@
 const initalState = {
-  salespositions: ['Huvudbar', 'E22', 'Träsk']
+  salespositions: ['Huvudbar', 'E22', 'Träsk', 'Mamas', 'VIP', 'Staropramen', 'Sweden', 'Rockklassiker', 'Vinkeln']
 };
 
 export default (state = initalState, action) => {
