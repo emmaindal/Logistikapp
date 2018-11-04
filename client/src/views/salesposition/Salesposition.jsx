@@ -3,20 +3,23 @@ import React from "react";
 import styled from "styled-components";
 import { Grid, Divider, Paper, List, ListItem, ListItemText, IconButton, ListItemSecondaryAction } from "@material-ui/core"
 import { Settings } from "@material-ui/icons"
+import SettingsPanel from "./components/Settings";
 
-const Salesposition = ({ salespositions, handleClickSettings }) => {
 
+const Salesposition = ({ salespositions, toggleSettings, isOpen }) => {
+  
   const renderSalespositions = salespositions.map(saleposition => {
     return (
       <Paper key={saleposition}>
       <StyledListItem >
         <ListItemText primary={saleposition} />
         <ListItemSecondaryAction>
-          <IconButton aria-label="Settings" onClick={handleClickSettings(saleposition)}>
+          <IconButton aria-label="Settings" onClick={toggleSettings}>
             <Settings />
           </IconButton>
         </ListItemSecondaryAction>
       </StyledListItem>
+      
       </Paper>
     )
   })
@@ -37,6 +40,7 @@ const Salesposition = ({ salespositions, handleClickSettings }) => {
           {renderSalespositions}
         </List>
       </Grid>
+      <SettingsPanel isOpen={isOpen} toggleSettings={toggleSettings} />
     </Grid>
   );
 };

@@ -1,8 +1,10 @@
-const salespositionAction = count => {
+const toggleSettingsAction = settingsIsOpen => {
   return {
-    type: "EXAMPLE_ACTION",
-    count
+    type: "TOGGLE_SETTINGS",
+    settingsIsOpen
   };
 };
 
-export default salespositionAction;
+
+
+export default toggleSettingsAction;
