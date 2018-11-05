@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import Salesposition from "./Salesposition";
-import {toggleSettingsAction, setSelectedPositionAction} from "./redux/actions";
+import { toggleSettingsAction, setSelectedPositionAction, updateSalesposition } from "./redux/actions";
 
 class SalespositionContainer extends Component {
 
@@ -13,17 +13,18 @@ class SalespositionContainer extends Component {
 
 
   render() {
-    const { salespositions, toggleSettingsAction, settingsIsOpen, setSelectedPositionAction, selectedPosition} = this.props;
+    const { salespositions, toggleSettingsAction, settingsIsOpen, setSelectedPositionAction, selectedPosition, updateSalesposition} = this.props;
     return <div>
       <Salesposition
         salespositions={salespositions}
         toggleSettings={toggleSettingsAction}
         isOpen={settingsIsOpen}
         handleClickSettings={this.handleClickSettings}
-        setSelectedPosition = {setSelectedPositionAction}
-        selectedPosition = {selectedPosition}
+        setSelectedPosition={setSelectedPositionAction}
+        selectedPosition={selectedPosition}
+        updateSalesposition={updateSalesposition}
       />;
-    
+
     </div>
   }
 }
@@ -38,6 +39,6 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { toggleSettingsAction, setSelectedPositionAction}
-  
+  { toggleSettingsAction, setSelectedPositionAction, updateSalesposition }
+
 )(SalespositionContainer);

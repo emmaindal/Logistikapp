@@ -6,20 +6,20 @@ import { Settings } from "@material-ui/icons"
 import SettingsPanel from "./components/Settings";
 
 
-const Salesposition = ({ salespositions, toggleSettings, isOpen, setSelectedPosition, selectedPosition }) => {
-  
+const Salesposition = ({ salespositions, toggleSettings, isOpen, setSelectedPosition, selectedPosition, updateSalesposition }) => {
+
   const renderSalespositions = salespositions.map(saleposition => {
     return (
       <Paper key={saleposition}>
-      <StyledListItem >
-        <ListItemText primary={saleposition} />
-        <ListItemSecondaryAction>
-          <IconButton aria-label="Settings" onClick={() =>{ toggleSettings(); setSelectedPosition(saleposition)}}>
-            <Settings/>
-          </IconButton>
-        </ListItemSecondaryAction>
-      </StyledListItem>
-      
+        <StyledListItem >
+          <ListItemText primary={saleposition} />
+          <ListItemSecondaryAction>
+            <IconButton aria-label="Settings" onClick={() => { toggleSettings(); setSelectedPosition(saleposition) }}>
+              <Settings />
+            </IconButton>
+          </ListItemSecondaryAction>
+        </StyledListItem>
+
       </Paper>
     )
   })
@@ -40,7 +40,11 @@ const Salesposition = ({ salespositions, toggleSettings, isOpen, setSelectedPosi
           {renderSalespositions}
         </List>
       </Grid>
-      <SettingsPanel isOpen={isOpen} toggleSettingsAction={toggleSettings} selectedPosition={selectedPosition}/>
+      <SettingsPanel
+        isOpen={isOpen}
+        toggleSettingsAction={toggleSettings}
+        selectedPosition={selectedPosition}
+        updateSalesposition={updateSalesposition} />
     </Grid>
   );
 };
