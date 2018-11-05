@@ -2,29 +2,29 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, TextField} from "@material-ui/core";
+import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, TextField } from "@material-ui/core";
 
-const SettingsPanel = ({isOpen, toggleSettingsAction}) => {
-    
+const SettingsPanel = ({ isOpen, toggleSettingsAction, selectedPosition }) => {
+
     return (
         <div>
             <Dialog
-            open={isOpen}>
+                open={isOpen}>
                 <DialogTitle>
                     Inställningar - {}
-            </DialogTitle>
+                </DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                        Ändra inställningar för positionen. 
+                        Ändra inställningar för positionen.
                 </DialogContentText>
-                <TextField
-              autoFocus
-              margin="dense"
-              id="name"
-              label="Nytt namn"
-              type="text"
-              
-            />
+                    <TextField
+                        autoFocus
+                        margin="dense"
+                        id="name"
+                        label="Nytt namn"
+                        type="text"
+                        value={selectedPosition}
+                    />
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={toggleSettingsAction}>

@@ -2,28 +2,28 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import Salesposition from "./Salesposition";
-import toggleSettingsAction from "./redux/actions";
-import SettingsPanel from "./components/Settings";
-
+import {toggleSettingsAction, setSelectedPositionAction} from "./redux/actions";
 
 class SalespositionContainer extends Component {
 
-  handleClickSettings = saleposition => () => {
+  handleClickSettings = (saleposition) => {
     //Popup with settings for that specific sales position
     console.log(saleposition);
-
   }
+
+
   render() {
-    const { salespositions, toggleSettingsAction, settingsIsOpen } = this.props;
-    console.log(settingsIsOpen)
+    const { salespositions, toggleSettingsAction, settingsIsOpen, setSelectedPositionAction, selectedPosition} = this.props;
     return <div>
       <Salesposition
         salespositions={salespositions}
         toggleSettings={toggleSettingsAction}
         isOpen={settingsIsOpen}
         handleClickSettings={this.handleClickSettings}
+        setSelectedPosition = {setSelectedPositionAction}
+        selectedPosition = {selectedPosition}
       />;
-    <SettingsPanel isOpen={settingsIsOpen} toggleSettingsAction={toggleSettingsAction} />;
+    
     </div>
   }
 }
@@ -31,11 +31,13 @@ class SalespositionContainer extends Component {
 const mapStateToProps = state => {
   return {
     salespositions: state.salesposition.salespositions,
-    settingsIsOpen: state.salesposition.settingsIsOpen
+    settingsIsOpen: state.salesposition.settingsIsOpen,
+    selectedPosition: state.salesposition.selectedPosition
   };
 };
 
 export default connect(
   mapStateToProps,
-  { toggleSettingsAction }
+  { toggleSettingsAction, setSelectedPositionAction}
+  
 )(SalespositionContainer);
