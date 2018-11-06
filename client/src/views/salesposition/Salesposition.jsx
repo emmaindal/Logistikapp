@@ -1,7 +1,7 @@
 import React from "react";
 
 import styled from "styled-components";
-import { Grid, Divider, Paper, List, ListItem, ListItemText, IconButton, ListItemSecondaryAction, Button } from "@material-ui/core"
+import { Grid, Divider, Paper, List, ListItem, ListItemText, IconButton, ListItemSecondaryAction, Button, Typography } from "@material-ui/core"
 import { Settings } from "@material-ui/icons"
 import SettingsPanel from "./components/Settings";
 import NewPositionPanel from "./components/NewSalesposition";
@@ -41,16 +41,19 @@ const Salesposition = ({
       justify="center"
     >
       <Grid item xs={12}>
-        <h1 style={{ textAlign: "center" }}> Säljpositioner </h1>
+        <StyledTypography variant="h3" align="center"> Säljpositioner </StyledTypography>
       </Grid>
-      <Divider />
-      <Grid item xs={10}>
+      <Grid item xs={11} sm={8}>
+        <Divider />
+      </Grid>
+      <Grid item xs={10} sm={7}>
         <List>
           {renderSalespositions}
         </List>
+
       </Grid>
-      <Grid item xs={10} >
-        <Button variant="contained" onClick={() => { toggleNewPositionAction() }}>
+      <Grid item xs={12} style={{textAlign:'center'}}>
+      <Button variant="contained"   onClick={() => { toggleNewPositionAction() }}>
           Lägg till ny position
         </Button>
       </Grid>
@@ -73,3 +76,7 @@ export default Salesposition;
 const StyledListItem = styled(ListItem)`
   margin: 10px;
 `;
+
+const StyledTypography = styled(Typography)`
+  &&{margin: 20px;}
+`

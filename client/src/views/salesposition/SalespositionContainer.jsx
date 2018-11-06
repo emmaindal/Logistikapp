@@ -31,7 +31,7 @@ class SalespositionContainer extends Component {
           toggleNewPositionAction={toggleNewPositionAction}
           newPositionIsOpen={newPositionIsOpen}
           addSalespositionAction={addSalespositionAction}
-        />;
+        />
       </div>
     )
   }
