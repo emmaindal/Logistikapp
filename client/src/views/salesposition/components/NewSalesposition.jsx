@@ -2,39 +2,37 @@ import React from "react";
 
 import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, TextField } from "@material-ui/core";
 
-const SettingsPanel = ({ isOpen, toggleSettingsAction, selectedPosition, updateSalespositionAction }) => {
+const NewPositionPanel = ({ isOpen, toggleNewPositionAction, addSalespositionAction }) => {
 
     // finns nog ett bättre sätt än att använda denna variabel och skicka
-    // till updateSalespositionAction, men vet inget atm. Kanske om man blandar in ett formulär?
-
-    let newName   
+    // till addSalespositionAction, men vet inget atm. Kanske om man blandar in ett formulär?
+    let newPositionName 
     return (
         <div>
             <Dialog
                 open={isOpen}>
                 <DialogTitle>
-                    Inställningar - {selectedPosition}
+                    Lägg till ny position
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                        Ändra inställningar för positionen.
+                        
                 </DialogContentText>
                     <TextField
                         autoFocus
                         margin="dense"
                         id="name"
-                        label="Nytt namn"
+                        label="Namn"
                         type="text"
-                        defaultValue={selectedPosition}
-                        onChange={(event) => {newName = event.target.value;}}
+                        onChange={(event) => {newPositionName = event.target.value;}}
                     />
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={toggleSettingsAction}>
+                    <Button onClick={toggleNewPositionAction}>
                         Cancel
                     </Button>
-                    <Button onClick={() => {updateSalespositionAction(selectedPosition, newName)}}>
-                        Save
+                    <Button onClick={() => {addSalespositionAction(newPositionName)}}>
+                        Create
                     </Button>
                 </DialogActions>
             </Dialog>
@@ -42,4 +40,4 @@ const SettingsPanel = ({ isOpen, toggleSettingsAction, selectedPosition, updateS
     );
 };
 
-export default SettingsPanel;
+export default NewPositionPanel;

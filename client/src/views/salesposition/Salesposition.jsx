@@ -1,13 +1,23 @@
 import React from "react";
 
 import styled from "styled-components";
-import { Grid, Divider, Paper, List, ListItem, ListItemText, IconButton, ListItemSecondaryAction } from "@material-ui/core"
+import { Grid, Divider, Paper, List, ListItem, ListItemText, IconButton, ListItemSecondaryAction, Button } from "@material-ui/core"
 import { Settings } from "@material-ui/icons"
 import SettingsPanel from "./components/Settings";
+import NewPositionPanel from "./components/NewSalesposition";
 
 
-const Salesposition = ({ salespositions, toggleSettingsAction, isOpen, currentPositionAction, selectedPosition, updateSalespositionAction }) => {
-  
+const Salesposition = ({
+  salespositions,
+  toggleSettingsAction,
+  settingsIsOpen,
+  currentPositionAction,
+  selectedPosition,
+  updateSalespositionAction,
+  toggleNewPositionAction,
+  newPositionIsOpen,
+  addSalespositionAction }) => {
+
   const renderSalespositions = salespositions.map(saleposition => {
     return (
       <Paper key={saleposition}>
@@ -39,11 +49,21 @@ const Salesposition = ({ salespositions, toggleSettingsAction, isOpen, currentPo
           {renderSalespositions}
         </List>
       </Grid>
+      <Grid item xs={10} >
+        <Button variant="contained" onClick={() => { toggleNewPositionAction() }}>
+          Lägg till ny position
+        </Button>
+      </Grid>
       <SettingsPanel
-        isOpen={isOpen}
+        isOpen={settingsIsOpen}
         toggleSettingsAction={toggleSettingsAction}
         selectedPosition={selectedPosition}
         updateSalespositionAction={updateSalespositionAction} />
+      <NewPositionPanel
+        isOpen={newPositionIsOpen}
+        toggleNewPositionAction={toggleNewPositionAction}
+        addSalespositionAction={addSalespositionAction}
+      />
     </Grid>
   );
 };

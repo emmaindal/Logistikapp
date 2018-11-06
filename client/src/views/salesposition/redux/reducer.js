@@ -1,9 +1,12 @@
 const initalState = {
   salespositions: ['Huvudbar', 'E22', 'Träsk', 'Mamas', 'VIP', 'Staropramen', 'Sweden', 'Rockklassiker', 'Vinkeln'],
   settingsIsOpen: false,
-  selectedPosition: ''
+  selectedPosition: '',
+  newPositionIsOpen: false,
 
 };
+
+const salespositionList = initalState.salespositions
 
 export default (state = initalState, action) => {
   switch (action.type) {
@@ -27,13 +30,26 @@ export default (state = initalState, action) => {
 
       // Gets index of current salesposition
       let i = state.salespositions.indexOf(action.selectedPosition)
-      let newList = state.salespositions
+      //let newList = state.salespositions
       // Replaces the currently selected salesposition with its new name
-      newList[i] = action.newName
+      salespositionList[i] = action.newName
       return {
         ...state,
-        salespositions: newList,
+        salespositions: salespositionList,
         settingsIsOpen: !state.settingsIsOpen
+      }
+    case "TOGGLE_NEWPOSITION":
+      return {
+        ...state,
+        newPositionIsOpen: !state.newPositionIsOpen
+      }
+    case "ADD_SALESPOSITION":
+      //let newList = state.salespositions
+      salespositionList.push(action.newPosition)
+      return {
+        ...state,
+        salespositions: salespositionList,
+        newPositionIsOpen: !state.newPositionIsOpen
       }
     default:
       return state;

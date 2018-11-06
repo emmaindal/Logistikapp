@@ -1,7 +1,7 @@
-function toggleSettingsAction(settingsIsOpen) {
+function toggleSettingsAction() {
   return {
     type: "TOGGLE_SETTINGS",
-    settingsIsOpen
+    
   };
 };
 
@@ -24,5 +24,24 @@ function updateSalespositionAction(selectedPosition, newName){
   }
 };
 
+function toggleNewPositionAction(){  
+  return {
+    type: "TOGGLE_NEWPOSITION"
+  }
+}
 
-export {toggleSettingsAction, currentPositionAction, updateSalespositionAction};
+function addSalespositionAction(newPosition){
+  console.log(newPosition)
+  return {
+    type: "ADD_SALESPOSITION",
+    newPosition
+  }
+}
+
+
+export {
+  toggleSettingsAction, 
+  currentPositionAction,
+  updateSalespositionAction,
+  toggleNewPositionAction,
+  addSalespositionAction};
