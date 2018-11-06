@@ -5,17 +5,18 @@ function toggleSettingsAction(settingsIsOpen) {
   };
 };
 
-function setSelectedPositionAction(saleposition) {
+function currentPositionAction(saleposition) {
   console.log(saleposition);
   
   return {
-    type: "SET_SALESPOSITION",
+    type: "SELECTED_SALESPOSITION",
     selectedPosition : saleposition
   }
 };
 
-function updateSalesposition(selectedPosition, newName){
-    console.log()
+function updateSalespositionAction(selectedPosition, newName){
+  console.log(selectedPosition);
+  
     return {
       type: "UPDATE_SALESPOSITION",
       selectedPosition: selectedPosition,
@@ -24,4 +25,4 @@ function updateSalesposition(selectedPosition, newName){
 };
 
 
-export {toggleSettingsAction, setSelectedPositionAction, updateSalesposition};
+export {toggleSettingsAction, currentPositionAction, updateSalespositionAction};

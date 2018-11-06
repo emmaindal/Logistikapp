@@ -1,10 +1,8 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import styled from "styled-components";
 
 import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, TextField } from "@material-ui/core";
 
-const SettingsPanel = ({ isOpen, toggleSettingsAction, selectedPosition, updateSalesposition }) => {
+const SettingsPanel = ({ isOpen, toggleSettingsAction, selectedPosition, updateSalespositionAction }) => {
 
     let newName
 
@@ -13,7 +11,7 @@ const SettingsPanel = ({ isOpen, toggleSettingsAction, selectedPosition, updateS
             <Dialog
                 open={isOpen}>
                 <DialogTitle>
-                    Inställningar - {}
+                    Inställningar - {selectedPosition}
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText>
@@ -33,7 +31,7 @@ const SettingsPanel = ({ isOpen, toggleSettingsAction, selectedPosition, updateS
                     <Button onClick={toggleSettingsAction}>
                         Cancel
                     </Button>
-                    <Button onClick={() => {updateSalesposition(selectedPosition, newName)}}>
+                    <Button onClick={() => {updateSalespositionAction(selectedPosition, newName)}}>
                         Save
                     </Button>
                 </DialogActions>
