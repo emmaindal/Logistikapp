@@ -11,7 +11,10 @@ const SettingsPanel = ({ isOpen, toggleSettingsAction, selectedPosition, updateS
     return (
         <div>
             <Dialog
-                open={isOpen}>
+                open={isOpen}
+                onClose={toggleSettingsAction}
+                maxWidth="xs"
+                fullWidth>
                 <DialogTitle>
                     Inställningar - {selectedPosition}
                 </DialogTitle>
@@ -25,16 +28,18 @@ const SettingsPanel = ({ isOpen, toggleSettingsAction, selectedPosition, updateS
                         id="name"
                         label="Nytt namn"
                         type="text"
+                        fullWidth
                         defaultValue={selectedPosition}
+
                         onChange={(event) => {newName = event.target.value;}}
                     />
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={toggleSettingsAction}>
-                        Cancel
+                        AVBRYT
                     </Button>
                     <Button onClick={() => {updateSalespositionAction(selectedPosition, newName)}}>
-                        Save
+                        SPARA
                     </Button>
                 </DialogActions>
             </Dialog>

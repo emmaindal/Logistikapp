@@ -10,7 +10,10 @@ const NewPositionPanel = ({ isOpen, toggleNewPositionAction, addSalespositionAct
     return (
         <div>
             <Dialog
-                open={isOpen}>
+                open={isOpen}
+                onClose={toggleNewPositionAction}
+                maxWidth='xs'
+                fullWidth>
                 <DialogTitle>
                     Lägg till ny position
                 </DialogTitle>
@@ -24,15 +27,16 @@ const NewPositionPanel = ({ isOpen, toggleNewPositionAction, addSalespositionAct
                         id="name"
                         label="Namn"
                         type="text"
+                        fullWidth
                         onChange={(event) => {newPositionName = event.target.value;}}
                     />
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={toggleNewPositionAction}>
-                        Cancel
+                        AVBRYT
                     </Button>
                     <Button onClick={() => {addSalespositionAction(newPositionName)}}>
-                        Create
+                        SKAPA
                     </Button>
                 </DialogActions>
             </Dialog>
