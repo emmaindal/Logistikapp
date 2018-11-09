@@ -5,6 +5,12 @@ function toggleSettingsAction() {
   };
 };
 
+function toggleNewPositionAction(){  
+  return {
+    type: "TOGGLE_NEWPOSITION"
+  }
+}
+
 function currentPositionAction(saleposition) {
   console.log(saleposition);
   
@@ -14,8 +20,22 @@ function currentPositionAction(saleposition) {
   }
 };
 
+///////
+
+function addSalespositionAction(newPositionName){
+  // SET TO JSON SERVER
+  let data = {name: newPositionName}
+  APICall('POST', 'salespositions', data)
+  return {
+    type: "ADD_SALESPOSITION",
+    newPositionName: newPositionName
+  }
+}
+
 function updateSalespositionAction(selectedPosition, newName){
-  console.log(selectedPosition);
+  // SET TO JSON SERVER
+  let data = {name: newName}
+  APICall('PUT', `salespositions/${selectedPosition.id}`, data)
   
     return {
       type: "UPDATE_SALESPOSITION",
@@ -24,18 +44,43 @@ function updateSalespositionAction(selectedPosition, newName){
   }
 };
 
-function toggleNewPositionAction(){  
+function removeSalespositionAction(selectedPosition){
+  // REMOVE FROM JSON SERVER
+  APICall('DELETE', `salespositions/${selectedPosition.id}`)
+    return {
+      type: "REMOVE_SALESPOSITION",
+      selectedPosition: selectedPosition,
+  }
+};
+
+
+//////
+
+function setInitialState(initialSalespositions) {
   return {
-    type: "TOGGLE_NEWPOSITION"
+    type: 'INITIAL_STATE',
+    initialSalespositions
   }
 }
 
-function addSalespositionAction(newPosition){
-  console.log(newPosition);
-  return {
-    type: "ADD_SALESPOSITION",
-    newPosition
-  }
+
+
+
+
+/*
+* JSON SERVER CALL 
+*/
+async function APICall(method, endpoint, data){
+  const baseURL = "http://localhost:3001/"
+  let url = baseURL + endpoint
+  let response = await fetch(url, {
+    headers: {'content-type': 'application/json'},
+    method,
+    body: JSON.stringify(data),
+  })
+
+  let responseData = await response.json()
+  return responseData
 }
 
 
@@ -44,4 +89,6 @@ export {
   currentPositionAction,
   updateSalespositionAction,
   toggleNewPositionAction,
-  addSalespositionAction};
+  addSalespositionAction,
+  removeSalespositionAction,
+  setInitialState};
