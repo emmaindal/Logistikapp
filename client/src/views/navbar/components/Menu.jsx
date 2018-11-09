@@ -19,7 +19,7 @@ export default Menu;
 
 const MenuContainer = styled.nav`
   position: absolute;
-  background-color: rgba(53, 99, 236, 0.87);
+  background-color: rgba(53, 99, 236);
   width: 250px;
   min-height: 100vh;
 `;

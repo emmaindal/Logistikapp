@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import NavbarContainer from "./views/navbar/NavbarContainer";
 import LoginContainer from "./views/login/LoginContainer";
 import ExampleContainer from "./views/example/ExampleContainer";
+import UserViewContainer from "./views/user/UserViewContainer";
 
 class App extends Component {
   render() {
@@ -13,6 +14,7 @@ class App extends Component {
           <NavbarContainer />
           <Switch>
             <Route exact path="/" component={LoginContainer} />
+            <Route exact path="/user" component={UserViewContainer} />
             <Route exact path="/example" component={ExampleContainer} />
           </Switch>
         </div>
