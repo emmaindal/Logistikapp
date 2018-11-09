@@ -2,11 +2,13 @@ import React from "react";
 import styled from "styled-components";
 
 import MenuCard from "./components/MenuCard";
+import OrderModal from "./components/OrderModal";
+
 import { Grid } from "@material-ui/core";
 
 const categories = ["Dryck", "Mat", "Kaffe", "Snacks"];
 
-const UserView = ({ category, handleClickCategory }) => {
+const UserView = ({ isOpen, category, handleClickCategory, toggleModal }) => {
   return (
     <Container>
       <CardContainer>
@@ -22,6 +24,11 @@ const UserView = ({ category, handleClickCategory }) => {
           ))}
         </Grid>
       </CardContainer>
+      <OrderModal
+        category={category}
+        toggleModal={toggleModal}
+        isOpen={isOpen}
+      />
     </Container>
   );
 };
