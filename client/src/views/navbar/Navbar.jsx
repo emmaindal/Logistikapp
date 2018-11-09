@@ -40,6 +40,8 @@ const StyledAppBar = styled(AppBar)`
 `;
 const StyledTypography = styled(Typography)`
   &&& {
+    font-weight: 200;
+    letter-spacing: 3px;
     margin-left: auto;
   }
 `;

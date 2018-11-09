@@ -27,6 +27,8 @@ const MenuContainer = styled.nav`
 const StyledLink = styled(Link)`
   &&& {
     font-size: 18px;
+    font-weight: 200;
+    letter-spacing: 2px;
     text-decoration: none;
     list-style-type: none;
     color: white;
