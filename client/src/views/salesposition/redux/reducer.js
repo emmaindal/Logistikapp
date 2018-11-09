@@ -30,7 +30,19 @@ export default (state = initalState, action) => {
       // Gets index of current salesposition
       let i = state.salespositions.indexOf(action.selectedPosition)
       // Replaces the currently selected salesposition with its new name
-      salespositionList[i] = {"name": action.newName}
+      salespositionList[i] = { "name": action.newName, "id": action.selectedPosition.id }
+      return {
+        ...state,
+        salespositions: salespositionList,
+        settingsIsOpen: !state.settingsIsOpen
+      }
+    case "REMOVE_SALESPOSITION":
+      // Kanske bör brytas ut eller göras i Action?
+      // failsafe if name is not changed
+      if (action.newName === undefined) {
+        action.newName = action.selectedPosition.name
+      }
+      salespositionList = salespositionList.filter(saleposition => saleposition !==action.selectedPosition)
       return {
         ...state,
         salespositions: salespositionList,
@@ -42,7 +54,7 @@ export default (state = initalState, action) => {
         newPositionIsOpen: !state.newPositionIsOpen
       }
     case "ADD_SALESPOSITION":
-      let newPosObj = {"name": action.newPositionName}
+      let newPosObj = { "name": action.newPositionName }
       salespositionList.push(newPosObj)
       return {
         ...state,

@@ -16,11 +16,12 @@ const Salesposition = ({
   updateSalespositionAction,
   toggleNewPositionAction,
   newPositionIsOpen,
-  addSalespositionAction }) => {
-    
+  addSalespositionAction,
+  removeSalespositionAction }) => {
+
   const renderSalespositions = salespositions.map(saleposition => {
     return (
-      <Paper key={saleposition.name}>
+      <Paper key={saleposition.id}>
         <StyledListItem >
           <ListItemText primary={saleposition.name} />
           <ListItemSecondaryAction>
@@ -61,7 +62,8 @@ const Salesposition = ({
         isOpen={settingsIsOpen}
         toggleSettingsAction={toggleSettingsAction}
         selectedPosition={selectedPosition}
-        updateSalespositionAction={updateSalespositionAction} />
+        updateSalespositionAction={updateSalespositionAction}
+        removeSalespositionAction = {removeSalespositionAction} />
       <NewPositionPanel
         isOpen={newPositionIsOpen}
         toggleNewPositionAction={toggleNewPositionAction}

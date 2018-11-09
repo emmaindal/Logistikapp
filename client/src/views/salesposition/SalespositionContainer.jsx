@@ -9,32 +9,15 @@ import {
   updateSalespositionAction,
   toggleNewPositionAction,
   addSalespositionAction,
-  setInitialState
+  setInitialState,
+  removeSalespositionAction
 } from "./redux/actions";
 
 class SalespositionContainer extends Component {
 
   async componentDidMount() {
-
-    let q = await this.newPosition('test');
-    await console.log(q);
     let jsonRes = await fetchAll();
     this.props.setInitialState(jsonRes)
-  }
-
-  async newPosition(newPosition) {
-    console.log(newPosition);
-    fetch('http://localhost:3001/salespositions', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        id: 4,
-        name: 'test',
-      })
-    }).then(response => {console.log(response)})
   }
 
   render() {
@@ -47,8 +30,9 @@ class SalespositionContainer extends Component {
       updateSalespositionAction,
       newPositionIsOpen,
       toggleNewPositionAction,
-      addSalespositionAction } = this.props;
-    console.log(salespositions)
+      addSalespositionAction,
+      setInitialState,
+      removeSalespositionAction } = this.props;
     return (
 
       <div>
@@ -62,6 +46,7 @@ class SalespositionContainer extends Component {
           toggleNewPositionAction={toggleNewPositionAction}
           newPositionIsOpen={newPositionIsOpen}
           addSalespositionAction={addSalespositionAction}
+          removeSalespositionAction={removeSalespositionAction}
         />
       </div>
     )
@@ -92,7 +77,8 @@ const mapDispatchToProps = {
   updateSalespositionAction,
   toggleNewPositionAction,
   addSalespositionAction,
-  setInitialState
+  setInitialState,
+  removeSalespositionAction
 }
 
 

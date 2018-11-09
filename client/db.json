@@ -1,24 +1,16 @@
 {
   "salespositions": [
     {
+      "id": 1,
       "name": "Huvudbar"
     },
     {
+      "id": 2,
       "name": "Träsk"
     },
     {
-      "name": "E22"
-    },
-    {
-      "id": 4,
-      "name": "test"
-    },
-    {
-      "id": 5
-    },
-    {
-      "name": "teeestting",
-      "id": 6
+      "name": "E222",
+      "id": 3
     }
   ],
   "products": [
