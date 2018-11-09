@@ -1,16 +1,24 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { ClickAwayListener } from "@material-ui/core";
 
-const Menu = () => {
+const Menu = ({ toggleMenu, handleClickAway }) => {
   return (
     <div>
-      <MenuContainer>
-        <StyledLink first="first" to="/">
-          Login Component
-        </StyledLink>
-        <StyledLink to="/example">Example Component</StyledLink>
-      </MenuContainer>
+      <ClickAwayListener onClickAway={handleClickAway}>
+        <MenuContainer>
+          <StyledLink first="first" to="/" onClick={toggleMenu}>
+            Login
+          </StyledLink>
+          <StyledLink to="/salesposition" onClick={toggleMenu}>
+            Admin
+          </StyledLink>
+          <StyledLink to="/user" onClick={toggleMenu}>
+            User
+          </StyledLink>
+        </MenuContainer>
+      </ClickAwayListener>
     </div>
   );
 };
