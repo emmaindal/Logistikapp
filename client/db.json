@@ -1,40 +1,48 @@
 {
-    "salespositions": [
-        {
-            "id": 1,
-            "name": "Huvudbar"
+  "salespositions": [
+    {
+      "name": "Huvudbar"
+    },
+    {
+      "name": "Träsk"
+    },
+    {
+      "name": "E22"
+    },
+    {
+      "id": 4,
+      "name": "test"
+    },
+    {
+      "id": 5
+    },
+    {
+      "name": "teeestting",
+      "id": 6
+    }
+  ],
+  "products": [
+    {
+      "Öl": {
+        "Staropramen": {
+          "pris": 67,
+          "volym": 50
         },
-        {
-            "id": 2,
-            "name": "Träsk"
+        "Falcon": {
+          "pris": 59,
+          "volym": 50
+        }
+      },
+      "Vin": {
+        "Vitt": {
+          "pris": 49,
+          "volym": 18.7
         },
-        {
-            "id": 3,
-            "name": "E22"
+        "Rött": {
+          "pris": 49,
+          "volym": 18.7
         }
-    ],
-    "products": [
-        {
-            "Öl": {
-                "Staropramen": {
-                    "pris": 67,
-                    "volym": 50
-                },
-                "Falcon": {
-                    "pris": 59,
-                    "volym": 50
-                }
-            },
-            "Vin": {
-                "Vitt": {
-                    "pris": 49,
-                    "volym": 18.7
-                },
-                "Rött": {
-                    "pris": 49,
-                    "volym": 18.7
-                }
-            }
-        }
-    ]
+      }
+    }
+  ]
 }

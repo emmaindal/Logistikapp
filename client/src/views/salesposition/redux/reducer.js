@@ -6,7 +6,7 @@ const initalState = {
 
 };
 
-const salespositionList = initalState.salespositions
+let salespositionList;
 
 export default (state = initalState, action) => {
 
@@ -15,7 +15,6 @@ export default (state = initalState, action) => {
       return {
         ...state,
         settingsIsOpen: !state.settingsIsOpen,
-
       };
     case "SELECTED_SALESPOSITION":
       return {
@@ -26,14 +25,12 @@ export default (state = initalState, action) => {
       // Kanske bör brytas ut eller göras i Action?
       // failsafe if name is not changed
       if (action.newName === undefined) {
-        action.newName = action.selectedPosition
+        action.newName = action.selectedPosition.name
       }
-
       // Gets index of current salesposition
       let i = state.salespositions.indexOf(action.selectedPosition)
-      //let newList = state.salespositions
       // Replaces the currently selected salesposition with its new name
-      salespositionList[i] = action.newName
+      salespositionList[i] = {"name": action.newName}
       return {
         ...state,
         salespositions: salespositionList,
@@ -45,15 +42,20 @@ export default (state = initalState, action) => {
         newPositionIsOpen: !state.newPositionIsOpen
       }
     case "ADD_SALESPOSITION":
-      //let newList = state.salespositions
-      console.log('-----')
-      salespositionList.push(action.newPosition)
+      let newPosObj = {"name": action.newPositionName}
+      salespositionList.push(newPosObj)
       return {
         ...state,
         salespositions: salespositionList,
         newPositionIsOpen: !state.newPositionIsOpen
       }
-    default:  
+    case "INITIAL_STATE":
+      salespositionList = action.initialSalespositions;
+      return {
+        ...state,
+        salespositions: action.initialSalespositions,
+      }
+    default:
       return state;
   }
 };

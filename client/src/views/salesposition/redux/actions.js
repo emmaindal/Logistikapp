@@ -30,18 +30,41 @@ function toggleNewPositionAction(){
   }
 }
 
-function addSalespositionAction(newPosition){
-  console.log(newPosition);
+function addSalespositionAction(newPositionName){
+
+  let data = {name: newPositionName}
+  let q = APICall('POST', 'salespositions', data)
+
   return {
     type: "ADD_SALESPOSITION",
-    newPosition
+    newPositionName: newPositionName
   }
 }
 
+function setInitialState(initialSalespositions) {
+  console.log(initialSalespositions)
+  return {
+    type: 'INITIAL_STATE',
+    initialSalespositions
+  }
+}
+
+function APICall(method, endpoint, data){
+  const baseURL = "http://localhost:3001/"
+  let url = baseURL + endpoint
+  console.log('url', url)
+
+  fetch(url, {
+    headers: {'content-type': 'application/json'},
+    method,
+    body: JSON.stringify(data),
+  }).then(response => console.log(response))
+}
 
 export {
   toggleSettingsAction, 
   currentPositionAction,
   updateSalespositionAction,
   toggleNewPositionAction,
-  addSalespositionAction};
+  addSalespositionAction,
+  setInitialState};

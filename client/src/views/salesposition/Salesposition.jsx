@@ -17,12 +17,12 @@ const Salesposition = ({
   toggleNewPositionAction,
   newPositionIsOpen,
   addSalespositionAction }) => {
-
+    
   const renderSalespositions = salespositions.map(saleposition => {
     return (
-      <Paper key={saleposition}>
+      <Paper key={saleposition.name}>
         <StyledListItem >
-          <ListItemText primary={saleposition} />
+          <ListItemText primary={saleposition.name} />
           <ListItemSecondaryAction>
             <IconButton aria-label="Settings" onClick={() => { toggleSettingsAction(); currentPositionAction(saleposition) }}>
               <Settings />

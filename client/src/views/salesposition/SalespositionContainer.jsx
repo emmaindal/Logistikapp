@@ -3,16 +3,39 @@ import { connect } from "react-redux";
 
 import Salesposition from "./Salesposition";
 
-import { toggleSettingsAction, currentPositionAction, updateSalespositionAction, toggleNewPositionAction, addSalespositionAction } from "./redux/actions";
+import {
+  toggleSettingsAction,
+  currentPositionAction,
+  updateSalespositionAction,
+  toggleNewPositionAction,
+  addSalespositionAction,
+  setInitialState
+} from "./redux/actions";
 
 class SalespositionContainer extends Component {
 
-  // async componentDidMount(){
-  //   console.log(this.props.store)
-  //   let q = await fetchAll();
-  //   addSalespositionAction(q)
-  //   // Här körs den i min action men aldrig i min reducer. 
-  // }
+  async componentDidMount() {
+
+    let q = await this.newPosition('test');
+    await console.log(q);
+    let jsonRes = await fetchAll();
+    this.props.setInitialState(jsonRes)
+  }
+
+  async newPosition(newPosition) {
+    console.log(newPosition);
+    fetch('http://localhost:3001/salespositions', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        id: 4,
+        name: 'test',
+      })
+    }).then(response => {console.log(response)})
+  }
 
   render() {
     const {
@@ -25,8 +48,9 @@ class SalespositionContainer extends Component {
       newPositionIsOpen,
       toggleNewPositionAction,
       addSalespositionAction } = this.props;
-
+    console.log(salespositions)
     return (
+
       <div>
         <Salesposition
           salespositions={salespositions}
@@ -44,6 +68,15 @@ class SalespositionContainer extends Component {
   }
 }
 
+async function fetchAll() {
+  let url = "http://localhost:3001/salespositions"
+  let response = await fetch(url)
+  let json = await response.json()
+  return json
+}
+
+
+
 const mapStateToProps = state => {
   return {
     salespositions: state.salesposition.salespositions,
@@ -53,21 +86,17 @@ const mapStateToProps = state => {
   };
 };
 
-async function fetchAll(){
-  let url = "http://localhost:3001/salespositions"
-    let response = await fetch(url)
-    let json = await response.json()
-    return json
+const mapDispatchToProps = {
+  toggleSettingsAction,
+  currentPositionAction,
+  updateSalespositionAction,
+  toggleNewPositionAction,
+  addSalespositionAction,
+  setInitialState
 }
 
-export default connect(
-  mapStateToProps,
-  {
-    toggleSettingsAction,
-    currentPositionAction,
-    updateSalespositionAction,
-    toggleNewPositionAction,
-    addSalespositionAction
-  }
 
+
+export default connect(
+  mapStateToProps, mapDispatchToProps
 )(SalespositionContainer);

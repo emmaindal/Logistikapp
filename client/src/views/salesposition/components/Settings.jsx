@@ -16,7 +16,7 @@ const SettingsPanel = ({ isOpen, toggleSettingsAction, selectedPosition, updateS
                 maxWidth="xs"
                 fullWidth>
                 <DialogTitle>
-                    Inställningar - {selectedPosition}
+                    Inställningar - {selectedPosition.name}
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText>
@@ -29,7 +29,7 @@ const SettingsPanel = ({ isOpen, toggleSettingsAction, selectedPosition, updateS
                         label="Nytt namn"
                         type="text"
                         fullWidth
-                        defaultValue={selectedPosition}
+                        defaultValue={selectedPosition.name}
 
                         onChange={(event) => {newName = event.target.value;}}
                     />
