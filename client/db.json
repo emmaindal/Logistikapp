@@ -1,0 +1,40 @@
+{
+    "salespositions": [
+        {
+            "id": 1,
+            "name": "Huvudbar"
+        },
+        {
+            "id": 2,
+            "name": "Träsk"
+        },
+        {
+            "id": 3,
+            "name": "E22"
+        }
+    ],
+    "products": [
+        {
+            "Öl": {
+                "Staropramen": {
+                    "pris": 67,
+                    "volym": 50
+                },
+                "Falcon": {
+                    "pris": 59,
+                    "volym": 50
+                }
+            },
+            "Vin": {
+                "Vitt": {
+                    "pris": 49,
+                    "volym": 18.7
+                },
+                "Rött": {
+                    "pris": 49,
+                    "volym": 18.7
+                }
+            }
+        }
+    ]
+}

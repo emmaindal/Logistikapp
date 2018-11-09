@@ -31,7 +31,7 @@ function toggleNewPositionAction(){
 }
 
 function addSalespositionAction(newPosition){
-  console.log(newPosition)
+  console.log(newPosition);
   return {
     type: "ADD_SALESPOSITION",
     newPosition

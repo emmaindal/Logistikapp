@@ -1,5 +1,5 @@
 const initalState = {
-  salespositions: ['Huvudbar', 'E22', 'Träsk', 'Mamas', 'VIP', 'Staropramen', 'Sweden', 'Rockklassiker', 'Vinkeln'],
+  salespositions: [],
   settingsIsOpen: false,
   selectedPosition: '',
   newPositionIsOpen: false,
@@ -9,6 +9,7 @@ const initalState = {
 const salespositionList = initalState.salespositions
 
 export default (state = initalState, action) => {
+
   switch (action.type) {
     case "TOGGLE_SETTINGS":
       return {
@@ -45,13 +46,14 @@ export default (state = initalState, action) => {
       }
     case "ADD_SALESPOSITION":
       //let newList = state.salespositions
+      console.log('-----')
       salespositionList.push(action.newPosition)
       return {
         ...state,
         salespositions: salespositionList,
         newPositionIsOpen: !state.newPositionIsOpen
       }
-    default:
+    default:  
       return state;
   }
 };

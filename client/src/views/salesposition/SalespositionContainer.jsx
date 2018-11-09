@@ -7,6 +7,13 @@ import { toggleSettingsAction, currentPositionAction, updateSalespositionAction,
 
 class SalespositionContainer extends Component {
 
+  // async componentDidMount(){
+  //   console.log(this.props.store)
+  //   let q = await fetchAll();
+  //   addSalespositionAction(q)
+  //   // Här körs den i min action men aldrig i min reducer. 
+  // }
+
   render() {
     const {
       salespositions,
@@ -45,6 +52,13 @@ const mapStateToProps = state => {
     selectedPosition: state.salesposition.selectedPosition
   };
 };
+
+async function fetchAll(){
+  let url = "http://localhost:3001/salespositions"
+    let response = await fetch(url)
+    let json = await response.json()
+    return json
+}
 
 export default connect(
   mapStateToProps,
