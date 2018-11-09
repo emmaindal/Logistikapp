@@ -15,7 +15,7 @@ const MenuCard = ({ item, cardIcon, handleClickCategory }) => {
 };
 
 const Img = styled.img`
-  margin: 15% 2% 2% 2%;
+  margin: 18% 2% 2% 2%;
   height: 160%;
 `;
 const StyledCard = styled(Card)`
