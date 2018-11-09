@@ -19,7 +19,7 @@ export default Menu;
 
 const MenuContainer = styled.nav`
   position: absolute;
-  background-color: rgba(53, 99, 236, 0.87);
+  background-color: rgba(53, 99, 236);
   width: 250px;
   min-height: 100vh;
 `;
@@ -27,6 +27,8 @@ const MenuContainer = styled.nav`
 const StyledLink = styled(Link)`
   &&& {
     font-size: 18px;
+    font-weight: 200;
+    letter-spacing: 2px;
     text-decoration: none;
     list-style-type: none;
     color: white;
