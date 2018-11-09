@@ -5,12 +5,23 @@
       "name": "Huvudbar"
     },
     {
-      "id": 2,
-      "name": "Träsk"
+      "name": "E22",
+      "id": 3
     },
     {
-      "name": "E222",
-      "id": 3
+      "name": "gwe",
+      "id": 4
+    },
+    {
+      "name": "testing",
+      "id": 5
+    },
+    {
+      "name": "testingg",
+      "id": 6
+    },
+    {
+      "id": 7
     }
   ],
   "products": [

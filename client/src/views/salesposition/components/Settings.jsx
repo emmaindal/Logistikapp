@@ -1,12 +1,29 @@
 import React from "react";
 
-import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, TextField } from "@material-ui/core";
+import {
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    DialogContentText,
+    DialogActions,
+    Button,
+    TextField,
+    InputLabel,
+    Select,
+    MenuItem,
+    Input,
+    FormControl
+} from "@material-ui/core";
 
-const SettingsPanel = ({ isOpen, toggleSettingsAction, selectedPosition, updateSalespositionAction, removeSalespositionAction }) => {
+const SettingsPanel = ({ isOpen,
+    toggleSettingsAction,
+    selectedPosition,
+    updateSalespositionAction,
+    removeSalespositionAction, }) => {
 
     // finns nog ett bättre sätt än att använda denna variabel och skicka
     // till updateSalespositionAction, men vet inget atm. Kanske om man blandar in ett formulär?
-
+        let testList = ['one']
     let newName
     return (
         <div>
@@ -19,19 +36,34 @@ const SettingsPanel = ({ isOpen, toggleSettingsAction, selectedPosition, updateS
                     Inställningar - {selectedPosition.name}
                 </DialogTitle>
                 <DialogContent>
-                    <DialogContentText>
-                        Ändra inställningar för positionen.
+                    <form>
+                        <FormControl>
+                            <DialogContentText>
+                                Ändra inställningar för positionen.
                 </DialogContentText>
-                    <TextField
-                        autoFocus
-                        margin="dense"
-                        id="name"
-                        label="Nytt namn"
-                        type="text"
-                        fullWidth
-                        defaultValue={selectedPosition.name}
-                        onChange={(event) => { newName = event.target.value; }}
-                    />
+                            <InputLabel htmlFor="age-simple">Age</InputLabel>
+                            <Select
+                                value
+                                onChange
+                                input={<Input id="age-simple" />}
+                            >
+                                <MenuItem value="">
+                                    <em>None</em>
+                                </MenuItem>
+                                {testList.map(item => {return (<MenuItem value={item}> {item} </MenuItem>)})}
+                            </Select>
+                            <TextField
+                                autoFocus
+                                margin="dense"
+                                id="name"
+                                label="Nytt namn"
+                                type="text"
+                                fullWidth
+                                defaultValue={selectedPosition.name}
+                                onChange={(event) => { newName = event.target.value; }}
+                            />
+                        </FormControl>
+                    </form>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={() => removeSalespositionAction(selectedPosition)}>

@@ -17,7 +17,8 @@ const Salesposition = ({
   toggleNewPositionAction,
   newPositionIsOpen,
   addSalespositionAction,
-  removeSalespositionAction }) => {
+  removeSalespositionAction,
+  products }) => {
 
   const renderSalespositions = salespositions.map(saleposition => {
     return (
@@ -63,7 +64,9 @@ const Salesposition = ({
         toggleSettingsAction={toggleSettingsAction}
         selectedPosition={selectedPosition}
         updateSalespositionAction={updateSalespositionAction}
-        removeSalespositionAction = {removeSalespositionAction} />
+        removeSalespositionAction = {removeSalespositionAction}
+        products = {products}
+        />
       <NewPositionPanel
         isOpen={newPositionIsOpen}
         toggleNewPositionAction={toggleNewPositionAction}

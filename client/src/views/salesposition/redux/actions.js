@@ -56,10 +56,11 @@ function removeSalespositionAction(selectedPosition){
 
 //////
 
-function setInitialState(initialSalespositions) {
+function setInitialState(initialSalespositions, productsRes) {
   return {
     type: 'INITIAL_STATE',
-    initialSalespositions
+    initialSalespositions,
+    productsRes
   }
 }
 

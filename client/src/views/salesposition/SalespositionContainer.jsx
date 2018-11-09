@@ -16,8 +16,10 @@ import {
 class SalespositionContainer extends Component {
 
   async componentDidMount() {
-    let jsonRes = await fetchAll();
-    this.props.setInitialState(jsonRes)
+    let salespositionsRes = await fetchAll('salespositions');
+    let productsRes = await fetchAll('products')
+    this.props.setInitialState(salespositionsRes, productsRes)
+    
   }
 
   render() {
@@ -32,7 +34,8 @@ class SalespositionContainer extends Component {
       toggleNewPositionAction,
       addSalespositionAction,
       setInitialState,
-      removeSalespositionAction } = this.props;
+      removeSalespositionAction,
+      products, } = this.props;
     return (
 
       <div>
@@ -40,21 +43,23 @@ class SalespositionContainer extends Component {
           salespositions={salespositions}
           settingsIsOpen={settingsIsOpen}
           selectedPosition={selectedPosition}
-          updateSalespositionAction={updateSalespositionAction}
+          newPositionIsOpen={newPositionIsOpen}
+          products={products}
           currentPositionAction={currentPositionAction}
           toggleSettingsAction={toggleSettingsAction}
           toggleNewPositionAction={toggleNewPositionAction}
-          newPositionIsOpen={newPositionIsOpen}
           addSalespositionAction={addSalespositionAction}
           removeSalespositionAction={removeSalespositionAction}
+          updateSalespositionAction={updateSalespositionAction}
         />
       </div>
     )
   }
 }
 
-async function fetchAll() {
-  let url = "http://localhost:3001/salespositions"
+async function fetchAll(endpoint) {
+  let baseUrl = "http://localhost:3001/"
+  let url = baseUrl + endpoint
   let response = await fetch(url)
   let json = await response.json()
   return json
@@ -63,11 +68,13 @@ async function fetchAll() {
 
 
 const mapStateToProps = state => {
+  // TODO: PRODUCTS KANSKE INTE MÅSTE TAS I STATE HÄR UTAN FRÅN NGT ANNAT STATE?
   return {
     salespositions: state.salesposition.salespositions,
     settingsIsOpen: state.salesposition.settingsIsOpen,
     newPositionIsOpen: state.salesposition.newPositionIsOpen,
-    selectedPosition: state.salesposition.selectedPosition
+    selectedPosition: state.salesposition.selectedPosition,
+    products: state.salesposition.products
   };
 };
 

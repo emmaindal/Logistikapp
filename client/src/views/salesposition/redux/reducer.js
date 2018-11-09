@@ -3,6 +3,7 @@ const initalState = {
   settingsIsOpen: false,
   selectedPosition: '',
   newPositionIsOpen: false,
+  products: [],
 
 };
 
@@ -66,6 +67,7 @@ export default (state = initalState, action) => {
       return {
         ...state,
         salespositions: action.initialSalespositions,
+        products: action.productsRes
       }
     default:
       return state;
