@@ -8,23 +8,59 @@ import {
     DialogActions,
     Button,
     TextField,
-    InputLabel,
     Select,
     MenuItem,
     Input,
-    FormControl
+    FormControl,
+    List,
+    ListItem,
+    ListItemText,
+    ListItemSecondaryAction,
+    IconButton,
+    InputLabel,
 } from "@material-ui/core";
 
-const SettingsPanel = ({ isOpen,
-    toggleSettingsAction,
-    selectedPosition,
-    updateSalespositionAction,
-    removeSalespositionAction, }) => {
+import { DeleteForever } from "@material-ui/icons"
 
+
+const SettingsPanel = ({
+    isOpen,
+    selectedPosition,
+    products,
+    toggleSettingsAction,
+    updateSalespositionAction,
+    removeSalespositionAction,
+    setMainProductAction,
+    selectedMainProduct,
+    selectedSecondProduct
+}) => {
+
+
+    const renderMainProducts = products.map(product => {
+        return (
+            Object.keys(product).map(name =>
+                <MenuItem key={name} value={name}> {name}</MenuItem>
+            )
+        )
+    });
+
+    const renderSecondProducts = products.map(mainProduct => {
+        if (!selectedMainProduct) {
+            return
+        }
+        let mainProductDetails = mainProduct[selectedMainProduct]
+        return (
+            Object.keys(mainProductDetails).map(product =>
+                <MenuItem key={product} value={product}> {product}</MenuItem>
+
+            )
+        )
+    })
     // finns nog ett bättre sätt än att använda denna variabel och skicka
     // till updateSalespositionAction, men vet inget atm. Kanske om man blandar in ett formulär?
-        let testList = ['one']
-    let newName
+
+    let newName;
+
     return (
         <div>
             <Dialog
@@ -36,33 +72,67 @@ const SettingsPanel = ({ isOpen,
                     Inställningar - {selectedPosition.name}
                 </DialogTitle>
                 <DialogContent>
+                    <DialogContentText>
+                        Ändra inställningar för positionen.
+                    </DialogContentText>
                     <form>
-                        <FormControl>
-                            <DialogContentText>
-                                Ändra inställningar för positionen.
-                </DialogContentText>
-                            <InputLabel htmlFor="age-simple">Age</InputLabel>
-                            <Select
-                                value
-                                onChange
-                                input={<Input id="age-simple" />}
-                            >
-                                <MenuItem value="">
-                                    <em>None</em>
-                                </MenuItem>
-                                {testList.map(item => {return (<MenuItem value={item}> {item} </MenuItem>)})}
-                            </Select>
+                        <FormControl fullWidth>
                             <TextField
                                 autoFocus
                                 margin="dense"
                                 id="name"
                                 label="Nytt namn"
                                 type="text"
-                                fullWidth
                                 defaultValue={selectedPosition.name}
                                 onChange={(event) => { newName = event.target.value; }}
                             />
                         </FormControl>
+
+                        <FormControl fullWidth>
+                            <InputLabel htmlFor="main-prod-cat">Produktkategori</InputLabel>
+                            <Select
+                                value={selectedMainProduct}
+                                onChange={(event) => setMainProductAction(event.target.value, null)}
+                                input={<Input id="main-prod-cat" />}
+                            >
+                                {renderMainProducts}
+                            </Select>
+                        </FormControl>
+
+
+                        {selectedMainProduct !== undefined && (
+                            
+                            <FormControl fullWidth>
+                            <InputLabel htmlFor="second-prod-cat">Produktnamn</InputLabel>
+                                <Select
+                                    // TODO; update a state to rerender select. otherwise it wont show which you selected
+                                    value={selectedSecondProduct}
+                                    onChange={(event) => {setMainProductAction(null, event.target.value); }}
+                                    input={<Input id="second-prod-cat" />}
+                                >
+                                    {renderSecondProducts}
+                                </Select>
+                            </FormControl>
+                        )}
+
+                        {selectedPosition.products && (
+                            <FormControl fullWidth>
+                                <List>
+                                    {Object.keys(selectedPosition.products).map(product => {
+                                        return (
+                                            <ListItem key={product} >
+                                                <ListItemText primary={product} />
+                                                <ListItemSecondaryAction>
+                                                    <IconButton aria-label="DeleteForever">
+                                                        <DeleteForever />
+                                                    </IconButton>
+                                                </ListItemSecondaryAction>
+                                            </ListItem>
+                                        )
+                                    })}
+                                </List>
+                            </FormControl>
+                        )}
                     </form>
                 </DialogContent>
                 <DialogActions>
@@ -72,7 +142,7 @@ const SettingsPanel = ({ isOpen,
                     <Button onClick={toggleSettingsAction}>
                         AVBRYT
                     </Button>
-                    <Button onClick={() => { updateSalespositionAction(selectedPosition, newName) }}>
+                    <Button onClick={() => { updateSalespositionAction(selectedPosition, newName, selectedMainProduct, selectedSecondProduct, products); }}>
                         SPARA
                     </Button>
                 </DialogActions>

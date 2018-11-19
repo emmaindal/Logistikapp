@@ -18,7 +18,11 @@ const Salesposition = ({
   newPositionIsOpen,
   addSalespositionAction,
   removeSalespositionAction,
-  products }) => {
+  setMainProductAction,
+  products,
+  selectedMainProduct,
+  selectedSecondProduct }) => {
+
 
   const renderSalespositions = salespositions.map(saleposition => {
     return (
@@ -26,7 +30,7 @@ const Salesposition = ({
         <StyledListItem >
           <ListItemText primary={saleposition.name} />
           <ListItemSecondaryAction>
-            <IconButton aria-label="Settings" onClick={() => { toggleSettingsAction(); currentPositionAction(saleposition) }}>
+            <IconButton aria-label="Settings" onClick={() => { toggleSettingsAction(); currentPositionAction(saleposition)}}>
               <Settings />
             </IconButton>
           </ListItemSecondaryAction>
@@ -54,8 +58,8 @@ const Salesposition = ({
         </List>
 
       </Grid>
-      <Grid item xs={12} style={{textAlign:'center'}}>
-      <Button variant="contained"   onClick={() => { toggleNewPositionAction() }}>
+      <Grid item xs={12} style={{ textAlign: 'center' }}>
+        <Button variant="contained" onClick={() => { toggleNewPositionAction() }}>
           Lägg till ny position
         </Button>
       </Grid>
@@ -64,9 +68,12 @@ const Salesposition = ({
         toggleSettingsAction={toggleSettingsAction}
         selectedPosition={selectedPosition}
         updateSalespositionAction={updateSalespositionAction}
-        removeSalespositionAction = {removeSalespositionAction}
-        products = {products}
-        />
+        removeSalespositionAction={removeSalespositionAction}
+        products={products}
+        setMainProductAction={setMainProductAction}
+        selectedMainProduct={selectedMainProduct}
+        selectedSecondProduct = {selectedSecondProduct}
+      />
       <NewPositionPanel
         isOpen={newPositionIsOpen}
         toggleNewPositionAction={toggleNewPositionAction}

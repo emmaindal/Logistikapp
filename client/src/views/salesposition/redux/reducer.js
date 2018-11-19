@@ -4,7 +4,8 @@ const initalState = {
   selectedPosition: '',
   newPositionIsOpen: false,
   products: [],
-
+  selectedMainProduct: undefined,
+  selectedSecondProduct: undefined,
 };
 
 let salespositionList;
@@ -16,26 +17,23 @@ export default (state = initalState, action) => {
       return {
         ...state,
         settingsIsOpen: !state.settingsIsOpen,
-      };
+      }
     case "SELECTED_SALESPOSITION":
       return {
         ...state,
         selectedPosition: action.selectedPosition
       }
     case "UPDATE_SALESPOSITION":
-      // Kanske bör brytas ut eller göras i Action?
-      // failsafe if name is not changed
-      if (action.newName === undefined) {
-        action.newName = action.selectedPosition.name
-      }
       // Gets index of current salesposition
       let i = state.salespositions.indexOf(action.selectedPosition)
       // Replaces the currently selected salesposition with its new name
-      salespositionList[i] = { "name": action.newName, "id": action.selectedPosition.id }
+      salespositionList[i] = { "name": action.name, "id": action.selectedPosition.id, "products": action.selectedPosition.products }
       return {
         ...state,
         salespositions: salespositionList,
-        settingsIsOpen: !state.settingsIsOpen
+        settingsIsOpen: !state.settingsIsOpen,
+        selectedMainProduct: undefined,
+        selectedProduct: undefined,
       }
     case "REMOVE_SALESPOSITION":
       // Kanske bör brytas ut eller göras i Action?
@@ -55,7 +53,7 @@ export default (state = initalState, action) => {
         newPositionIsOpen: !state.newPositionIsOpen
       }
     case "ADD_SALESPOSITION":
-      let newPosObj = { "name": action.newPositionName }
+      let newPosObj = { "name": action.newPositionName, "products": {}}
       salespositionList.push(newPosObj)
       return {
         ...state,
@@ -69,6 +67,17 @@ export default (state = initalState, action) => {
         salespositions: action.initialSalespositions,
         products: action.productsRes
       }
+    case "SET_MAINPRODUCT":
+      return {
+        ...state,
+        selectedMainProduct: action.selectedProduct
+      }
+    case "SET_SECONDPRODUCT":
+      return {
+        ...state,
+        selectedSecondProduct: action.selectedProduct
+      }
+      
     default:
       return state;
   }

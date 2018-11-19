@@ -24,23 +24,33 @@ function currentPositionAction(saleposition) {
 
 function addSalespositionAction(newPositionName){
   // SET TO JSON SERVER
-  let data = {name: newPositionName}
+  let data = {name: newPositionName, products: {}}
   APICall('POST', 'salespositions', data)
   return {
     type: "ADD_SALESPOSITION",
-    newPositionName: newPositionName
+    newPositionName: newPositionName,
   }
 }
 
-function updateSalespositionAction(selectedPosition, newName){
-  // SET TO JSON SERVER
-  let data = {name: newName}
-  APICall('PUT', `salespositions/${selectedPosition.id}`, data)
+function updateSalespositionAction(selectedPosition, newName, mainProduct, secondProduct, allProducts){  
+
+  // new product
+  let productName = secondProduct ? secondProduct : undefined;
+  let productValues = secondProduct ? allProducts[0][mainProduct][secondProduct] : undefined;
+  let allProd = selectedPosition.products ? selectedPosition.products[productName] = productValues : selectedPosition.products = {};
   
+  // new name
+  let name = newName ? newName : selectedPosition.name
+  
+  let data = {
+    name, 
+    products : selectedPosition.products
+  }
+  APICall('PUT', `salespositions/${selectedPosition.id}`, data)
     return {
       type: "UPDATE_SALESPOSITION",
-      selectedPosition: selectedPosition,
-      newName: newName,
+      selectedPosition,
+      name,
   }
 };
 
@@ -52,6 +62,26 @@ function removeSalespositionAction(selectedPosition){
       selectedPosition: selectedPosition,
   }
 };
+
+function setMainProductAction(mainproduct, secondProduct) {
+  console.log('mainproduct', mainproduct)
+  console.log('secondProduct', secondProduct)
+  if(mainproduct){
+    return {
+      type: "SET_MAINPRODUCT",
+      selectedProduct: mainproduct
+    }
+  }
+  if(secondProduct){
+    return {
+      type: "SET_SECONDPRODUCT",
+      selectedProduct: secondProduct
+    }
+  }
+
+}
+
+
 
 
 //////
@@ -92,4 +122,5 @@ export {
   toggleNewPositionAction,
   addSalespositionAction,
   removeSalespositionAction,
-  setInitialState};
+  setInitialState,
+  setMainProductAction};

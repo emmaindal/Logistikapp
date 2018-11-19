@@ -10,7 +10,8 @@ import {
   toggleNewPositionAction,
   addSalespositionAction,
   setInitialState,
-  removeSalespositionAction
+  removeSalespositionAction,
+  setMainProductAction
 } from "./redux/actions";
 
 class SalespositionContainer extends Component {
@@ -33,9 +34,12 @@ class SalespositionContainer extends Component {
       newPositionIsOpen,
       toggleNewPositionAction,
       addSalespositionAction,
-      setInitialState,
+      setMainProductAction,
       removeSalespositionAction,
-      products, } = this.props;
+      products, 
+      selectedMainProduct,
+      selectedSecondProduct,
+    } = this.props;
     return (
 
       <div>
@@ -51,6 +55,9 @@ class SalespositionContainer extends Component {
           addSalespositionAction={addSalespositionAction}
           removeSalespositionAction={removeSalespositionAction}
           updateSalespositionAction={updateSalespositionAction}
+          setMainProductAction = {setMainProductAction}
+          selectedMainProduct = {selectedMainProduct}
+          selectedSecondProduct = {selectedSecondProduct}
         />
       </div>
     )
@@ -74,7 +81,9 @@ const mapStateToProps = state => {
     settingsIsOpen: state.salesposition.settingsIsOpen,
     newPositionIsOpen: state.salesposition.newPositionIsOpen,
     selectedPosition: state.salesposition.selectedPosition,
-    products: state.salesposition.products
+    products: state.salesposition.products,
+    selectedMainProduct: state.salesposition.selectedMainProduct,
+    selectedSecondProduct: state.salesposition.selectedSecondProduct
   };
 };
 
@@ -85,7 +94,9 @@ const mapDispatchToProps = {
   toggleNewPositionAction,
   addSalespositionAction,
   setInitialState,
-  removeSalespositionAction
+  removeSalespositionAction,
+  setMainProductAction
+
 }
 
 
