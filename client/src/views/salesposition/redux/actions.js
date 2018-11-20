@@ -11,9 +11,7 @@ function toggleNewPositionAction(){
   }
 }
 
-function currentPositionAction(saleposition) {
-  console.log(saleposition);
-  
+function currentPositionAction(saleposition) {  
   return {
     type: "SELECTED_SALESPOSITION",
     selectedPosition : saleposition
@@ -33,20 +31,25 @@ function addSalespositionAction(newPositionName){
 }
 
 function updateSalespositionAction(selectedPosition, newName, mainProduct, secondProduct, allProducts){  
-
-  // new product
-  let productName = secondProduct ? secondProduct : undefined;
-  let productValues = secondProduct ? allProducts[0][mainProduct][secondProduct] : undefined;
-  let allProd = selectedPosition.products ? selectedPosition.products[productName] = productValues : selectedPosition.products = {};
+  // new product name and values 
+  // Controlls if these are changed, otherwise ignore
+  if(secondProduct && mainProduct){
+    let productName = secondProduct  
+    let productValues = allProducts[0][mainProduct][secondProduct]
+    selectedPosition.products[productName] = productValues
+  }
   
-  // new name
+  // Sets the new name if changed
   let name = newName ? newName : selectedPosition.name
   
+  // Data obj for JSON server
   let data = {
     name, 
     products : selectedPosition.products
   }
+
   APICall('PUT', `salespositions/${selectedPosition.id}`, data)
+
     return {
       type: "UPDATE_SALESPOSITION",
       selectedPosition,
@@ -63,19 +66,40 @@ function removeSalespositionAction(selectedPosition){
   }
 };
 
-function setMainProductAction(mainproduct, secondProduct) {
-  console.log('mainproduct', mainproduct)
-  console.log('secondProduct', secondProduct)
+function setMainProductAction(mainproduct = undefined, secondProduct = undefined, removeProduct = undefined, selectedPosition) {
+  // Very dynamic function.
+  // Changes depending on input.
+
+  // Sets mainproduct
   if(mainproduct){
     return {
       type: "SET_MAINPRODUCT",
       selectedProduct: mainproduct
     }
   }
+  // sets secondproduct
   if(secondProduct){
     return {
       type: "SET_SECONDPRODUCT",
       selectedProduct: secondProduct
+    }
+  }
+  // removes product
+  if(removeProduct){
+    // Dataobject for JSON server
+    let updatedSelectedPosition = selectedPosition
+    delete updatedSelectedPosition.products[removeProduct]
+    let data = {
+      name: selectedPosition.name,
+      products: updatedSelectedPosition.products
+    }
+    // UPDATE JSON SERVER
+    APICall('PUT', `salespositions/${selectedPosition.id}`, data)
+    
+    return {
+      type: "REMOVE_PRODUCT",
+      removeProduct,
+      selectedPosition
     }
   }
 

@@ -1,8 +1,20 @@
 import React from "react";
-
 import styled from "styled-components";
-import { Grid, Divider, Paper, List, ListItem, ListItemText, IconButton, ListItemSecondaryAction, Button, Typography } from "@material-ui/core"
+
+import { 
+  Grid, 
+  Divider, 
+  Paper, 
+  List, 
+  ListItem, 
+  ListItemText, 
+  IconButton, 
+  ListItemSecondaryAction, 
+  Button, 
+  Typography 
+} from "@material-ui/core"
 import { Settings } from "@material-ui/icons"
+
 import SettingsPanel from "./components/Settings";
 import NewPositionPanel from "./components/NewSalesposition";
 

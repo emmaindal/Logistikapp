@@ -18,6 +18,13 @@ export default (state = initalState, action) => {
         ...state,
         settingsIsOpen: !state.settingsIsOpen,
       }
+    case "TOGGLE_NEWPOSITION":
+      return {
+        ...state,
+        newPositionIsOpen: !state.newPositionIsOpen
+      } 
+    
+      
     case "SELECTED_SALESPOSITION":
       return {
         ...state,
@@ -31,8 +38,8 @@ export default (state = initalState, action) => {
       return {
         ...state,
         salespositions: salespositionList,
-        settingsIsOpen: !state.settingsIsOpen,
         selectedMainProduct: undefined,
+        selectedSecondProduct: undefined,
         selectedProduct: undefined,
       }
     case "REMOVE_SALESPOSITION":
@@ -47,11 +54,6 @@ export default (state = initalState, action) => {
         salespositions: salespositionList,
         settingsIsOpen: !state.settingsIsOpen
       }
-    case "TOGGLE_NEWPOSITION":
-      return {
-        ...state,
-        newPositionIsOpen: !state.newPositionIsOpen
-      }
     case "ADD_SALESPOSITION":
       let newPosObj = { "name": action.newPositionName, "products": {}}
       salespositionList.push(newPosObj)
@@ -60,24 +62,40 @@ export default (state = initalState, action) => {
         salespositions: salespositionList,
         newPositionIsOpen: !state.newPositionIsOpen
       }
-    case "INITIAL_STATE":
-      salespositionList = action.initialSalespositions;
-      return {
-        ...state,
-        salespositions: action.initialSalespositions,
-        products: action.productsRes
-      }
+
+
+    // PRODUCT REDUCERS 
     case "SET_MAINPRODUCT":
       return {
         ...state,
         selectedMainProduct: action.selectedProduct
       }
     case "SET_SECONDPRODUCT":
-      return {
+        return {
         ...state,
         selectedSecondProduct: action.selectedProduct
       }
-      
+    case "REMOVE_PRODUCT":
+      let updatedSelectedPosition = action.selectedPosition
+      // removes the product from object
+      delete updatedSelectedPosition.products[action.removeProduct]
+      // ...state.selectedPosition (solution for nested states, otherwise redux doesnt notice updates)
+      return {
+        ...state,
+        selectedPosition: {
+          ...state.selectedPosition,
+          updatedSelectedPosition
+        }
+      }
+
+    // INTIAL STATE 
+    case "INITIAL_STATE":
+    salespositionList = action.initialSalespositions;
+    return {
+      ...state,
+      salespositions: action.initialSalespositions,
+      products: action.productsRes
+    }
     default:
       return state;
   }
