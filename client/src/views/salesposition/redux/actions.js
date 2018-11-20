@@ -11,9 +11,7 @@ function toggleNewPositionAction(){
   }
 }
 
-function currentPositionAction(saleposition) {
-  console.log(saleposition);
-  
+function currentPositionAction(saleposition) {  
   return {
     type: "SELECTED_SALESPOSITION",
     selectedPosition : saleposition
@@ -24,23 +22,38 @@ function currentPositionAction(saleposition) {
 
 function addSalespositionAction(newPositionName){
   // SET TO JSON SERVER
-  let data = {name: newPositionName}
+  let data = {name: newPositionName, products: {}}
   APICall('POST', 'salespositions', data)
   return {
     type: "ADD_SALESPOSITION",
-    newPositionName: newPositionName
+    newPositionName: newPositionName,
   }
 }
 
-function updateSalespositionAction(selectedPosition, newName){
-  // SET TO JSON SERVER
-  let data = {name: newName}
-  APICall('PUT', `salespositions/${selectedPosition.id}`, data)
+function updateSalespositionAction(selectedPosition, newName, mainProduct, secondProduct, allProducts){  
+  // new product name and values 
+  // Controlls if these are changed, otherwise ignore
+  if(secondProduct && mainProduct){
+    let productName = secondProduct  
+    let productValues = allProducts[0][mainProduct][secondProduct]
+    selectedPosition.products[productName] = productValues
+  }
   
+  // Sets the new name if changed
+  let name = newName ? newName : selectedPosition.name
+  
+  // Data obj for JSON server
+  let data = {
+    name, 
+    products : selectedPosition.products
+  }
+
+  APICall('PUT', `salespositions/${selectedPosition.id}`, data)
+
     return {
       type: "UPDATE_SALESPOSITION",
-      selectedPosition: selectedPosition,
-      newName: newName,
+      selectedPosition,
+      name,
   }
 };
 
@@ -53,13 +66,55 @@ function removeSalespositionAction(selectedPosition){
   }
 };
 
+function setMainProductAction(mainproduct = undefined, secondProduct = undefined, removeProduct = undefined, selectedPosition) {
+  // Very dynamic function.
+  // Changes depending on input.
+
+  // Sets mainproduct
+  if(mainproduct){
+    return {
+      type: "SET_MAINPRODUCT",
+      selectedProduct: mainproduct
+    }
+  }
+  // sets secondproduct
+  if(secondProduct){
+    return {
+      type: "SET_SECONDPRODUCT",
+      selectedProduct: secondProduct
+    }
+  }
+  // removes product
+  if(removeProduct){
+    // Dataobject for JSON server
+    let updatedSelectedPosition = selectedPosition
+    delete updatedSelectedPosition.products[removeProduct]
+    let data = {
+      name: selectedPosition.name,
+      products: updatedSelectedPosition.products
+    }
+    // UPDATE JSON SERVER
+    APICall('PUT', `salespositions/${selectedPosition.id}`, data)
+    
+    return {
+      type: "REMOVE_PRODUCT",
+      removeProduct,
+      selectedPosition
+    }
+  }
+
+}
+
+
+
 
 //////
 
-function setInitialState(initialSalespositions) {
+function setInitialState(initialSalespositions, productsRes) {
   return {
     type: 'INITIAL_STATE',
-    initialSalespositions
+    initialSalespositions,
+    productsRes
   }
 }
 
@@ -91,4 +146,5 @@ export {
   toggleNewPositionAction,
   addSalespositionAction,
   removeSalespositionAction,
-  setInitialState};
+  setInitialState,
+  setMainProductAction};

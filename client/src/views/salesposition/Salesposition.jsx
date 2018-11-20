@@ -1,8 +1,20 @@
 import React from "react";
-
 import styled from "styled-components";
-import { Grid, Divider, Paper, List, ListItem, ListItemText, IconButton, ListItemSecondaryAction, Button, Typography } from "@material-ui/core"
+
+import { 
+  Grid, 
+  Divider, 
+  Paper, 
+  List, 
+  ListItem, 
+  ListItemText, 
+  IconButton, 
+  ListItemSecondaryAction, 
+  Button, 
+  Typography 
+} from "@material-ui/core"
 import { Settings } from "@material-ui/icons"
+
 import SettingsPanel from "./components/Settings";
 import NewPositionPanel from "./components/NewSalesposition";
 
@@ -17,7 +29,12 @@ const Salesposition = ({
   toggleNewPositionAction,
   newPositionIsOpen,
   addSalespositionAction,
-  removeSalespositionAction }) => {
+  removeSalespositionAction,
+  setMainProductAction,
+  products,
+  selectedMainProduct,
+  selectedSecondProduct }) => {
+
 
   const renderSalespositions = salespositions.map(saleposition => {
     return (
@@ -25,7 +42,7 @@ const Salesposition = ({
         <StyledListItem >
           <ListItemText primary={saleposition.name} />
           <ListItemSecondaryAction>
-            <IconButton aria-label="Settings" onClick={() => { toggleSettingsAction(); currentPositionAction(saleposition) }}>
+            <IconButton aria-label="Settings" onClick={() => { toggleSettingsAction(); currentPositionAction(saleposition)}}>
               <Settings />
             </IconButton>
           </ListItemSecondaryAction>
@@ -53,8 +70,8 @@ const Salesposition = ({
         </List>
 
       </Grid>
-      <Grid item xs={12} style={{textAlign:'center'}}>
-      <Button variant="contained"   onClick={() => { toggleNewPositionAction() }}>
+      <Grid item xs={12} style={{ textAlign: 'center' }}>
+        <Button variant="contained" onClick={() => { toggleNewPositionAction() }}>
           Lägg till ny position
         </Button>
       </Grid>
@@ -63,7 +80,12 @@ const Salesposition = ({
         toggleSettingsAction={toggleSettingsAction}
         selectedPosition={selectedPosition}
         updateSalespositionAction={updateSalespositionAction}
-        removeSalespositionAction = {removeSalespositionAction} />
+        removeSalespositionAction={removeSalespositionAction}
+        products={products}
+        setMainProductAction={setMainProductAction}
+        selectedMainProduct={selectedMainProduct}
+        selectedSecondProduct = {selectedSecondProduct}
+      />
       <NewPositionPanel
         isOpen={newPositionIsOpen}
         toggleNewPositionAction={toggleNewPositionAction}
