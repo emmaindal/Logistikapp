@@ -1,17 +1,41 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react'
+import styled from 'styled-components'
 
-import MenuCard from "./components/MenuCard";
-import OrderModal from "./components/OrderModal";
+import MenuCard from './components/MenuCard'
+import OrderModal from './components/OrderModal'
+import { MenuItem, Select, FormControl, InputLabel } from '@material-ui/core'
+import { Grid } from '@material-ui/core'
 
-import { Grid } from "@material-ui/core";
+const categories = ['Dryck', 'Mat', 'Kaffe', 'Snacks']
 
-const categories = ["Dryck", "Mat", "Kaffe", "Snacks"];
-
-const UserView = ({ isOpen, category, handleClickCategory, toggleModal }) => {
+const UserView = ({
+  activeSalesposition,
+  salespositions,
+  isOpen,
+  category,
+  handleClickCategory,
+  toggleModal,
+  handleChange
+}) => {
+  let positionNames = []
+  Object.values(salespositions).forEach(function(value) {
+    if (value.name) {
+      positionNames.push(value.name)
+    }
+  })
   return (
     <Container>
       <CardContainer>
+        <FormControl style={{ width: '100%' }}>
+          <InputLabel htmlFor="age-simple">Sales Positions</InputLabel>
+          <Select value={activeSalesposition} onChange={handleChange}>
+            {positionNames.map(name => (
+              <MenuItem key={name} value={name}>
+                {name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
         <Heading variant="title">Välj en kategori</Heading>
         <Grid container s={6} m={6} l={6} spacing={16}>
           {categories.map(item => (
@@ -30,8 +54,8 @@ const UserView = ({ isOpen, category, handleClickCategory, toggleModal }) => {
         isOpen={isOpen}
       />
     </Container>
-  );
-};
+  )
+}
 
 const Heading = styled.h1`
   font-size: 40px;
@@ -43,7 +67,7 @@ const Heading = styled.h1`
     margin-top: 15%;
     font-size: 30px;
   }
-`;
+`
 
 const Container = styled.div`
   display: flex;
@@ -51,7 +75,7 @@ const Container = styled.div`
   align-items: center;
   max-width: 100%;
   margin: 5% 2% 0% 2%;
-`;
+`
 
 const CardContainer = styled.div`
   width: 50%;
@@ -59,6 +83,6 @@ const CardContainer = styled.div`
   @media (max-width: 700px) {
     width: 100%;
   }
-`;
+`
 
-export default UserView;
+export default UserView
