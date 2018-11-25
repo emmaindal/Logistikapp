@@ -1,8 +1,13 @@
-const setCategory = category => {
+export const setCategory = category => {
   return {
-    type: "SET_CATEGORY",
+    type: 'SET_CATEGORY',
     category
-  };
-};
+  }
+}
 
-export default setCategory;
+export const updateSalespositions = salespositions => {
+  return {
+    type: 'UPDATE_SALESPOSITIONS',
+    salespositions
+  }
+}
