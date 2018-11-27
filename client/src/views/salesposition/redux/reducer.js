@@ -33,6 +33,12 @@ export default (state = initalState, action) => {
         ...state,
         products: action.products
       }
+    case "ADD_SALESPOSITION":
+      return {
+        ...state,
+        salespositions: [...state.salespositions, action.salesposition],
+        newPositionIsOpen: !state.newPositionIsOpen
+      }
     
       
     case "SELECTED_SALESPOSITION":
@@ -66,15 +72,7 @@ export default (state = initalState, action) => {
         salespositions: salespositionList,
         settingsIsOpen: !state.settingsIsOpen
       }
-    case "ADD_SALESPOSITION":
-      let newPosObj = { "name": action.newPositionName, "products": {}}
-      salespositionList = state.salespositions
-      salespositionList.push(newPosObj)
-      return {
-        ...state,
-        salespositions: salespositionList,
-        newPositionIsOpen: !state.newPositionIsOpen
-      }
+
 
 
     // PRODUCT REDUCERS 

@@ -20,13 +20,12 @@ function currentPositionAction(saleposition) {
 
 ///////
 
-function addSalespositionAction(newPositionName){
+function addSalespositionAction(salesposition){
   // SET TO JSON SERVER
-  let data = {name: newPositionName, products: {}}
-  APICall('POST', 'salespositions', data)
+
   return {
     type: "ADD_SALESPOSITION",
-    newPositionName: newPositionName,
+    salesposition,
   }
 }
 

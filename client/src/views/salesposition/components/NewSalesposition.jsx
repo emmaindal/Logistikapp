@@ -2,7 +2,7 @@ import React from "react";
 
 import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, TextField } from "@material-ui/core";
 
-const NewPositionPanel = ({ isOpen, toggleNewPositionAction, addSalespositionAction }) => {
+const NewPositionPanel = ({ isOpen, toggleNewPositionAction, addSalesposition }) => {
 
     // finns nog ett bättre sätt än att använda denna variabel och skicka
     // till addSalespositionAction, men vet inget atm. Kanske om man blandar in ett formulär?
@@ -35,7 +35,7 @@ const NewPositionPanel = ({ isOpen, toggleNewPositionAction, addSalespositionAct
                     <Button onClick={toggleNewPositionAction}>
                         AVBRYT
                     </Button>
-                    <Button onClick={() => {addSalespositionAction(newPositionName)}}>
+                    <Button onClick={() => {addSalesposition('http://localhost:3001/salespositions', newPositionName)}}>
                         SKAPA
                     </Button>
                 </DialogActions>
