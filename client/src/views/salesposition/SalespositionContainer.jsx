@@ -9,18 +9,18 @@ import {
   updateSalespositionAction,
   toggleNewPositionAction,
   addSalespositionAction,
-  setInitialState,
   removeSalespositionAction,
   setMainProductAction
 } from "./redux/actions";
+import { fetchSalespositions, fetchProducts } from './redux/thunks'
+
 
 class SalespositionContainer extends Component {
 
   async componentDidMount() {
-    let salespositionsRes = await fetchAll('salespositions');
-    let productsRes = await fetchAll('products')
-    this.props.setInitialState(salespositionsRes, productsRes)
-    
+    const { fetchSalespositions, fetchProducts} = this.props
+    fetchSalespositions('http://localhost:3001/salespositions');
+    fetchProducts('http://localhost:3001/products')    
   }
 
   render() {
@@ -93,9 +93,10 @@ const mapDispatchToProps = {
   updateSalespositionAction,
   toggleNewPositionAction,
   addSalespositionAction,
-  setInitialState,
   removeSalespositionAction,
-  setMainProductAction
+  setMainProductAction,
+  fetchSalespositions,
+  fetchProducts
 
 }
 

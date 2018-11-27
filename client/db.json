@@ -1,26 +1,13 @@
 {
   "salespositions": [
     {
-      "id": 1,
-      "name": "Huvudbar"
-    },
-    {
-      "name": "E22",
-      "id": 3
-    },
-    {
-      "name": "gwe",
-      "id": 4
-    },
-    {
-      "name": "testing",
-      "id": 5
-    },
-    {
-      "name": "testingg",
-      "id": 6
-    },
-    {
+      "name": "testtt",
+      "products": {
+        "Falcon": {
+          "pris": 59,
+          "volym": 50
+        }
+      },
       "id": 7
     }
   ],

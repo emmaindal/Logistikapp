@@ -108,16 +108,21 @@ function setMainProductAction(mainproduct = undefined, secondProduct = undefined
 
 
 
-//////
 
-function setInitialState(initialSalespositions, productsRes) {
+
+export const updateSalespositions = salespositions => {
   return {
-    type: 'INITIAL_STATE',
-    initialSalespositions,
-    productsRes
+    type: 'UPDATE_SALESPOSITIONS',
+    salespositions
   }
 }
 
+export const updateProducts = products => {
+  return {
+    type: 'UPDATE_PRODUCTS',
+    products
+  }
+}
 
 
 
@@ -146,5 +151,4 @@ export {
   toggleNewPositionAction,
   addSalespositionAction,
   removeSalespositionAction,
-  setInitialState,
   setMainProductAction};

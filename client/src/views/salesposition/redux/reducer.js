@@ -7,8 +7,7 @@ const initalState = {
   selectedMainProduct: undefined,
   selectedSecondProduct: undefined,
 };
-
-let salespositionList;
+var salespositionList;
 
 export default (state = initalState, action) => {
 
@@ -23,6 +22,17 @@ export default (state = initalState, action) => {
         ...state,
         newPositionIsOpen: !state.newPositionIsOpen
       } 
+    // Initial state
+    case "UPDATE_SALESPOSITIONS":
+      return {
+        ...state,
+        salespositions: action.salespositions
+      }
+    case "UPDATE_PRODUCTS":
+      return {
+        ...state,
+        products: action.products
+      }
     
       
     case "SELECTED_SALESPOSITION":
@@ -33,6 +43,7 @@ export default (state = initalState, action) => {
     case "UPDATE_SALESPOSITION":
       // Gets index of current salesposition
       let i = state.salespositions.indexOf(action.selectedPosition)
+      salespositionList = state.salespositions
       // Replaces the currently selected salesposition with its new name
       salespositionList[i] = { "name": action.name, "id": action.selectedPosition.id, "products": action.selectedPosition.products }
       return {
@@ -48,6 +59,7 @@ export default (state = initalState, action) => {
       if (action.newName === undefined) {
         action.newName = action.selectedPosition.name
       }
+      salespositionList = state.salespositions
       salespositionList = salespositionList.filter(saleposition => saleposition !==action.selectedPosition)
       return {
         ...state,
@@ -56,6 +68,7 @@ export default (state = initalState, action) => {
       }
     case "ADD_SALESPOSITION":
       let newPosObj = { "name": action.newPositionName, "products": {}}
+      salespositionList = state.salespositions
       salespositionList.push(newPosObj)
       return {
         ...state,
@@ -87,15 +100,6 @@ export default (state = initalState, action) => {
           updatedSelectedPosition
         }
       }
-
-    // INTIAL STATE 
-    case "INITIAL_STATE":
-    salespositionList = action.initialSalespositions;
-    return {
-      ...state,
-      salespositions: action.initialSalespositions,
-      products: action.productsRes
-    }
     default:
       return state;
   }

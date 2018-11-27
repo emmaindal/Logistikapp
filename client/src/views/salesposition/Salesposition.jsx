@@ -35,7 +35,7 @@ const Salesposition = ({
   selectedMainProduct,
   selectedSecondProduct }) => {
 
-
+    console.log(salespositions)
   const renderSalespositions = salespositions.map(saleposition => {
     return (
       <Paper key={saleposition.id}>
