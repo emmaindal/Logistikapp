@@ -4,7 +4,10 @@ import { connect } from 'react-redux'
 import UserView from './UserView'
 
 import { setCategory } from './redux/actions'
-import { fetchSalespositions } from './redux/thunks'
+import {
+  fetchSalespositions,
+  fetchSalesPositionCategories
+} from './redux/thunks'
 
 class UserViewContainer extends Component {
   state = {
@@ -35,12 +38,14 @@ class UserViewContainer extends Component {
   }
 
   handleChange = event => {
+    const { fetchSalesPositionCategories } = this.props
     this.setState({ activeSalesposition: event.target.value })
+    fetchSalesPositionCategories('http://localhost:3001/categories')
   }
 
   render() {
     const {
-      props: { category, salespositions },
+      props: { category, salespositions, categories },
       state: { isOpen, activeSalesposition },
       toggleModal,
       handleChange
@@ -53,6 +58,7 @@ class UserViewContainer extends Component {
         salespositions={salespositions}
         toggleModal={toggleModal}
         isOpen={isOpen}
+        categories={categories}
         category={category}
         handleClickCategory={this.handleClickCategory}
       />
@@ -63,11 +69,12 @@ class UserViewContainer extends Component {
 const mapStateToProps = state => {
   return {
     category: state.user.category,
-    salespositions: state.user.salespositions
+    salespositions: state.user.salespositions,
+    categories: state.user.categories
   }
 }
 
 export default connect(
   mapStateToProps,
-  { setCategory, fetchSalespositions }
+  { setCategory, fetchSalespositions, fetchSalesPositionCategories }
 )(UserViewContainer)

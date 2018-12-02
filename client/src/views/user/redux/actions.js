@@ -11,3 +11,10 @@ export const updateSalespositions = salespositions => {
     salespositions
   }
 }
+
+export const updateCategories = categories => {
+  return {
+    type: 'UPDATE_CATEGORIES',
+    categories
+  }
+}

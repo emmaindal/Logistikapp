@@ -1,13 +1,22 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import styled from "styled-components";
-import { ClickAwayListener } from "@material-ui/core";
+import React from 'react'
+import { Link } from 'react-router-dom'
+import styled from 'styled-components'
+import { ClickAwayListener, IconButton } from '@material-ui/core'
+import CloseIcon from '@material-ui/icons/Close'
 
 const Menu = ({ toggleMenu, handleClickAway }) => {
   return (
     <div>
       <ClickAwayListener onClickAway={handleClickAway}>
         <MenuContainer>
+          <StyledIconButton
+            onClick={toggleMenu}
+            color="inherit"
+            aria-label="Menu"
+          >
+            <CloseIcon />
+          </StyledIconButton>
+
           <StyledLink first="first" to="/" onClick={toggleMenu}>
             Login
           </StyledLink>
@@ -20,17 +29,27 @@ const Menu = ({ toggleMenu, handleClickAway }) => {
         </MenuContainer>
       </ClickAwayListener>
     </div>
-  );
-};
+  )
+}
 
-export default Menu;
+export default Menu
+
+const StyledIconButton = styled(IconButton)`
+  &&& {
+    padding: 2%;
+    cursor: pointer;
+    float: right;
+    color: white;
+  }
+`
 
 const MenuContainer = styled.nav`
+  z-index: 9999;
   position: absolute;
   background-color: rgba(53, 99, 236);
   width: 250px;
   min-height: 100vh;
-`;
+`
 
 const StyledLink = styled(Link)`
   &&& {
@@ -43,6 +62,6 @@ const StyledLink = styled(Link)`
     padding: 5%;
     margin: 2%;
     display: block;
-    margin-top: ${props => (props.first ? "80px" : "2%")};
+    margin-top: ${props => (props.first ? '20%' : '1%')};
   }
-`;
+`

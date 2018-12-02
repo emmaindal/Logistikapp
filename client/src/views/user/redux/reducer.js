@@ -1,6 +1,7 @@
 const initalState = {
   category: '',
-  salespositions: {}
+  salespositions: {},
+  categories: {}
 }
 
 export default (state = initalState, action) => {
@@ -13,6 +14,12 @@ export default (state = initalState, action) => {
       return {
         ...state,
         salespositions: action.salespositions
+      }
+
+    case 'UPDATE_CATEGORIES':
+      return {
+        ...state,
+        categories: action.categories
       }
     default:
       return state

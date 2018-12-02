@@ -24,6 +24,12 @@
       "id": 7
     }
   ],
+  "categories": [
+    { "id": 1, "name": "dryck" },
+    { "id": 1, "name": "snacks" },
+    { "id": 1, "name": "mat" },
+    { "id": 1, "name": "kaffe" }
+  ],
   "products": [
     {
       "Öl": {

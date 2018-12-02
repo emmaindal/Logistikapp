@@ -1,6 +1,6 @@
-import React from "react";
-import styled from "styled-components";
-import { Grid, Card, Tooltip } from "@material-ui/core";
+import React from 'react'
+import styled from 'styled-components'
+import { Grid, Card, Tooltip } from '@material-ui/core'
 
 const MenuCard = ({ item, cardIcon, handleClickCategory }) => {
   return (
@@ -11,13 +11,13 @@ const MenuCard = ({ item, cardIcon, handleClickCategory }) => {
         </Tooltip>
       </StyledCard>
     </Grid>
-  );
-};
+  )
+}
 
 const Img = styled.img`
   margin: 18% 2% 2% 2%;
   height: 160%;
-`;
+`
 const StyledCard = styled(Card)`
   &&& {
     display: flex;
@@ -37,6 +37,6 @@ const StyledCard = styled(Card)`
       transition: 1s ease;
     }
   }
-`;
+`
 
-export default MenuCard;
+export default MenuCard

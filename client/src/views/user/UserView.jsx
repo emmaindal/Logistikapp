@@ -6,47 +6,62 @@ import OrderModal from './components/OrderModal'
 import { MenuItem, Select, FormControl, InputLabel } from '@material-ui/core'
 import { Grid } from '@material-ui/core'
 
-const categories = ['Dryck', 'Mat', 'Kaffe', 'Snacks']
-
 const UserView = ({
   activeSalesposition,
   salespositions,
   isOpen,
   category,
+  categories,
   handleClickCategory,
   toggleModal,
   handleChange
 }) => {
-  let positionNames = []
-  Object.values(salespositions).forEach(function(value) {
+  let categoryNames = []
+  Object.values(categories).forEach(function(value) {
     if (value.name) {
-      positionNames.push(value.name)
+      categoryNames.push(value.name)
     }
   })
+
   return (
     <Container>
       <CardContainer>
+        <Heading variant="title">Välj en säljposition</Heading>
         <FormControl style={{ width: '100%' }}>
           <InputLabel htmlFor="age-simple">Sales Positions</InputLabel>
           <Select value={activeSalesposition} onChange={handleChange}>
-            {positionNames.map(name => (
-              <MenuItem key={name} value={name}>
-                {name}
-              </MenuItem>
-            ))}
+            {Object.values(salespositions).map(value => {
+              if (value.name) {
+                return (
+                  <MenuItem key={value.name} value={value.name}>
+                    {value.name}
+                  </MenuItem>
+                )
+              }
+            })}
           </Select>
         </FormControl>
-        <Heading variant="title">Välj en kategori</Heading>
-        <Grid container s={6} m={6} l={6} spacing={16}>
-          {categories.map(item => (
-            <MenuCard
-              handleClickCategory={() => handleClickCategory(item)}
-              key={item}
-              item={item}
-              cardIcon={`../../icons/${item.toLowerCase()}.svg`}
-            />
-          ))}
-        </Grid>
+        {activeSalesposition && (
+          <Categories>
+            <Heading variant="title">Välj en kategori</Heading>
+            <Grid container s={6} m={6} l={6} spacing={16}>
+              {Object.values(categories).map(value => {
+                if (value.name) {
+                  return (
+                    <MenuCard
+                      handleClickCategory={() =>
+                        handleClickCategory(value.name)
+                      }
+                      key={value.name}
+                      item={value.name}
+                      cardIcon={`../../icons/${value.name.toLowerCase()}.svg`}
+                    />
+                  )
+                }
+              })}
+            </Grid>
+          </Categories>
+        )}
       </CardContainer>
       <OrderModal
         category={category}
@@ -57,8 +72,12 @@ const UserView = ({
   )
 }
 
+const Categories = styled.div`
+  transition: opacity 2s;
+`
+
 const Heading = styled.h1`
-  font-size: 40px;
+  font-size: 30px;
   font-weight: 200;
   letter-spacing: 3px;
   color: rgb(71, 71, 71);
@@ -74,7 +93,7 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   max-width: 100%;
-  margin: 5% 2% 0% 2%;
+  margin: 2% 2% 0% 2%;
 `
 
 const CardContainer = styled.div`
