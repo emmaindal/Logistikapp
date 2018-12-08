@@ -1,35 +1,36 @@
-function toggleSettingsAction() {
+const toggleSettingsAction = () => {
   return {
     type: "TOGGLE_SETTINGS",
     
   };
 };
 
-function toggleNewPositionAction(){  
+const toggleNewPositionAction = () => {  
   return {
     type: "TOGGLE_NEWPOSITION"
   }
 }
 
-function currentPositionAction(saleposition) {  
+const currentPositionAction =  saleposition => {  
   return {
     type: "SELECTED_SALESPOSITION",
     selectedPosition : saleposition
   }
 };
 
-///////
-
-function addSalespositionAction(salesposition){
-  // SET TO JSON SERVER
-
+const addSalespositionAction = salesposition => {
   return {
     type: "ADD_SALESPOSITION",
     salesposition,
   }
 }
 
-function updateSalespositionAction(selectedPosition, newName, mainProduct, secondProduct, allProducts){  
+const updateSalespositionAction = (selectedPosition, 
+  newName, 
+  mainProduct, 
+  secondProduct,
+   allProducts) => {  
+
   // new product name and values 
   // Controlls if these are changed, otherwise ignore
   if(secondProduct && mainProduct){
@@ -56,16 +57,18 @@ function updateSalespositionAction(selectedPosition, newName, mainProduct, secon
   }
 };
 
-function removeSalespositionAction(selectedPosition){
-  // REMOVE FROM JSON SERVER
-  APICall('DELETE', `salespositions/${selectedPosition.id}`)
+const removeSalespositionAction = selectedPosition =>{
     return {
       type: "REMOVE_SALESPOSITION",
       selectedPosition: selectedPosition,
   }
 };
 
-function setMainProductAction(mainproduct = undefined, secondProduct = undefined, removeProduct = undefined, selectedPosition) {
+const setMainProductAction = (
+  mainproduct = undefined, 
+  secondProduct = undefined, 
+  removeProduct = undefined, 
+  selectedPosition) => {
   // Very dynamic function.
   // Changes depending on input.
 

@@ -12,13 +12,13 @@ import {
   removeSalespositionAction,
   setMainProductAction
 } from "./redux/actions";
-import { fetchSalespositions, fetchProducts,addSalesposition } from './redux/thunks'
+import { fetchSalespositions, fetchProducts,addSalesposition, removeSalesposition} from './redux/thunks'
 
 
 
 class SalespositionContainer extends Component {
 
-  async componentDidMount() {
+  async componentDidMount(url) {
     const { fetchSalespositions, fetchProducts} = this.props
     fetchSalespositions('http://localhost:3001/salespositions');
     fetchProducts('http://localhost:3001/products')    
@@ -40,7 +40,8 @@ class SalespositionContainer extends Component {
       products, 
       selectedMainProduct,
       selectedSecondProduct,
-      addSalesposition
+      addSalesposition,
+      removeSalesposition
     } = this.props;
     return (
 
@@ -61,6 +62,7 @@ class SalespositionContainer extends Component {
           selectedMainProduct = {selectedMainProduct}
           selectedSecondProduct = {selectedSecondProduct}
           addSalesposition = {addSalesposition}
+          removeSalesposition = {removeSalesposition}
         />
       </div>
     )
@@ -91,7 +93,8 @@ const mapDispatchToProps = {
   setMainProductAction,
   fetchSalespositions,
   fetchProducts,
-  addSalesposition
+  addSalesposition,
+  removeSalesposition
 
 }
 

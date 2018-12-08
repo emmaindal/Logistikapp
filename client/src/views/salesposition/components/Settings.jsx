@@ -31,10 +31,10 @@ const SettingsPanel = ({
     products,
     toggleSettingsAction,
     updateSalespositionAction,
-    removeSalespositionAction,
     setMainProductAction,
     selectedMainProduct,
-    selectedSecondProduct
+    selectedSecondProduct,
+    removeSalesposition
 }) => {
 
 
@@ -145,7 +145,7 @@ const SettingsPanel = ({
                     </form>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={() => removeSalespositionAction(selectedPosition)}>
+                    <Button onClick={() => removeSalesposition('http://localhost:3001/salespositions', selectedPosition)}>
                         TA BORT
                     </Button>
                     <Button onClick={toggleSettingsAction}>

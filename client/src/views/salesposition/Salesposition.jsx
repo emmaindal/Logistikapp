@@ -34,7 +34,8 @@ const Salesposition = ({
   products,
   selectedMainProduct,
   selectedSecondProduct,
-  addSalesposition }) => {
+  addSalesposition,
+  removeSalesposition }) => {
 
   const renderSalespositions = salespositions.map(saleposition => {
     return (
@@ -80,7 +81,7 @@ const Salesposition = ({
         toggleSettingsAction={toggleSettingsAction}
         selectedPosition={selectedPosition}
         updateSalespositionAction={updateSalespositionAction}
-        removeSalespositionAction={removeSalespositionAction}
+        removeSalesposition = {removeSalesposition}
         products={products}
         setMainProductAction={setMainProductAction}
         selectedMainProduct={selectedMainProduct}
