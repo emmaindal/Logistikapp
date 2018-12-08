@@ -6,13 +6,15 @@ import Salesposition from "./Salesposition";
 import {
   toggleSettingsAction,
   currentPositionAction,
-  updateSalespositionAction,
   toggleNewPositionAction,
   addSalespositionAction,
   removeSalespositionAction,
-  setMainProductAction
+  setMainProductAction,
+  setSecondProductAction,
+  updateSalespositionProductAction,
+  removeProductAction
 } from "./redux/actions";
-import { fetchSalespositions, fetchProducts,addSalesposition, removeSalesposition} from './redux/thunks'
+import { fetchSalespositions, fetchProducts,addSalesposition, removeSalesposition, updateSalesposition} from './redux/thunks'
 
 
 
@@ -31,17 +33,20 @@ class SalespositionContainer extends Component {
       settingsIsOpen,
       currentPositionAction,
       selectedPosition,
-      updateSalespositionAction,
+      updateSalesposition,
       newPositionIsOpen,
       toggleNewPositionAction,
       addSalespositionAction,
       setMainProductAction,
+      setSecondProductAction,
+      updateSalespositionProductAction,
       removeSalespositionAction,
       products, 
       selectedMainProduct,
       selectedSecondProduct,
       addSalesposition,
-      removeSalesposition
+      removeSalesposition,
+      removeProductAction
     } = this.props;
     return (
 
@@ -57,12 +62,15 @@ class SalespositionContainer extends Component {
           toggleNewPositionAction={toggleNewPositionAction}
           addSalespositionAction={addSalespositionAction}
           removeSalespositionAction={removeSalespositionAction}
-          updateSalespositionAction={updateSalespositionAction}
+          updateSalesposition={updateSalesposition}
           setMainProductAction = {setMainProductAction}
           selectedMainProduct = {selectedMainProduct}
           selectedSecondProduct = {selectedSecondProduct}
           addSalesposition = {addSalesposition}
           removeSalesposition = {removeSalesposition}
+          setSecondProductAction = {setSecondProductAction}
+          updateSalespositionProductAction = {updateSalespositionProductAction}
+          removeProductAction = {removeProductAction}
         />
       </div>
     )
@@ -86,16 +94,18 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
   toggleSettingsAction,
   currentPositionAction,
-  updateSalespositionAction,
+  updateSalesposition,
   toggleNewPositionAction,
   addSalespositionAction,
   removeSalespositionAction,
   setMainProductAction,
+  setSecondProductAction,
   fetchSalespositions,
   fetchProducts,
   addSalesposition,
-  removeSalesposition
-
+  removeSalesposition,
+  updateSalespositionProductAction,
+  removeProductAction
 }
 
 

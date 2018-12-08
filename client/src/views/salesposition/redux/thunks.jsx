@@ -1,4 +1,4 @@
-import { updateSalespositions, updateProducts, addSalespositionAction, removeSalespositionAction } from './actions'
+import { saveSalespositionAction, updateSalespositions, updateProducts, addSalespositionAction, removeSalespositionAction, updateSalespositionAction } from './actions'
 import axios from 'axios'
 
 export const fetchSalespositions = url => async dispatch => {
@@ -41,4 +41,22 @@ export const removeSalesposition = (url, selectedPosition) => async dispatch => 
         console.log(error)
         throw new error()
       }
+}
+
+export const updateSalesposition = (selectedPosition, newName) => async dispatch => {
+  try {
+    console.log(selectedPosition)
+    let updatedPosition = selectedPosition
+    if(newName){
+      updatedPosition.name = newName
+    }
+
+    let url = 'http://localhost:3001/salespositions'
+    let fullURL = `${url}/${selectedPosition.id}`
+    await axios.put(fullURL, selectedPosition)
+    dispatch(saveSalespositionAction(selectedPosition))
+  } catch (error) {
+    console.log(error)
+    throw new error()
+  }
 }

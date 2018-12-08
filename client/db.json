@@ -6,29 +6,13 @@
         "Falcon": {
           "pris": 59,
           "volym": 50
+        },
+        "Staropramen": {
+          "pris": 67,
+          "volym": 50
         }
       },
       "id": 7
-    },
-    {
-      "name": "test",
-      "products": {},
-      "id": 8
-    },
-    {
-      "name": "testtt",
-      "products": {},
-      "id": 9
-    },
-    {
-      "name": "tast",
-      "products": {},
-      "id": 10
-    },
-    {
-      "name": "asd",
-      "products": {},
-      "id": 11
     }
   ],
   "products": [

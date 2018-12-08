@@ -25,17 +25,19 @@ const Salesposition = ({
   settingsIsOpen,
   currentPositionAction,
   selectedPosition,
-  updateSalespositionAction,
+  updateSalesposition,
   toggleNewPositionAction,
   newPositionIsOpen,
   addSalespositionAction,
-  removeSalespositionAction,
   setMainProductAction,
+  setSecondProductAction,
   products,
   selectedMainProduct,
   selectedSecondProduct,
   addSalesposition,
-  removeSalesposition }) => {
+  removeSalesposition,
+  updateSalespositionProductAction,
+  removeProductAction }) => {
 
   const renderSalespositions = salespositions.map(saleposition => {
     return (
@@ -80,12 +82,15 @@ const Salesposition = ({
         isOpen={settingsIsOpen}
         toggleSettingsAction={toggleSettingsAction}
         selectedPosition={selectedPosition}
-        updateSalespositionAction={updateSalespositionAction}
+        updateSalesposition={updateSalesposition}
         removeSalesposition = {removeSalesposition}
         products={products}
         setMainProductAction={setMainProductAction}
+        setSecondProductAction = {setSecondProductAction}
         selectedMainProduct={selectedMainProduct}
         selectedSecondProduct = {selectedSecondProduct}
+        updateSalespositionProductAction = {updateSalespositionProductAction}
+        removeProductAction = {removeProductAction}
       />
       <NewPositionPanel
         isOpen={newPositionIsOpen}

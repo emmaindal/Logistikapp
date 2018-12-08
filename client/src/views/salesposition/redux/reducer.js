@@ -13,90 +13,122 @@ export default (state = initalState, action) => {
 
   switch (action.type) {
     case "TOGGLE_SETTINGS":
+      console.log(state.salespositions)
+      console.log(state.selectedPosition)
       return {
         ...state,
         settingsIsOpen: !state.settingsIsOpen,
+        selectedPosition: '',
+        selectedMainProduct: undefined,
+        selectedSecondProduct: undefined,
       }
+
     case "TOGGLE_NEWPOSITION":
       return {
         ...state,
         newPositionIsOpen: !state.newPositionIsOpen
-      } 
-    // Initial state
-    case "UPDATE_SALESPOSITIONS":
+      }
+
+    case "SELECTED_SALESPOSITION":
+      var selectedPos = action.selectedPosition
       return {
         ...state,
-        salespositions: action.salespositions
+        selectedPosition: selectedPos
       }
-    case "UPDATE_PRODUCTS":
-      return {
-        ...state,
-        products: action.products
-      }
+
     case "ADD_SALESPOSITION":
       return {
         ...state,
         salespositions: [...state.salespositions, action.salesposition],
         newPositionIsOpen: !state.newPositionIsOpen
       }
-    
-      
-    case "SELECTED_SALESPOSITION":
+
+    // Initial state
+    case "UPDATE_SALESPOSITIONS":
       return {
         ...state,
-        selectedPosition: action.selectedPosition
+        salespositions: action.salespositions
       }
-    case "UPDATE_SALESPOSITION":
+
+    case "UPDATE_PRODUCTS":
+      return {
+        ...state,
+        products: action.products
+      }
+
+    case "SET_MAINPRODUCT":
+      return {
+        ...state,
+        selectedMainProduct: action.mainProduct
+      }
+    case "SET_SECONDPRODUCT":
+      return {
+        ...state,
+        selectedSecondProduct: action.secondProduct
+      }
+
+    case "SET_NEWPRODUCTS":
+      console.log(state.selectedPosition)
+      var mainprod = action.mainProduct
+      var secondprod = action.secondProduct
+      var newProd = state.products.find(product => {
+        return product[mainprod]
+      })
+      return {
+        ...state,
+        selectedPosition: {
+          ...state.selectedPosition,
+          products: {
+            ...state.selectedPosition.products,
+            [secondprod]: newProd[mainprod][secondprod]
+          }
+        }
+      }
+
+    case "REMOVE_PRODUCT":
+      var updatedSelectedPosition = state.selectedPosition
+      // removes the product from object
+      delete updatedSelectedPosition.products[action.targetId]
+      console.log(updatedSelectedPosition)
+      console.log(state.selectedPosition)
+      console.log(state.salespositions)
+      return {
+        ...state,
+        selectedPosition: {
+          ...state.selectedPosition,
+          products: updatedSelectedPosition.products
+        }
+      }
+
+    case "SAVE_SALESPOSITION":
       // Gets index of current salesposition
-      let i = state.salespositions.indexOf(action.selectedPosition)
+      let originalObj = state.salespositions.filter(saleposition => {
+        return saleposition.name == action.selectedPosition.name
+      })
+      let i = state.salespositions.indexOf(originalObj[0])
       salespositionList = state.salespositions
       // Replaces the currently selected salesposition with its new name
-      salespositionList[i] = { "name": action.name, "id": action.selectedPosition.id, "products": action.selectedPosition.products }
+      salespositionList[i] = action.selectedPosition
       return {
         ...state,
         salespositions: salespositionList,
         selectedMainProduct: undefined,
         selectedSecondProduct: undefined,
         selectedProduct: undefined,
+        selectedPosition: ''
       }
+
     case "REMOVE_SALESPOSITION":
-      // Kanske bör brytas ut eller göras i Action?
-      // failsafe if name is not changed
+
       if (action.newName === undefined) {
         action.newName = action.selectedPosition.name
       }
       salespositionList = state.salespositions
-      salespositionList = salespositionList.filter(saleposition => saleposition !==action.selectedPosition)
+      salespositionList = salespositionList.filter(saleposition => saleposition !== action.selectedPosition)
       return {
         ...state,
         salespositions: salespositionList,
         settingsIsOpen: !state.settingsIsOpen
-      }
-
-
-
-    // PRODUCT REDUCERS 
-    case "SET_MAINPRODUCT":
-      return {
-        ...state,
-        selectedMainProduct: action.selectedProduct
-      }
-    case "SET_SECONDPRODUCT":
-        return {
-        ...state,
-        selectedSecondProduct: action.selectedProduct
-      }
-    case "REMOVE_PRODUCT":
-      let updatedSelectedPosition = action.selectedPosition
-      // removes the product from object
-      delete updatedSelectedPosition.products[action.removeProduct]
-      // ...state.selectedPosition (solution for nested states, otherwise redux doesnt notice updates)
-      return {
-        ...state,
-        selectedPosition: {
-          ...state.selectedPosition,
-          updatedSelectedPosition
-        }
       }
     default:
       return state;

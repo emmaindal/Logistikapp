@@ -30,11 +30,14 @@ const SettingsPanel = ({
     selectedPosition,
     products,
     toggleSettingsAction,
-    updateSalespositionAction,
+    updateSalesposition,
     setMainProductAction,
+    setSecondProductAction,
     selectedMainProduct,
     selectedSecondProduct,
-    removeSalesposition
+    removeSalesposition,
+    updateSalespositionProductAction,
+    removeProductAction
 }) => {
 
 
@@ -93,7 +96,7 @@ const SettingsPanel = ({
                             <InputLabel htmlFor="main-prod-cat">Produktkategori</InputLabel>
                             <Select
                                 value={selectedMainProduct ? selectedMainProduct : ''}
-                                onChange={(event) => setMainProductAction(event.target.value, null)}
+                                onChange={(event) => setMainProductAction(event.target.value)}
                                 input={<Input id="main-prod-cat" />}
                             >
                                 {renderMainProducts}
@@ -106,9 +109,8 @@ const SettingsPanel = ({
                             <FormControl fullWidth>
                                 <InputLabel htmlFor="second-prod-cat">Produktnamn</InputLabel>
                                 <Select
-                                    // TODO; update a state to rerender select. otherwise it wont show which you selected
                                     value={selectedSecondProduct ? selectedSecondProduct : ''}
-                                    onChange={(event) => { setMainProductAction(null, event.target.value); }}
+                                    onChange={(event) => { setSecondProductAction(event.target.value); }}
                                     input={<Input id="second-prod-cat" />}
                                 >
                                     {renderSecondProducts}
@@ -119,7 +121,7 @@ const SettingsPanel = ({
 
                         {selectedSecondProduct !== undefined && (
                             <FormControl fullWidth>
-                                <Button onClick={() => { updateSalespositionAction(selectedPosition, newName, selectedMainProduct, selectedSecondProduct, products); }}>
+                                <Button onClick={() => { updateSalespositionProductAction(selectedMainProduct, selectedSecondProduct); }}>
                                     LÄGG TILL
                                 </Button>
                             </FormControl>
@@ -132,7 +134,7 @@ const SettingsPanel = ({
                                             <StyledListItem key={product} divider >
                                                 <ListItemText primary={product} />
                                                 <ListItemSecondaryAction>
-                                                    <IconButton aria-label="DeleteForever" id={product} onClick={(event) => { console.log(selectedPosition); setMainProductAction(null, null, event.target.id, selectedPosition); console.log(selectedPosition) }}>
+                                                    <IconButton aria-label="DeleteForever" id={product} onClick={(event) => {removeProductAction(event.target.id);}}>
                                                         <DeleteForever />
                                                     </IconButton>
                                                 </ListItemSecondaryAction>
@@ -151,7 +153,7 @@ const SettingsPanel = ({
                     <Button onClick={toggleSettingsAction}>
                         AVBRYT
                     </Button>
-                    <Button onClick={() => { updateSalespositionAction(selectedPosition, newName, selectedMainProduct, selectedSecondProduct, products); toggleSettingsAction(); }}>
+                    <Button onClick={() => { updateSalesposition(selectedPosition, newName); toggleSettingsAction(); }}>
                         SPARA
                     </Button>
                 </DialogActions>
