@@ -4,10 +4,10 @@ const initalState = {
   selectedPosition: '',
   newPositionIsOpen: false,
   products: [],
+  selectedProductCategory: undefined,
   selectedMainProduct: undefined,
   selectedSecondProduct: undefined,
 };
-var salespositionList;
 
 export default (state = initalState, action) => {
 
@@ -55,11 +55,18 @@ export default (state = initalState, action) => {
         ...state,
         products: action.products
       }
-
+    case "SET_CATEGORY":
+      return {
+        ...state,
+        selectedProductCategory: action.category,
+        selectedMainProduct: undefined,
+        selectedSecondProduct: undefined
+      }
     case "SET_MAINPRODUCT":
       return {
         ...state,
-        selectedMainProduct: action.mainProduct
+        selectedMainProduct: action.mainProduct,
+        selectedSecondProduct: undefined
       }
     case "SET_SECONDPRODUCT":
       return {
@@ -68,30 +75,57 @@ export default (state = initalState, action) => {
       }
 
     case "SET_NEWPRODUCTS":
-      console.log(state.selectedPosition)
+      // kortare obj
+      var selectedPos = state.selectedPosition.products
+      //dryck
+      var prodCat = state.selectedProductCategory
+      // öl
       var mainprod = action.mainProduct
+      // falcon
       var secondprod = action.secondProduct
-      var newProd = state.products.find(product => {
-        return product[mainprod]
-      })
+      // pris etc.
+      var newProd = state.products[prodCat][mainprod][secondprod]
+
+      var updatedProducts;
+      if(selectedPos[prodCat]){
+        updatedProducts = {
+          ...selectedPos,
+          [prodCat]: {
+            ...selectedPos[prodCat],
+            [mainprod]: {
+              ...selectedPos[prodCat][mainprod],
+              [secondprod]:newProd
+            }
+          }
+        }
+      } else {
+        // if it doesnt have prodcat it wont have children:        
+        updatedProducts = {
+          ...selectedPos,
+          [prodCat] : {
+            [mainprod]: {
+              [secondprod] : newProd
+            }
+          }
+        }
+
+      }
       return {
         ...state,
         selectedPosition: {
           ...state.selectedPosition,
-          products: {
-            ...state.selectedPosition.products,
-            [secondprod]: newProd[mainprod][secondprod]
-          }
+          products: updatedProducts
         }
       }
 
     case "REMOVE_PRODUCT":
       var updatedSelectedPosition = state.selectedPosition
       // removes the product from object
-      delete updatedSelectedPosition.products[action.targetId]
-      console.log(updatedSelectedPosition)
-      console.log(state.selectedPosition)
-      console.log(state.salespositions)
+     delete updatedSelectedPosition.products[action.category][action.product][action.targetId]
+      // removes if there is nothing in parent object.
+      if (Object.keys(updatedSelectedPosition.products[action.category][action.product]).length === 0 ){
+        delete updatedSelectedPosition.products[action.category]
+      }
       return {
         ...state,
         selectedPosition: {
@@ -102,11 +136,11 @@ export default (state = initalState, action) => {
 
     case "SAVE_SALESPOSITION":
       // Gets index of current salesposition
-      let originalObj = state.salespositions.filter(saleposition => {
+      var originalObj = state.salespositions.filter(saleposition => {
         return saleposition.name == action.selectedPosition.name
       })
-      let i = state.salespositions.indexOf(originalObj[0])
-      salespositionList = state.salespositions
+      var i = state.salespositions.indexOf(originalObj[0])
+      var salespositionList = state.salespositions
       // Replaces the currently selected salesposition with its new name
       salespositionList[i] = action.selectedPosition
       return {
@@ -115,6 +149,7 @@ export default (state = initalState, action) => {
         selectedMainProduct: undefined,
         selectedSecondProduct: undefined,
         selectedProduct: undefined,
+        selectedProductCategory: undefined,
         selectedPosition: ''
       }
 

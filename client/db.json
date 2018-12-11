@@ -2,21 +2,17 @@
   "salespositions": [
     {
       "name": "testtt",
-      "products": {
-        "Falcon": {
-          "pris": 59,
-          "volym": 50
-        },
-        "Staropramen": {
-          "pris": 67,
-          "volym": 50
-        }
-      },
+      "products": {},
       "id": 7
+    },
+    {
+      "name": "tastt",
+      "products": {},
+      "id": 8
     }
   ],
-  "products": [
-    {
+  "products": {
+    "Dryck": {
       "Öl": {
         "Staropramen": {
           "pris": 67,
@@ -37,6 +33,11 @@
           "volym": 18.7
         }
       }
+    },
+    "Mat": {
+      "Hamburagre": {
+        "testburgare": {}
+      }
     }
-  ]
+  }
 }

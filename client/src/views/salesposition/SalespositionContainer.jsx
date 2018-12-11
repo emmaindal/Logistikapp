@@ -12,7 +12,8 @@ import {
   setMainProductAction,
   setSecondProductAction,
   updateSalespositionProductAction,
-  removeProductAction
+  removeProductAction,
+  setProductCategory
 } from "./redux/actions";
 import { fetchSalespositions, fetchProducts,addSalesposition, removeSalesposition, updateSalesposition} from './redux/thunks'
 
@@ -46,7 +47,9 @@ class SalespositionContainer extends Component {
       selectedSecondProduct,
       addSalesposition,
       removeSalesposition,
-      removeProductAction
+      removeProductAction,
+      setProductCategory,
+      selectedProductCategory
     } = this.props;
     return (
 
@@ -71,6 +74,8 @@ class SalespositionContainer extends Component {
           setSecondProductAction = {setSecondProductAction}
           updateSalespositionProductAction = {updateSalespositionProductAction}
           removeProductAction = {removeProductAction}
+          setProductCategory={setProductCategory}
+          selectedProductCategory = {selectedProductCategory}
         />
       </div>
     )
@@ -87,7 +92,8 @@ const mapStateToProps = state => {
     selectedPosition: state.salesposition.selectedPosition,
     products: state.salesposition.products,
     selectedMainProduct: state.salesposition.selectedMainProduct,
-    selectedSecondProduct: state.salesposition.selectedSecondProduct
+    selectedSecondProduct: state.salesposition.selectedSecondProduct,
+    selectedProductCategory: state.salesposition.selectedProductCategory,
   };
 };
 
@@ -105,7 +111,8 @@ const mapDispatchToProps = {
   addSalesposition,
   removeSalesposition,
   updateSalespositionProductAction,
-  removeProductAction
+  removeProductAction,
+  setProductCategory
 }
 
 

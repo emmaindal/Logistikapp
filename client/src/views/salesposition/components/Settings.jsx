@@ -37,29 +37,18 @@ const SettingsPanel = ({
     selectedSecondProduct,
     removeSalesposition,
     updateSalespositionProductAction,
-    removeProductAction
+    removeProductAction,
+    setProductCategory,
+    selectedProductCategory
 }) => {
 
-
-    const renderMainProducts = products.map(product => {
+    const renderProductCategory = Object.keys(products).map(product => {
         return (
-            Object.keys(product).map(name =>
-                <MenuItem key={name} value={name}> {name}</MenuItem>
-            )
-        )
-    });
 
-    const renderSecondProducts = products.map(mainProduct => {
-        if (!selectedMainProduct) {
-            return ''
-        }
-        let mainProductDetails = mainProduct[selectedMainProduct]
-        return (
-            Object.keys(mainProductDetails).map(product =>
-                <MenuItem key={product} value={product}> {product}</MenuItem>
-
-            )
+            <MenuItem key={product} value={product}> {product}</MenuItem>
         )
+
+
     })
 
     // Borde kanske vara state
@@ -91,17 +80,34 @@ const SettingsPanel = ({
                                 onChange={(event) => { newName = event.target.value; }}
                             />
                         </FormControl>
-                        
+
                         <FormControl fullWidth>
                             <InputLabel htmlFor="main-prod-cat">Produktkategori</InputLabel>
                             <Select
-                                value={selectedMainProduct ? selectedMainProduct : ''}
-                                onChange={(event) => setMainProductAction(event.target.value)}
+                                value={selectedProductCategory ? selectedProductCategory : ''}
+                                onChange={(event) => setProductCategory(event.target.value)}
                                 input={<Input id="main-prod-cat" />}
                             >
-                                {renderMainProducts}
+                                {renderProductCategory}
                             </Select>
                         </FormControl>
+
+
+                        {selectedProductCategory !== undefined && (
+                            <FormControl fullWidth>
+                                <InputLabel htmlFor="main-prod-cat">Överkategori</InputLabel>
+                                <Select
+                                    value={selectedMainProduct ? selectedMainProduct : ''}
+                                    onChange={(event) => setMainProductAction(event.target.value)}
+                                    input={<Input id="main-prod-cat" />}
+                                >
+                                    {Object.keys(products[selectedProductCategory]).map(product => {
+                                        return (<MenuItem key={product} value={product}> {product}</MenuItem>)
+                                    })}
+
+                                </Select>
+                            </FormControl>
+                        )}
 
 
                         {selectedMainProduct !== undefined && (
@@ -113,7 +119,9 @@ const SettingsPanel = ({
                                     onChange={(event) => { setSecondProductAction(event.target.value); }}
                                     input={<Input id="second-prod-cat" />}
                                 >
-                                    {renderSecondProducts}
+                                    {Object.keys(products[selectedProductCategory][selectedMainProduct]).map(product => {
+                                        return (<MenuItem key={product} value={product}> {product}</MenuItem>)
+                                    })}
                                 </Select>
 
                             </FormControl>
@@ -121,7 +129,7 @@ const SettingsPanel = ({
 
                         {selectedSecondProduct !== undefined && (
                             <FormControl fullWidth>
-                                <Button onClick={() => { updateSalespositionProductAction(selectedMainProduct, selectedSecondProduct); }}>
+                                <Button onClick={() => { updateSalespositionProductAction(selectedProductCategory, selectedMainProduct, selectedSecondProduct); }}>
                                     LÄGG TILL
                                 </Button>
                             </FormControl>
@@ -129,16 +137,30 @@ const SettingsPanel = ({
                         {selectedPosition.products && (
                             <FormControl fullWidth >
                                 <List>
-                                    {Object.keys(selectedPosition.products).map(product => {
+                                    {Object.keys(selectedPosition.products).map(productCategory => {
+                                        let renderProducts = Object.keys(selectedPosition.products[productCategory]).map(product => {
+                                            return Object.keys(selectedPosition.products[productCategory][product]).map(productName => {
+                                                console.log(productCategory)
+                                                return (
+                                                    <StyledListItem key={productName} divider >
+                                                        <ListItemText primary={productName} />
+                                                        <ListItemSecondaryAction>
+                                                            <IconButton aria-label="DeleteForever" id={productName} category={productCategory} product={product} onClick={(event) => { removeProductAction(event.target.attributes.category, event.target.attributes.product, event.target.id); }}>
+                                                                <DeleteForever />
+                                                            </IconButton>
+                                                        </ListItemSecondaryAction>
+                                                    </StyledListItem>
+                                                )
+                                            })
+                                        })
+
                                         return (
-                                            <StyledListItem key={product} divider >
-                                                <ListItemText primary={product} />
-                                                <ListItemSecondaryAction>
-                                                    <IconButton aria-label="DeleteForever" id={product} onClick={(event) => {removeProductAction(event.target.id);}}>
-                                                        <DeleteForever />
-                                                    </IconButton>
-                                                </ListItemSecondaryAction>
-                                            </StyledListItem>
+                                            <div>
+                                                <ListItem key={productCategory} divider >
+                                                    <ListItemText primary={productCategory} />
+                                                </ListItem>
+                                                <div>{renderProducts}</div>
+                                            </div>
                                         )
                                     })}
                                 </List>
@@ -166,7 +188,5 @@ const StyledListItem = styled(ListItem)`
   background-color: #eee;
   margin: 10px 0px;
 `;
-
-
 
 export default SettingsPanel;

@@ -37,7 +37,10 @@ const Salesposition = ({
   addSalesposition,
   removeSalesposition,
   updateSalespositionProductAction,
-  removeProductAction }) => {
+  removeProductAction,
+  setProductCategory,
+  selectedProductCategory,
+}) => {
 
   const renderSalespositions = salespositions.map(saleposition => {
     return (
@@ -91,6 +94,8 @@ const Salesposition = ({
         selectedSecondProduct = {selectedSecondProduct}
         updateSalespositionProductAction = {updateSalespositionProductAction}
         removeProductAction = {removeProductAction}
+        setProductCategory = {setProductCategory}
+        selectedProductCategory = {selectedProductCategory}
       />
       <NewPositionPanel
         isOpen={newPositionIsOpen}

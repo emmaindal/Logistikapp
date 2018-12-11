@@ -19,9 +19,17 @@ const currentPositionAction =  saleposition => {
 };
 
 const addSalespositionAction = salesposition => {
+  console.log(salesposition)
   return {
     type: "ADD_SALESPOSITION",
     salesposition,
+  }
+}
+
+const setProductCategory = category => {
+  return {
+    type: "SET_CATEGORY",
+    category
   }
 }
 
@@ -41,20 +49,25 @@ const setSecondProductAction = secondProduct => {
   }
 }
 
-const updateSalespositionProductAction = (mainProduct, secondProduct) => {
-  console.log('newproductaction', mainProduct, secondProduct);
+const updateSalespositionProductAction = (mainCat, mainProduct, secondProduct) => {
+  console.log('newproductaction', mainCat, mainProduct, secondProduct);
   return {
     type: "SET_NEWPRODUCTS",
+    mainCat,
     mainProduct,
     secondProduct
   }
 }
 
-const removeProductAction = targetId => {
+const removeProductAction = (category, product ,targetId) => {
   console.log(targetId)
+  console.log(category.value)
+  
   return {
     type: "REMOVE_PRODUCT",
-    targetId
+    targetId,
+    category: category.value,
+    product: product.value
   }
 }
 
@@ -94,6 +107,7 @@ export {
   toggleNewPositionAction,
   addSalespositionAction,
   removeSalespositionAction,
+  setProductCategory,
   setMainProductAction,
   setSecondProductAction,
   updateSalespositionProductAction,
