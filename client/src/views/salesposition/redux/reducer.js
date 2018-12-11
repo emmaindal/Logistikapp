@@ -4,98 +4,167 @@ const initalState = {
   selectedPosition: '',
   newPositionIsOpen: false,
   products: [],
+  selectedProductCategory: undefined,
   selectedMainProduct: undefined,
   selectedSecondProduct: undefined,
 };
-
-let salespositionList;
 
 export default (state = initalState, action) => {
 
   switch (action.type) {
     case "TOGGLE_SETTINGS":
+      console.log(state.salespositions)
+      console.log(state.selectedPosition)
       return {
         ...state,
         settingsIsOpen: !state.settingsIsOpen,
+        selectedPosition: '',
+        selectedMainProduct: undefined,
+        selectedSecondProduct: undefined,
       }
+
     case "TOGGLE_NEWPOSITION":
       return {
         ...state,
         newPositionIsOpen: !state.newPositionIsOpen
-      } 
-    
-      
+      }
+
     case "SELECTED_SALESPOSITION":
+      var selectedPos = action.selectedPosition
       return {
         ...state,
-        selectedPosition: action.selectedPosition
+        selectedPosition: selectedPos
       }
-    case "UPDATE_SALESPOSITION":
+
+    case "ADD_SALESPOSITION":
+      return {
+        ...state,
+        salespositions: [...state.salespositions, action.salesposition],
+        newPositionIsOpen: !state.newPositionIsOpen
+      }
+
+    // Initial state
+    case "UPDATE_SALESPOSITIONS":
+      return {
+        ...state,
+        salespositions: action.salespositions
+      }
+
+    case "UPDATE_PRODUCTS":
+      return {
+        ...state,
+        products: action.products
+      }
+    case "SET_CATEGORY":
+      return {
+        ...state,
+        selectedProductCategory: action.category,
+        selectedMainProduct: undefined,
+        selectedSecondProduct: undefined
+      }
+    case "SET_MAINPRODUCT":
+      return {
+        ...state,
+        selectedMainProduct: action.mainProduct,
+        selectedSecondProduct: undefined
+      }
+    case "SET_SECONDPRODUCT":
+      return {
+        ...state,
+        selectedSecondProduct: action.secondProduct
+      }
+
+    case "SET_NEWPRODUCTS":
+      // kortare obj
+      var selectedPos = state.selectedPosition.products
+      //dryck
+      var prodCat = state.selectedProductCategory
+      // öl
+      var mainprod = action.mainProduct
+      // falcon
+      var secondprod = action.secondProduct
+      // pris etc.
+      var newProd = state.products[prodCat][mainprod][secondprod]
+
+      var updatedProducts;
+      if(selectedPos[prodCat]){
+        updatedProducts = {
+          ...selectedPos,
+          [prodCat]: {
+            ...selectedPos[prodCat],
+            [mainprod]: {
+              ...selectedPos[prodCat][mainprod],
+              [secondprod]:newProd
+            }
+          }
+        }
+      } else {
+        // if it doesnt have prodcat it wont have children:        
+        updatedProducts = {
+          ...selectedPos,
+          [prodCat] : {
+            [mainprod]: {
+              [secondprod] : newProd
+            }
+          }
+        }
+
+      }
+      return {
+        ...state,
+        selectedPosition: {
+          ...state.selectedPosition,
+          products: updatedProducts
+        }
+      }
+
+    case "REMOVE_PRODUCT":
+      var updatedSelectedPosition = state.selectedPosition
+      // removes the product from object
+     delete updatedSelectedPosition.products[action.category][action.product][action.targetId]
+      // removes if there is nothing in parent object.
+      if (Object.keys(updatedSelectedPosition.products[action.category][action.product]).length === 0 ){
+        delete updatedSelectedPosition.products[action.category]
+      }
+      return {
+        ...state,
+        selectedPosition: {
+          ...state.selectedPosition,
+          products: updatedSelectedPosition.products
+        }
+      }
+
+    case "SAVE_SALESPOSITION":
       // Gets index of current salesposition
-      let i = state.salespositions.indexOf(action.selectedPosition)
+      var originalObj = state.salespositions.filter(saleposition => {
+        return saleposition.name == action.selectedPosition.name
+      })
+      var i = state.salespositions.indexOf(originalObj[0])
+      var salespositionList = state.salespositions
       // Replaces the currently selected salesposition with its new name
-      salespositionList[i] = { "name": action.name, "id": action.selectedPosition.id, "products": action.selectedPosition.products }
+      salespositionList[i] = action.selectedPosition
       return {
         ...state,
         salespositions: salespositionList,
         selectedMainProduct: undefined,
         selectedSecondProduct: undefined,
         selectedProduct: undefined,
+        selectedProductCategory: undefined,
+        selectedPosition: ''
       }
+
     case "REMOVE_SALESPOSITION":
-      // Kanske bör brytas ut eller göras i Action?
-      // failsafe if name is not changed
+
       if (action.newName === undefined) {
         action.newName = action.selectedPosition.name
       }
-      salespositionList = salespositionList.filter(saleposition => saleposition !==action.selectedPosition)
+      salespositionList = state.salespositions
+      salespositionList = salespositionList.filter(saleposition => saleposition !== action.selectedPosition)
       return {
         ...state,
         salespositions: salespositionList,
         settingsIsOpen: !state.settingsIsOpen
       }
-    case "ADD_SALESPOSITION":
-      let newPosObj = { "name": action.newPositionName, "products": {}}
-      salespositionList.push(newPosObj)
-      return {
-        ...state,
-        salespositions: salespositionList,
-        newPositionIsOpen: !state.newPositionIsOpen
-      }
-
-
-    // PRODUCT REDUCERS 
-    case "SET_MAINPRODUCT":
-      return {
-        ...state,
-        selectedMainProduct: action.selectedProduct
-      }
-    case "SET_SECONDPRODUCT":
-        return {
-        ...state,
-        selectedSecondProduct: action.selectedProduct
-      }
-    case "REMOVE_PRODUCT":
-      let updatedSelectedPosition = action.selectedPosition
-      // removes the product from object
-      delete updatedSelectedPosition.products[action.removeProduct]
-      // ...state.selectedPosition (solution for nested states, otherwise redux doesnt notice updates)
-      return {
-        ...state,
-        selectedPosition: {
-          ...state.selectedPosition,
-          updatedSelectedPosition
-        }
-      }
-
-    // INTIAL STATE 
-    case "INITIAL_STATE":
-    salespositionList = action.initialSalespositions;
-    return {
-      ...state,
-      salespositions: action.initialSalespositions,
-      products: action.productsRes
-    }
     default:
       return state;
   }

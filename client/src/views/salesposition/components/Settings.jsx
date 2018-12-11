@@ -30,33 +30,25 @@ const SettingsPanel = ({
     selectedPosition,
     products,
     toggleSettingsAction,
-    updateSalespositionAction,
-    removeSalespositionAction,
+    updateSalesposition,
     setMainProductAction,
+    setSecondProductAction,
     selectedMainProduct,
-    selectedSecondProduct
+    selectedSecondProduct,
+    removeSalesposition,
+    updateSalespositionProductAction,
+    removeProductAction,
+    setProductCategory,
+    selectedProductCategory
 }) => {
 
-
-    const renderMainProducts = products.map(product => {
+    const renderProductCategory = Object.keys(products).map(product => {
         return (
-            Object.keys(product).map(name =>
-                <MenuItem key={name} value={name}> {name}</MenuItem>
-            )
-        )
-    });
 
-    const renderSecondProducts = products.map(mainProduct => {
-        if (!selectedMainProduct) {
-            return ''
-        }
-        let mainProductDetails = mainProduct[selectedMainProduct]
-        return (
-            Object.keys(mainProductDetails).map(product =>
-                <MenuItem key={product} value={product}> {product}</MenuItem>
-
-            )
+            <MenuItem key={product} value={product}> {product}</MenuItem>
         )
+
+
     })
 
     // Borde kanske vara state
@@ -88,17 +80,34 @@ const SettingsPanel = ({
                                 onChange={(event) => { newName = event.target.value; }}
                             />
                         </FormControl>
-                        
+
                         <FormControl fullWidth>
                             <InputLabel htmlFor="main-prod-cat">Produktkategori</InputLabel>
                             <Select
-                                value={selectedMainProduct ? selectedMainProduct : ''}
-                                onChange={(event) => setMainProductAction(event.target.value, null)}
+                                value={selectedProductCategory ? selectedProductCategory : ''}
+                                onChange={(event) => setProductCategory(event.target.value)}
                                 input={<Input id="main-prod-cat" />}
                             >
-                                {renderMainProducts}
+                                {renderProductCategory}
                             </Select>
                         </FormControl>
+
+
+                        {selectedProductCategory !== undefined && (
+                            <FormControl fullWidth>
+                                <InputLabel htmlFor="main-prod-cat">Överkategori</InputLabel>
+                                <Select
+                                    value={selectedMainProduct ? selectedMainProduct : ''}
+                                    onChange={(event) => setMainProductAction(event.target.value)}
+                                    input={<Input id="main-prod-cat" />}
+                                >
+                                    {Object.keys(products[selectedProductCategory]).map(product => {
+                                        return (<MenuItem key={product} value={product}> {product}</MenuItem>)
+                                    })}
+
+                                </Select>
+                            </FormControl>
+                        )}
 
 
                         {selectedMainProduct !== undefined && (
@@ -106,12 +115,13 @@ const SettingsPanel = ({
                             <FormControl fullWidth>
                                 <InputLabel htmlFor="second-prod-cat">Produktnamn</InputLabel>
                                 <Select
-                                    // TODO; update a state to rerender select. otherwise it wont show which you selected
                                     value={selectedSecondProduct ? selectedSecondProduct : ''}
-                                    onChange={(event) => { setMainProductAction(null, event.target.value); }}
+                                    onChange={(event) => { setSecondProductAction(event.target.value); }}
                                     input={<Input id="second-prod-cat" />}
                                 >
-                                    {renderSecondProducts}
+                                    {Object.keys(products[selectedProductCategory][selectedMainProduct]).map(product => {
+                                        return (<MenuItem key={product} value={product}> {product}</MenuItem>)
+                                    })}
                                 </Select>
 
                             </FormControl>
@@ -119,7 +129,7 @@ const SettingsPanel = ({
 
                         {selectedSecondProduct !== undefined && (
                             <FormControl fullWidth>
-                                <Button onClick={() => { updateSalespositionAction(selectedPosition, newName, selectedMainProduct, selectedSecondProduct, products); }}>
+                                <Button onClick={() => { updateSalespositionProductAction(selectedProductCategory, selectedMainProduct, selectedSecondProduct); }}>
                                     LÄGG TILL
                                 </Button>
                             </FormControl>
@@ -127,16 +137,30 @@ const SettingsPanel = ({
                         {selectedPosition.products && (
                             <FormControl fullWidth >
                                 <List>
-                                    {Object.keys(selectedPosition.products).map(product => {
+                                    {Object.keys(selectedPosition.products).map(productCategory => {
+                                        let renderProducts = Object.keys(selectedPosition.products[productCategory]).map(product => {
+                                            return Object.keys(selectedPosition.products[productCategory][product]).map(productName => {
+                                                console.log(productCategory)
+                                                return (
+                                                    <StyledListItem key={productName} divider >
+                                                        <ListItemText primary={productName} />
+                                                        <ListItemSecondaryAction>
+                                                            <IconButton aria-label="DeleteForever" id={productName} category={productCategory} product={product} onClick={(event) => { removeProductAction(event.target.attributes.category, event.target.attributes.product, event.target.id); }}>
+                                                                <DeleteForever />
+                                                            </IconButton>
+                                                        </ListItemSecondaryAction>
+                                                    </StyledListItem>
+                                                )
+                                            })
+                                        })
+
                                         return (
-                                            <StyledListItem key={product} divider >
-                                                <ListItemText primary={product} />
-                                                <ListItemSecondaryAction>
-                                                    <IconButton aria-label="DeleteForever" id={product} onClick={(event) => { console.log(selectedPosition); setMainProductAction(null, null, event.target.id, selectedPosition); console.log(selectedPosition) }}>
-                                                        <DeleteForever />
-                                                    </IconButton>
-                                                </ListItemSecondaryAction>
-                                            </StyledListItem>
+                                            <div>
+                                                <ListItem key={productCategory} divider >
+                                                    <ListItemText primary={productCategory} />
+                                                </ListItem>
+                                                <div>{renderProducts}</div>
+                                            </div>
                                         )
                                     })}
                                 </List>
@@ -145,13 +169,13 @@ const SettingsPanel = ({
                     </form>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={() => removeSalespositionAction(selectedPosition)}>
+                    <Button onClick={() => removeSalesposition('http://localhost:3001/salespositions', selectedPosition)}>
                         TA BORT
                     </Button>
                     <Button onClick={toggleSettingsAction}>
                         AVBRYT
                     </Button>
-                    <Button onClick={() => { updateSalespositionAction(selectedPosition, newName, selectedMainProduct, selectedSecondProduct, products); toggleSettingsAction(); }}>
+                    <Button onClick={() => { updateSalesposition(selectedPosition, newName); toggleSettingsAction(); }}>
                         SPARA
                     </Button>
                 </DialogActions>
@@ -164,7 +188,5 @@ const StyledListItem = styled(ListItem)`
   background-color: #eee;
   margin: 10px 0px;
 `;
-
-
 
 export default SettingsPanel;

@@ -25,16 +25,22 @@ const Salesposition = ({
   settingsIsOpen,
   currentPositionAction,
   selectedPosition,
-  updateSalespositionAction,
+  updateSalesposition,
   toggleNewPositionAction,
   newPositionIsOpen,
   addSalespositionAction,
-  removeSalespositionAction,
   setMainProductAction,
+  setSecondProductAction,
   products,
   selectedMainProduct,
-  selectedSecondProduct }) => {
-
+  selectedSecondProduct,
+  addSalesposition,
+  removeSalesposition,
+  updateSalespositionProductAction,
+  removeProductAction,
+  setProductCategory,
+  selectedProductCategory,
+}) => {
 
   const renderSalespositions = salespositions.map(saleposition => {
     return (
@@ -79,17 +85,23 @@ const Salesposition = ({
         isOpen={settingsIsOpen}
         toggleSettingsAction={toggleSettingsAction}
         selectedPosition={selectedPosition}
-        updateSalespositionAction={updateSalespositionAction}
-        removeSalespositionAction={removeSalespositionAction}
+        updateSalesposition={updateSalesposition}
+        removeSalesposition = {removeSalesposition}
         products={products}
         setMainProductAction={setMainProductAction}
+        setSecondProductAction = {setSecondProductAction}
         selectedMainProduct={selectedMainProduct}
         selectedSecondProduct = {selectedSecondProduct}
+        updateSalespositionProductAction = {updateSalespositionProductAction}
+        removeProductAction = {removeProductAction}
+        setProductCategory = {setProductCategory}
+        selectedProductCategory = {selectedProductCategory}
       />
       <NewPositionPanel
         isOpen={newPositionIsOpen}
         toggleNewPositionAction={toggleNewPositionAction}
         addSalespositionAction={addSalespositionAction}
+        addSalesposition = {addSalesposition}
       />
     </Grid>
   );
