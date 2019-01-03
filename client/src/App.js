@@ -7,6 +7,7 @@ import ExampleContainer from "./views/example/ExampleContainer";
 
 import UserViewContainer from "./views/user/UserViewContainer";
 import SalespositionContainer from "./views/salesposition/SalespositionContainer";
+import OrdersContainer from "./views/orders/OrdersContainer";
 
 class App extends Component {
   render() {
@@ -22,6 +23,11 @@ class App extends Component {
               exact
               path="/salesposition"
               component={SalespositionContainer}
+            />
+            <Route
+              exact
+              path="/orders"
+              component={OrdersContainer}
             />
           </Switch>
         </div>

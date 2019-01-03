@@ -23,6 +23,9 @@ const Menu = ({ toggleMenu, handleClickAway }) => {
           <StyledLink to="/salesposition" onClick={toggleMenu}>
             Admin
           </StyledLink>
+          <StyledLink to="/orders" onClick={toggleMenu}>
+            Orders
+          </StyledLink>
           <StyledLink to="/user" onClick={toggleMenu}>
             User
           </StyledLink>
