@@ -7,33 +7,25 @@ import { MenuItem, Select, FormControl, InputLabel } from '@material-ui/core'
 import { Grid } from '@material-ui/core'
 
 const UserView = ({
-  activeSalesposition,
+  salesposition,
   salespositions,
   isOpen,
   category,
-  categories,
   handleClickCategory,
   toggleModal,
   handleChange
 }) => {
-  let categoryNames = []
-  Object.values(categories).forEach(function(value) {
-    if (value.name) {
-      categoryNames.push(value.name)
-    }
-  })
-
   return (
     <Container>
       <CardContainer>
         <Heading variant="title">Välj en säljposition</Heading>
         <FormControl style={{ width: '100%' }}>
-          <InputLabel htmlFor="age-simple">Sales Positions</InputLabel>
-          <Select value={activeSalesposition} onChange={handleChange}>
+          <InputLabel htmlFor="age-simple">Säljpositioner</InputLabel>
+          <Select value={salesposition.id} onChange={handleChange}>
             {Object.values(salespositions).map(value => {
               if (value.name) {
                 return (
-                  <MenuItem key={value.name} value={value.name}>
+                  <MenuItem key={value.name} value={value.id}>
                     {value.name}
                   </MenuItem>
                 )
@@ -41,29 +33,28 @@ const UserView = ({
             })}
           </Select>
         </FormControl>
-        {activeSalesposition && (
+        {salesposition.id && (
           <Categories>
             <Heading variant="title">Välj en kategori</Heading>
             <Grid container s={6} m={6} l={6} spacing={16}>
-              {Object.values(categories).map(value => {
-                if (value.name) {
-                  return (
-                    <MenuCard
-                      handleClickCategory={() =>
-                        handleClickCategory(value.name)
-                      }
-                      key={value.name}
-                      item={value.name}
-                      cardIcon={`../../icons/${value.name.toLowerCase()}.svg`}
-                    />
-                  )
-                }
-              })}
+              {Object.keys(salesposition.products).map(category =>
+                category ? (
+                  <MenuCard
+                    handleClickCategory={() => handleClickCategory(category)}
+                    key={category}
+                    item={category}
+                    cardIcon={`../../icons/${category.toLowerCase()}.svg`}
+                  />
+                ) : (
+                  <p>no categories</p>
+                )
+              )}
             </Grid>
           </Categories>
         )}
       </CardContainer>
       <OrderModal
+        salesposition={salesposition}
         category={category}
         toggleModal={toggleModal}
         isOpen={isOpen}

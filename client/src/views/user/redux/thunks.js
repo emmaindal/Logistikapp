@@ -1,4 +1,4 @@
-import { updateSalespositions, updateCategories } from './actions'
+import { updateSalespositions, updateActiveSalesposition } from './actions'
 import axios from 'axios'
 
 export const fetchSalespositions = url => async dispatch => {
@@ -10,10 +10,10 @@ export const fetchSalespositions = url => async dispatch => {
   }
 }
 
-export const fetchSalesPositionCategories = url => async dispatch => {
+export const fetchSpecificSalesposition = url => async dispatch => {
   try {
     const res = await axios.get(url)
-    dispatch(updateCategories(res.data))
+    dispatch(updateActiveSalesposition(res.data))
   } catch (error) {
     throw new error()
   }

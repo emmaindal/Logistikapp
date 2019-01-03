@@ -1,150 +1,116 @@
-function toggleSettingsAction() {
+const toggleSettingsAction = () => {
   return {
     type: "TOGGLE_SETTINGS",
     
   };
 };
 
-function toggleNewPositionAction(){  
+const toggleNewPositionAction = () => {  
   return {
     type: "TOGGLE_NEWPOSITION"
   }
 }
 
-function currentPositionAction(saleposition) {  
+const currentPositionAction =  saleposition => {  
   return {
     type: "SELECTED_SALESPOSITION",
     selectedPosition : saleposition
   }
 };
 
-///////
-
-function addSalespositionAction(newPositionName){
-  // SET TO JSON SERVER
-  let data = {name: newPositionName, products: {}}
-  APICall('POST', 'salespositions', data)
+const addSalespositionAction = salesposition => {
+  console.log(salesposition)
   return {
     type: "ADD_SALESPOSITION",
-    newPositionName: newPositionName,
+    salesposition,
   }
 }
 
-function updateSalespositionAction(selectedPosition, newName, mainProduct, secondProduct, allProducts){  
-  // new product name and values 
-  // Controlls if these are changed, otherwise ignore
-  if(secondProduct && mainProduct){
-    let productName = secondProduct  
-    let productValues = allProducts[0][mainProduct][secondProduct]
-    selectedPosition.products[productName] = productValues
+const setProductCategory = category => {
+  return {
+    type: "SET_CATEGORY",
+    category
   }
+}
+
+const setMainProductAction = mainProduct => {
+  console.log(mainProduct)
+  return {
+    type: "SET_MAINPRODUCT",
+    mainProduct
+  }
+}
+
+const setSecondProductAction = secondProduct => {
+  console.log(secondProduct)
+  return {
+    type: "SET_SECONDPRODUCT",
+    secondProduct
+  }
+}
+
+const updateSalespositionProductAction = (mainCat, mainProduct, secondProduct) => {
+  console.log('newproductaction', mainCat, mainProduct, secondProduct);
+  return {
+    type: "SET_NEWPRODUCTS",
+    mainCat,
+    mainProduct,
+    secondProduct
+  }
+}
+
+const removeProductAction = (category, product ,targetId) => {
+  console.log(targetId)
+  console.log(category.value)
   
-  // Sets the new name if changed
-  let name = newName ? newName : selectedPosition.name
-  
-  // Data obj for JSON server
-  let data = {
-    name, 
-    products : selectedPosition.products
+  return {
+    type: "REMOVE_PRODUCT",
+    targetId,
+    category: category.value,
+    product: product.value
   }
+}
 
-  APICall('PUT', `salespositions/${selectedPosition.id}`, data)
-
-    return {
-      type: "UPDATE_SALESPOSITION",
-      selectedPosition,
-      name,
+const saveSalespositionAction = (selectedPosition) => {  
+  return {
+    type: "SAVE_SALESPOSITION",
+    selectedPosition
   }
-};
+}
 
-function removeSalespositionAction(selectedPosition){
-  // REMOVE FROM JSON SERVER
-  APICall('DELETE', `salespositions/${selectedPosition.id}`)
+const removeSalespositionAction = selectedPosition =>{
     return {
       type: "REMOVE_SALESPOSITION",
       selectedPosition: selectedPosition,
   }
 };
 
-function setMainProductAction(mainproduct = undefined, secondProduct = undefined, removeProduct = undefined, selectedPosition) {
-  // Very dynamic function.
-  // Changes depending on input.
 
-  // Sets mainproduct
-  if(mainproduct){
-    return {
-      type: "SET_MAINPRODUCT",
-      selectedProduct: mainproduct
-    }
-  }
-  // sets secondproduct
-  if(secondProduct){
-    return {
-      type: "SET_SECONDPRODUCT",
-      selectedProduct: secondProduct
-    }
-  }
-  // removes product
-  if(removeProduct){
-    // Dataobject for JSON server
-    let updatedSelectedPosition = selectedPosition
-    delete updatedSelectedPosition.products[removeProduct]
-    let data = {
-      name: selectedPosition.name,
-      products: updatedSelectedPosition.products
-    }
-    // UPDATE JSON SERVER
-    APICall('PUT', `salespositions/${selectedPosition.id}`, data)
-    
-    return {
-      type: "REMOVE_PRODUCT",
-      removeProduct,
-      selectedPosition
-    }
-  }
-
-}
-
-
-
-
-//////
-
-function setInitialState(initialSalespositions, productsRes) {
+export const updateSalespositions = salespositions => {
   return {
-    type: 'INITIAL_STATE',
-    initialSalespositions,
-    productsRes
+    type: 'UPDATE_SALESPOSITIONS',
+    salespositions
   }
 }
 
-
-
-
-
-/*
-* JSON SERVER CALL 
-*/
-async function APICall(method, endpoint, data){
-  const baseURL = "http://localhost:3001/"
-  let url = baseURL + endpoint
-  let response = await fetch(url, {
-    headers: {'content-type': 'application/json'},
-    method,
-    body: JSON.stringify(data),
-  })
-
-  let responseData = await response.json()
-  return responseData
+export const updateProducts = products => {
+  return {
+    type: 'UPDATE_PRODUCTS',
+    products
+  }
 }
 
 
 export {
   toggleSettingsAction, 
   currentPositionAction,
-  updateSalespositionAction,
   toggleNewPositionAction,
   addSalespositionAction,
   removeSalespositionAction,
-  setInitialState,
-  setMainProductAction};
+  setProductCategory,
+  setMainProductAction,
+  setSecondProductAction,
+  updateSalespositionProductAction,
+  removeProductAction,
+  saveSalespositionAction,
+};

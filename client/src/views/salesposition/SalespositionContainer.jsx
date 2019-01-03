@@ -6,21 +6,25 @@ import Salesposition from "./Salesposition";
 import {
   toggleSettingsAction,
   currentPositionAction,
-  updateSalespositionAction,
   toggleNewPositionAction,
   addSalespositionAction,
-  setInitialState,
   removeSalespositionAction,
-  setMainProductAction
+  setMainProductAction,
+  setSecondProductAction,
+  updateSalespositionProductAction,
+  removeProductAction,
+  setProductCategory
 } from "./redux/actions";
+import { fetchSalespositions, fetchProducts,addSalesposition, removeSalesposition, updateSalesposition} from './redux/thunks'
+
+
 
 class SalespositionContainer extends Component {
 
-  async componentDidMount() {
-    let salespositionsRes = await fetchAll('salespositions');
-    let productsRes = await fetchAll('products')
-    this.props.setInitialState(salespositionsRes, productsRes)
-    
+  async componentDidMount(url) {
+    const { fetchSalespositions, fetchProducts} = this.props
+    fetchSalespositions('http://localhost:3001/salespositions');
+    fetchProducts('http://localhost:3001/products')    
   }
 
   render() {
@@ -30,15 +34,22 @@ class SalespositionContainer extends Component {
       settingsIsOpen,
       currentPositionAction,
       selectedPosition,
-      updateSalespositionAction,
+      updateSalesposition,
       newPositionIsOpen,
       toggleNewPositionAction,
       addSalespositionAction,
       setMainProductAction,
+      setSecondProductAction,
+      updateSalespositionProductAction,
       removeSalespositionAction,
       products, 
       selectedMainProduct,
       selectedSecondProduct,
+      addSalesposition,
+      removeSalesposition,
+      removeProductAction,
+      setProductCategory,
+      selectedProductCategory
     } = this.props;
     return (
 
@@ -54,24 +65,22 @@ class SalespositionContainer extends Component {
           toggleNewPositionAction={toggleNewPositionAction}
           addSalespositionAction={addSalespositionAction}
           removeSalespositionAction={removeSalespositionAction}
-          updateSalespositionAction={updateSalespositionAction}
+          updateSalesposition={updateSalesposition}
           setMainProductAction = {setMainProductAction}
           selectedMainProduct = {selectedMainProduct}
           selectedSecondProduct = {selectedSecondProduct}
+          addSalesposition = {addSalesposition}
+          removeSalesposition = {removeSalesposition}
+          setSecondProductAction = {setSecondProductAction}
+          updateSalespositionProductAction = {updateSalespositionProductAction}
+          removeProductAction = {removeProductAction}
+          setProductCategory={setProductCategory}
+          selectedProductCategory = {selectedProductCategory}
         />
       </div>
     )
   }
 }
-
-async function fetchAll(endpoint) {
-  let baseUrl = "http://localhost:3001/"
-  let url = baseUrl + endpoint
-  let response = await fetch(url)
-  let json = await response.json()
-  return json
-}
-
 
 
 const mapStateToProps = state => {
@@ -83,20 +92,27 @@ const mapStateToProps = state => {
     selectedPosition: state.salesposition.selectedPosition,
     products: state.salesposition.products,
     selectedMainProduct: state.salesposition.selectedMainProduct,
-    selectedSecondProduct: state.salesposition.selectedSecondProduct
+    selectedSecondProduct: state.salesposition.selectedSecondProduct,
+    selectedProductCategory: state.salesposition.selectedProductCategory,
   };
 };
 
 const mapDispatchToProps = {
   toggleSettingsAction,
   currentPositionAction,
-  updateSalespositionAction,
+  updateSalesposition,
   toggleNewPositionAction,
   addSalespositionAction,
-  setInitialState,
   removeSalespositionAction,
-  setMainProductAction
-
+  setMainProductAction,
+  setSecondProductAction,
+  fetchSalespositions,
+  fetchProducts,
+  addSalesposition,
+  removeSalesposition,
+  updateSalespositionProductAction,
+  removeProductAction,
+  setProductCategory
 }
 
 

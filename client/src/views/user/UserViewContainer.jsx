@@ -4,15 +4,11 @@ import { connect } from 'react-redux'
 import UserView from './UserView'
 
 import { setCategory } from './redux/actions'
-import {
-  fetchSalespositions,
-  fetchSalesPositionCategories
-} from './redux/thunks'
+import { fetchSalespositions, fetchSpecificSalesposition } from './redux/thunks'
 
 class UserViewContainer extends Component {
   state = {
-    isOpen: false,
-    activeSalesposition: ''
+    isOpen: false
   }
 
   componentDidMount = () => {
@@ -33,32 +29,31 @@ class UserViewContainer extends Component {
 
   handleClickCategory = item => {
     const { setCategory } = this.props
-    this.toggleModal()
     setCategory(item)
+    this.toggleModal()
   }
 
   handleChange = event => {
-    const { fetchSalesPositionCategories } = this.props
-    this.setState({ activeSalesposition: event.target.value })
-    fetchSalesPositionCategories('http://localhost:3001/categories')
+    const { fetchSpecificSalesposition } = this.props
+    fetchSpecificSalesposition(
+      `http://localhost:3001/salespositions/${event.target.value}`
+    )
   }
 
   render() {
     const {
-      props: { category, salespositions, categories },
-      state: { isOpen, activeSalesposition },
+      props: { category, salespositions, salesposition },
+      state: { isOpen },
       toggleModal,
       handleChange
     } = this
-
     return (
       <UserView
         handleChange={handleChange}
-        activeSalesposition={activeSalesposition}
+        salesposition={salesposition}
         salespositions={salespositions}
         toggleModal={toggleModal}
         isOpen={isOpen}
-        categories={categories}
         category={category}
         handleClickCategory={this.handleClickCategory}
       />
@@ -70,11 +65,11 @@ const mapStateToProps = state => {
   return {
     category: state.user.category,
     salespositions: state.user.salespositions,
-    categories: state.user.categories
+    salesposition: state.user.salesposition
   }
 }
 
 export default connect(
   mapStateToProps,
-  { setCategory, fetchSalespositions, fetchSalesPositionCategories }
+  { setCategory, fetchSalespositions, fetchSpecificSalesposition }
 )(UserViewContainer)
