@@ -11,19 +11,8 @@
       "id": 8
     }
   ],
-<<<<<<< HEAD
-  "categories": [
-    { "id": 1, "name": "dryck" },
-    { "id": 1, "name": "snacks" },
-    { "id": 1, "name": "mat" },
-    { "id": 1, "name": "kaffe" }
-  ],
-  "products": [
-    {
-=======
   "products": {
     "Dryck": {
->>>>>>> dev
       "Öl": {
         "Staropramen": {
           "pris": 67,
@@ -50,10 +39,5 @@
         "testburgare": {}
       }
     }
-<<<<<<< HEAD
-  ]
-}
-=======
   }
 }
->>>>>>> dev
