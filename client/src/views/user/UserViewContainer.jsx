@@ -4,12 +4,11 @@ import { connect } from 'react-redux'
 import UserView from './UserView'
 
 import { setCategory } from './redux/actions'
-import { fetchSalespositions } from './redux/thunks'
+import { fetchSalespositions, fetchSpecificSalesposition } from './redux/thunks'
 
 class UserViewContainer extends Component {
   state = {
-    isOpen: false,
-    activeSalesposition: ''
+    isOpen: false
   }
 
   componentDidMount = () => {
@@ -30,26 +29,28 @@ class UserViewContainer extends Component {
 
   handleClickCategory = item => {
     const { setCategory } = this.props
-    this.toggleModal()
     setCategory(item)
+    this.toggleModal()
   }
 
   handleChange = event => {
-    this.setState({ activeSalesposition: event.target.value })
+    const { fetchSpecificSalesposition } = this.props
+    fetchSpecificSalesposition(
+      `http://localhost:3001/salespositions/${event.target.value}`
+    )
   }
 
   render() {
     const {
-      props: { category, salespositions },
-      state: { isOpen, activeSalesposition },
+      props: { category, salespositions, salesposition },
+      state: { isOpen },
       toggleModal,
       handleChange
     } = this
-
     return (
       <UserView
         handleChange={handleChange}
-        activeSalesposition={activeSalesposition}
+        salesposition={salesposition}
         salespositions={salespositions}
         toggleModal={toggleModal}
         isOpen={isOpen}
@@ -63,11 +64,12 @@ class UserViewContainer extends Component {
 const mapStateToProps = state => {
   return {
     category: state.user.category,
-    salespositions: state.user.salespositions
+    salespositions: state.user.salespositions,
+    salesposition: state.user.salesposition
   }
 }
 
 export default connect(
   mapStateToProps,
-  { setCategory, fetchSalespositions }
+  { setCategory, fetchSalespositions, fetchSpecificSalesposition }
 )(UserViewContainer)

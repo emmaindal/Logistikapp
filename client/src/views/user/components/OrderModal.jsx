@@ -1,88 +1,118 @@
-import React from "react";
-import styled from "styled-components";
-import { Modal, Typography, Card } from "@material-ui/core";
+import React, { Component } from 'react'
+import styled from 'styled-components'
+import {
+  Modal,
+  Typography,
+  Card,
+  FormControl,
+  Select,
+  InputLabel,
+  MenuItem
+} from '@material-ui/core'
 
-const OrderModal = ({ isOpen, toggleModal, category }) => {
-  // ska flyttas till json server sedan
-  let itemsOfCategory = [];
-  if (category === "Dryck") {
-    itemsOfCategory = ["Öl", "Coca Cola", "Vin", "Sprit"];
-  } else if (category === "Mat") {
-    itemsOfCategory = ["Hamburgare", "Pommes", "Korv", "Korvbröd"];
-  } else if (category === "Kaffe") {
-    itemsOfCategory = ["Kaffe", "Kaffefilter", "Mjölk"];
-  } else if (category === "Snacks") {
-    itemsOfCategory = ["Chips", "Popcorn", "Choklad"];
+class OrderModal extends Component {
+  state = {
+    activeProductCategory: ''
   }
 
-  return (
-    <StyledModal
-      aria-labelledby="simple-modal-title"
-      aria-describedby="simple-modal-description"
-      open={isOpen}
-      onClose={toggleModal}
-    >
-      <ModalContent>
-        <StyledTypography variant="display1" id="simple-modal-description">
-          Beställ {category.toLowerCase()}
-        </StyledTypography>
-        {itemsOfCategory.map(item => (
-          <StyledCard key={item}>{item}</StyledCard>
-        ))}
-      </ModalContent>
-    </StyledModal>
-  );
-};
+  handleChangeProductCategory = e => {
+    this.setState({ activeProductCategory: e.target.value })
+  }
+  render() {
+    const { isOpen, toggleModal, category, salesposition } = this.props
+    const { activeProductCategory } = this.state
+    let productsOfCategory = salesposition.products[`${category}`]
 
-const StyledCard = styled(Card)`
+    return (
+      <StyledModal
+        aria-labelledby="simple-modal-title"
+        aria-describedby="simple-modal-description"
+        open={isOpen}
+        onClose={toggleModal}
+      >
+        <ModalContent>
+          <StyledTypography variant="display1" id="simple-modal-description">
+            Beställ {category.toLowerCase()}
+          </StyledTypography>
+          <StyledFormControl fullWidth>
+            <InputLabel htmlFor="main-prod-cat">
+              Välj produktkategori
+            </InputLabel>
+            <Select
+              value={activeProductCategory}
+              onChange={this.handleChangeProductCategory}
+            >
+              {productsOfCategory &&
+                Object.keys(productsOfCategory).map(product => {
+                  return (
+                    <MenuItem key={product} value={product}>
+                      {product}
+                    </MenuItem>
+                  )
+                })}
+            </Select>
+          </StyledFormControl>
+          {activeProductCategory ? (
+            <StyledFormControl fullWidth>
+              <InputLabel htmlFor="main-prod-cat">Välj produkt</InputLabel>
+              <Select
+                value={this.state.activeProductCategory}
+                onChange={this.handleChangeProductCategory}
+              >
+                {productsOfCategory &&
+                  Object.keys(productsOfCategory).filter(product => {
+                    if (product === activeProductCategory) {
+                      console.log(product)
+                    }
+                  })}
+              </Select>
+            </StyledFormControl>
+          ) : (
+            <p />
+          )}
+        </ModalContent>
+      </StyledModal>
+    )
+  }
+}
+
+export default OrderModal
+
+const StyledFormControl = styled(FormControl)`
   &&& {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 70%;
-    height: 100px;
-    margin: 10% 2% 0% 2%;
-    color: white;
-    background-color: rgba(49, 73, 45, 0.87);
-    box-shadow: 2px 2px 25px 4px rgba(212, 212, 212, 0.49);
-    border-radius: 2px;
-    transition: 0.3s;
-
-    &:hover {
-      opacity: 1;
-      background-color: rgba(233, 233, 233, 0.79);
-      transition: 1s ease;
-      color: black;
+    margin: 2% 0 2% 0;
+    @media (max-width: 700px) {
+      margin: 5% 0 5% 0;
     }
   }
-`;
-
+`
 const StyledTypography = styled(Typography)`
   &&& {
+    margin-bottom: 2%;
     letter-spacing: 2px;
     font-weight: 200;
   }
-`;
+`
 
 const StyledModal = styled(Modal)`
   &&& {
     display: flex;
     justify-content: center;
     align-items: center;
+    min-height: 400px;
   }
-`;
+`
 
 const ModalContent = styled.div`
   display: flex;
-  justify-content: center;
-  align-items: center;
   flex-direction: column;
+  min-height: 400px;
   min-width: 200px;
-  padding: 2%;
+  padding: 3%;
   border: none;
   background: white;
   @media (max-width: 700px) {
     width: 90%;
+    padding: 5%;
   }
-`;
-export default OrderModal;
+`
