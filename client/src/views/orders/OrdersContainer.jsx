@@ -2,24 +2,46 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import Orders from "./Orders";
-import { ordersAction } from "./redux/actions";
+import { fetchOrders, updateCompleted } from "./redux/thunks";
 
 class OrderContainer extends Component {
   state = {
     isOpen: false,
-    orders: ['test1', 'test2']
+    orders: [{"salesposition": "e22", "order":{"falcon": "1"}, "time": "22.03", "completed": false}, {"salesposition": "mamas", "order":{"Vitt": "1"}, "time": "18.22", "completed": true}]
   }
+
+  async componentDidMount(){
+    const {fetchOrders} = this.props;
+    fetchOrders("http://localhost:3001/orders")
+  }
+
+  onCompletedClick = (orderChanged, completed) => {
+    const {orders, updateCompleted} = this.props;
+    console.log(updateCompleted)
+    orders.forEach(order => {
+      console.log('order:', order)
+      // orderchanged == order
+      if (orderChanged.salesposition === order.salesposition && orderChanged.time === order.time){      
+        updateCompleted(order);
+    }})
+  }
+
   render() {
-    const { count, ordersAction } = this.props;
-    return <Orders count={count} ordersAction={ordersAction} orders={this.state.orders}/>;
+    const {
+      orders,
+      } = this.props;
+    return <Orders  orders={orders} onCompletedClick={this.onCompletedClick}/>;
   }
 }
 
 const mapStateToProps = state => {
-  return { count: state.example.count };
+  return { orders: state.orders.orders };
 };
 
+const mapDispatchToProps = {
+  fetchOrders,
+  updateCompleted
+}
 export default connect(
-  mapStateToProps,
-  { ordersAction }
+  mapStateToProps, mapDispatchToProps
 )(OrderContainer);

@@ -39,5 +39,26 @@
         "testburgare": {}
       }
     }
-  }
+  },
+  "orders": [
+    {
+      "id": 1,
+      "salesposition": "e22",
+      "order": {
+        "falcon": "1",
+        "Staropramen": "2"
+      },
+      "completed": false,
+      "time": "22.03"
+    },
+    {
+      "id": 2,
+      "salesposition": "huvud",
+      "order": {
+        "falcon": "1"
+      },
+      "completed": false,
+      "time": "05.01"
+    }
+  ]
 }

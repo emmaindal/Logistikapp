@@ -1,4 +1,4 @@
-import { saveSalespositionAction, updateSalespositions, updateProducts, addSalespositionAction, removeSalespositionAction, updateSalespositionAction } from './actions'
+import { saveSalespositionAction, updateSalespositions, updateProducts, addSalespositionAction, removeSalespositionAction } from './actions'
 import axios from 'axios'
 
 export const fetchSalespositions = url => async dispatch => {

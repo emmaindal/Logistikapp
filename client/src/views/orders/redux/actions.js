@@ -4,3 +4,18 @@ export const ordersAction = count => {
     count
   };
 };
+
+export const setOrders = orders => {
+  return {
+    type: "SET_ORDERS",
+    orders
+  }
+}
+
+export const setCompleted = order => {
+  console.log(order)
+  return {
+    type: "SET_COMPLETED",
+    order
+  }
+}
