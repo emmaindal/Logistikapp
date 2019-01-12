@@ -3,7 +3,6 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom'
 
 import NavbarContainer from './views/navbar/NavbarContainer'
 import LoginContainer from './views/login/LoginContainer'
-import ExampleContainer from './views/example/ExampleContainer'
 
 import UserViewContainer from './views/user/UserViewContainer'
 import SalespositionContainer from './views/salesposition/SalespositionContainer'
