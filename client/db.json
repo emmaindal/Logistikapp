@@ -1,13 +1,38 @@
 {
   "salespositions": [
     {
-      "name": "testtt",
-      "products": {},
+      "name": "Test",
+      "products": {
+        "Dryck": {
+          "Öl": {
+            "Staropramen": {
+              "pris": 67,
+              "volym": 50
+            },
+            "Falcon": {
+              "pris": 59,
+              "volym": 50
+            }
+          },
+          "Vin": {
+            "Vitt": {
+              "pris": 49,
+              "volym": 18.7
+            }
+          }
+        }
+      },
       "id": 7
     },
     {
-      "name": "tastt",
-      "products": {},
+      "name": "Test 2",
+      "products": {
+        "Mat": {
+          "Hamburagre": {
+            "testburgare": {}
+          }
+        }
+      },
       "id": 8
     }
   ],
@@ -39,7 +64,6 @@
         "testburgare": {}
       }
     }
-
   },
   "orders": [
     {
@@ -49,7 +73,7 @@
         "falcon": "1",
         "Staropramen": "2"
       },
-      "completed": false,
+      "completed": true,
       "time": "22.03"
     },
     {
@@ -60,7 +84,51 @@
       },
       "completed": false,
       "time": "05.01"
+    },
+    {
+      "salesposition": "testtt",
+      "order": {
+        "Falcon": 6
+      },
+      "completed": false,
+      "time": "21:55:50",
+      "id": 3
+    },
+    {
+      "salesposition": "testtt",
+      "order": {
+        "Vitt": 5
+      },
+      "completed": false,
+      "time": "21:55:55",
+      "id": 4
+    },
+    {
+      "salesposition": "Test",
+      "order": {
+        "Staropramen": 13
+      },
+      "completed": false,
+      "time": "21:56:56",
+      "id": 5
+    },
+    {
+      "salesposition": "Test 2",
+      "order": {
+        "testburgare": 6
+      },
+      "completed": false,
+      "time": "21:57:04",
+      "id": 6
+    },
+    {
+      "salesposition": "Test 2",
+      "order": {
+        "testburgare": 13
+      },
+      "completed": false,
+      "time": "22:15:50",
+      "id": 7
     }
   ]
 }
-

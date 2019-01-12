@@ -1,16 +1,15 @@
-import React from "react";
+import React from 'react'
 
 import {
   Button,
   Input,
   Grid,
   Paper,
-  Divider,
   InputAdornment,
   IconButton
-} from "@material-ui/core";
-import { Visibility, VisibilityOff } from "@material-ui/icons";
-import styled from "styled-components";
+} from '@material-ui/core'
+import { Visibility, VisibilityOff } from '@material-ui/icons'
+import styled from 'styled-components'
 
 const Login = ({
   handleChange,
@@ -25,27 +24,26 @@ const Login = ({
       direction="column"
       alignItems="center"
       justify="center"
-      style={{ minHeight: "100vh" }}
+      style={{ minHeight: '100vh' }}
     >
-      <StyledPaper elevation={18}>
-        <h1> LOGISTIKAPP </h1>
-        <Divider />
+      <StyledPaper>
+        <Logo> LOGISTIKAPP </Logo>
         <form onSubmit={handleSubmit}>
-          <Grid item xs={11}>
+          <Grid item>
             <StyledInput
               id="standard"
               placeholder="Username"
-              onChange={handleChange("username")}
+              onChange={handleChange('username')}
               autoFocus={true}
             />
           </Grid>
-          <Grid item xs={11}>
+          <Grid item>
             <StyledInput
               id="standard-password-input"
               placeholder="Password"
-              type={!showPassword ? "password" : "text"}
+              type={!showPassword ? 'password' : 'text'}
               autoComplete="current-password"
-              onChange={handleChange("password")}
+              onChange={handleChange('password')}
               endAdornment={
                 <InputAdornment position="end">
                   <IconButton
@@ -58,7 +56,7 @@ const Login = ({
               }
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item>
             <StyledButton variant="contained" type="submit">
               LOGGA IN
             </StyledButton>
@@ -66,27 +64,37 @@ const Login = ({
         </form>
       </StyledPaper>
     </Grid>
-  );
-};
+  )
+}
 
-export default Login;
+export default Login
 
 const StyledInput = styled(Input)`
-  margin: 10px;
-  width: 100%;
-`;
+  &&& {
+    margin-bottom: 10%;
+    width: 100%;
+  }
+`
 
 const StyledButton = styled(Button)`
   &&& {
     margin-top: 20px;
     background-color: #427df4;
+    color: white;
+    font-weight: bold;
   }
-`;
+`
 
 const StyledPaper = styled(Paper)`
   &&& {
-    padding: 30px;
-    background-color: #eee;
+    box-shadow: 1px 1px 20px rgba(206, 206, 206, 0.8);
+    padding: 2rem;
+    background-color: #fff;
     text-align: center;
   }
-`;
+`
+
+const Logo = styled.h1`
+  margin-bottom: 2rem;
+  margin-top: 0;
+`
