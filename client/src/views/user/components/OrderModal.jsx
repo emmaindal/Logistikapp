@@ -1,28 +1,62 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+
 import styled from 'styled-components'
 import {
   Modal,
   Typography,
-  Card,
   FormControl,
   Select,
   InputLabel,
-  MenuItem
+  MenuItem,
+  Button,
+  Tooltip
 } from '@material-ui/core'
+import Slider from '@material-ui/lab/Slider'
+
+import {
+  updateActiveProductCategory,
+  updateActiveProduct,
+  updateActiveProductVolume
+} from '../redux/actions'
+import { submitOrder } from '../redux/thunks'
 
 class OrderModal extends Component {
-  state = {
-    activeProductCategory: ''
-  }
-
   handleChangeProductCategory = e => {
-    this.setState({ activeProductCategory: e.target.value })
+    this.props.updateActiveProductCategory(e.target.value)
   }
-  render() {
-    const { isOpen, toggleModal, category, salesposition } = this.props
-    const { activeProductCategory } = this.state
-    let productsOfCategory = salesposition.products[`${category}`]
+  handleChangeProduct = e => {
+    this.props.updateActiveProduct(e.target.value)
+  }
 
+  handleChangeVolume = (e, value) => {
+    this.props.updateActiveProductVolume(value)
+  }
+
+  handleSubmitOrder = () => {
+    const { activeProduct, activeProductVolume, salesposition } = this.props
+    let order = {
+      salesposition: salesposition.name,
+      order: {
+        [activeProduct]: activeProductVolume
+      },
+      completed: false,
+      time: new Date().toLocaleTimeString()
+    }
+    this.props.submitOrder('http://localhost:3001/orders', order)
+  }
+
+  render() {
+    const {
+      isOpen,
+      toggleModal,
+      category,
+      salesposition,
+      activeProductCategory,
+      activeProduct,
+      activeProductVolume
+    } = this.props
+    let productsOfCategory = salesposition.products[`${category}`]
     return (
       <StyledModal
         aria-labelledby="simple-modal-title"
@@ -55,18 +89,45 @@ class OrderModal extends Component {
           {activeProductCategory ? (
             <StyledFormControl fullWidth>
               <InputLabel htmlFor="main-prod-cat">Välj produkt</InputLabel>
-              <Select
-                value={this.state.activeProductCategory}
-                onChange={this.handleChangeProductCategory}
-              >
+              <Select value={activeProduct} onChange={this.handleChangeProduct}>
                 {productsOfCategory &&
-                  Object.keys(productsOfCategory).filter(product => {
-                    if (product === activeProductCategory) {
-                      console.log(product)
+                  Object.keys(productsOfCategory[activeProductCategory]).map(
+                    brand => {
+                      return (
+                        <MenuItem key={brand} value={brand}>
+                          {brand}
+                        </MenuItem>
+                      )
                     }
-                  })}
+                  )}
               </Select>
             </StyledFormControl>
+          ) : (
+            <p />
+          )}
+          {activeProduct ? (
+            <SliderContainer>
+              <Tooltip title="Antal lådor av produkt" placement="top-start">
+                <p>
+                  Ange Antal: {activeProductVolume ? activeProductVolume : ' '}{' '}
+                </p>
+              </Tooltip>
+              <Slider
+                min={0}
+                max={20}
+                step={1}
+                value={activeProductVolume}
+                aria-labelledby="label"
+                onChange={this.handleChangeVolume}
+              />
+            </SliderContainer>
+          ) : (
+            <p />
+          )}
+          {activeProductVolume ? (
+            <StyledButton onClick={this.handleSubmitOrder}>
+              Skicka order
+            </StyledButton>
           ) : (
             <p />
           )}
@@ -76,7 +137,25 @@ class OrderModal extends Component {
   }
 }
 
-export default OrderModal
+const mapStateToProps = state => {
+  return {
+    category: state.user.category,
+    salesposition: state.user.salesposition,
+    activeProductCategory: state.user.activeProductCategory,
+    activeProduct: state.user.activeProduct,
+    activeProductVolume: state.user.activeProductVolume
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  {
+    updateActiveProductCategory,
+    updateActiveProduct,
+    updateActiveProductVolume,
+    submitOrder
+  }
+)(OrderModal)
 
 const StyledFormControl = styled(FormControl)`
   &&& {
@@ -106,7 +185,7 @@ const StyledModal = styled(Modal)`
 const ModalContent = styled.div`
   display: flex;
   flex-direction: column;
-  min-height: 400px;
+  min-height: 300px;
   min-width: 200px;
   padding: 3%;
   border: none;
@@ -114,5 +193,20 @@ const ModalContent = styled.div`
   @media (max-width: 700px) {
     width: 90%;
     padding: 5%;
+  }
+`
+
+const SliderContainer = styled.div`
+  margin-top: 3%;
+  p {
+    color: #000;
+  }
+`
+
+const StyledButton = styled(Button)`
+  &&& {
+    margin-top: 20%;
+    background-color: rgba(53, 99, 236, 0.87);
+    color: white;
   }
 `
