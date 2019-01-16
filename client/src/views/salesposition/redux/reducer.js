@@ -13,8 +13,6 @@ export default (state = initalState, action) => {
 
   switch (action.type) {
     case "TOGGLE_SETTINGS":
-      console.log(state.salespositions)
-      console.log(state.selectedPosition)
       return {
         ...state,
         settingsIsOpen: !state.settingsIsOpen,
@@ -75,6 +73,7 @@ export default (state = initalState, action) => {
       }
 
     case "SET_NEWPRODUCTS":
+    console.log('set newporudcts reducer')
       // kortare obj
       var selectedPos = state.selectedPosition.products
       //dryck
