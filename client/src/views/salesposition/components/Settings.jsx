@@ -42,14 +42,75 @@ const SettingsPanel = ({
     selectedProductCategory
 }) => {
 
-    const renderProductCategory = Object.keys(products).map(product => {
+
+    const renderProdCat = () => {
         return (
-
-            <MenuItem key={product} value={product}> {product}</MenuItem>
+        <FormControl fullWidth>
+            <InputLabel htmlFor="main-prod-cat">Produktkategori</InputLabel>
+            <Select
+                value={selectedProductCategory ? selectedProductCategory : ""}
+                onChange={(event) => setProductCategory(event.target.value)}
+                input={<Input id="main-prod-cat" />}
+            >
+                {Object.keys(products).map(product => {
+                    return (
+                        <MenuItem key={product} value={product}> {product}</MenuItem>
+                    )
+                })}
+            </Select>
+        </FormControl>
         )
+    }
 
+    const renderMainCat = () => {
+        return (
+            <FormControl fullWidth>
+            <InputLabel htmlFor="main-prod-cat">Överkategori</InputLabel>
+            <Select
+                value={selectedMainProduct ? selectedMainProduct : ''}
+                onChange={(event) => setMainProductAction(event.target.value)}
+                input={<Input id="main-prod-cat" />}
+            >
+                {Object.keys(products[selectedProductCategory]).map(product => {
+                    return (
+                        <MenuItem key={product} value={product}> {product}</MenuItem>
+                    )
+                })}
 
-    })
+            </Select>
+        </FormControl>
+        )
+    }
+
+    const renderSecCat = () => {
+        return (
+            <FormControl fullWidth>
+            <InputLabel htmlFor="second-prod-cat">Produktnamn</InputLabel>
+            <Select
+                value={selectedSecondProduct ? selectedSecondProduct : ''}
+                onChange={(event) => { setSecondProductAction(event.target.value); }}
+                input={<Input id="second-prod-cat" />}
+            >
+                {Object.keys(products[selectedProductCategory][selectedMainProduct]).map(product => {
+                    return (<MenuItem key={product} value={product}> {product}</MenuItem>)
+                })}
+            </Select>
+
+        </FormControl>
+        )
+    }
+
+    const renderAddBtn = () => {
+        return (
+            <FormControl fullWidth>
+                <Button onClick={() => { updateSalespositionProductAction(selectedProductCategory, selectedMainProduct, selectedSecondProduct); }}>
+                    LÄGG TILL
+                </Button>
+            </FormControl>
+        )
+    }
+
+    
 
     // Borde kanske vara state
     let newName;
@@ -81,66 +142,20 @@ const SettingsPanel = ({
                             />
                         </FormControl>
 
-                        <FormControl fullWidth>
-                            <InputLabel htmlFor="main-prod-cat">Produktkategori</InputLabel>
-                            <Select
-                                value={selectedProductCategory ? selectedProductCategory : ''}
-                                onChange={(event) => setProductCategory(event.target.value)}
-                                input={<Input id="main-prod-cat" />}
-                            >
-                                {renderProductCategory}
-                            </Select>
-                        </FormControl>
+                        {renderProdCat()}
+                        
+                        {selectedProductCategory ? renderMainCat() : ""}
 
+                        {selectedMainProduct ? renderSecCat() : ""}
 
-                        {selectedProductCategory !== undefined && (
-                            <FormControl fullWidth>
-                                <InputLabel htmlFor="main-prod-cat">Överkategori</InputLabel>
-                                <Select
-                                    value={selectedMainProduct ? selectedMainProduct : ''}
-                                    onChange={(event) => setMainProductAction(event.target.value)}
-                                    input={<Input id="main-prod-cat" />}
-                                >
-                                    {Object.keys(products[selectedProductCategory]).map(product => {
-                                        return (<MenuItem key={product} value={product}> {product}</MenuItem>)
-                                    })}
+                        {selectedSecondProduct ? renderAddBtn() : "" }
 
-                                </Select>
-                            </FormControl>
-                        )}
-
-
-                        {selectedMainProduct !== undefined && (
-
-                            <FormControl fullWidth>
-                                <InputLabel htmlFor="second-prod-cat">Produktnamn</InputLabel>
-                                <Select
-                                    value={selectedSecondProduct ? selectedSecondProduct : ''}
-                                    onChange={(event) => { setSecondProductAction(event.target.value); }}
-                                    input={<Input id="second-prod-cat" />}
-                                >
-                                    {Object.keys(products[selectedProductCategory][selectedMainProduct]).map(product => {
-                                        return (<MenuItem key={product} value={product}> {product}</MenuItem>)
-                                    })}
-                                </Select>
-
-                            </FormControl>
-                        )}
-
-                        {selectedSecondProduct !== undefined && (
-                            <FormControl fullWidth>
-                                <Button onClick={() => { updateSalespositionProductAction(selectedProductCategory, selectedMainProduct, selectedSecondProduct); }}>
-                                    LÄGG TILL
-                                </Button>
-                            </FormControl>
-                        )}
                         {selectedPosition.products && (
                             <FormControl fullWidth >
                                 <List>
                                     {Object.keys(selectedPosition.products).map(productCategory => {
                                         let renderProducts = Object.keys(selectedPosition.products[productCategory]).map(product => {
                                             return Object.keys(selectedPosition.products[productCategory][product]).map(productName => {
-                                                console.log(productCategory)
                                                 return (
                                                     <StyledListItem key={productName} divider >
                                                         <ListItemText primary={productName} />
@@ -155,7 +170,7 @@ const SettingsPanel = ({
                                         })
 
                                         return (
-                                            <div>
+                                            <div key={productCategory}>
                                                 <ListItem key={productCategory} divider >
                                                     <ListItemText primary={productCategory} />
                                                 </ListItem>
