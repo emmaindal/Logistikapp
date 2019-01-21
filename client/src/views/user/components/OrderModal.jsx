@@ -12,6 +12,8 @@ import {
   Button,
   Tooltip
 } from '@material-ui/core'
+import Check from '@material-ui/icons/CheckCircle'
+
 import Slider from '@material-ui/lab/Slider'
 
 import {
@@ -22,13 +24,16 @@ import {
 import { submitOrder } from '../redux/thunks'
 
 class OrderModal extends Component {
+  state = {
+    orderConfirmed: false
+  }
+
   handleChangeProductCategory = e => {
     this.props.updateActiveProductCategory(e.target.value)
   }
   handleChangeProduct = e => {
     this.props.updateActiveProduct(e.target.value)
   }
-
   handleChangeVolume = (e, value) => {
     this.props.updateActiveProductVolume(value)
   }
@@ -44,6 +49,16 @@ class OrderModal extends Component {
       time: new Date().toLocaleTimeString()
     }
     this.props.submitOrder('http://localhost:3001/orders', order)
+
+    this.setState(prevState => ({
+      orderConfirmed: !prevState.orderConfirmed
+    }))
+  }
+
+  handleNewOrder = () => {
+    this.setState(prevState => ({
+      orderConfirmed: !prevState.orderConfirmed
+    }))
   }
 
   render() {
@@ -65,71 +80,93 @@ class OrderModal extends Component {
         onClose={toggleModal}
       >
         <ModalContent>
-          <StyledTypography variant="display1" id="simple-modal-description">
-            Beställ {category.toLowerCase()}
-          </StyledTypography>
-          <StyledFormControl fullWidth>
-            <InputLabel htmlFor="main-prod-cat">
-              Välj produktkategori
-            </InputLabel>
-            <Select
-              value={activeProductCategory}
-              onChange={this.handleChangeProductCategory}
-            >
-              {productsOfCategory &&
-                Object.keys(productsOfCategory).map(product => {
-                  return (
-                    <MenuItem key={product} value={product}>
-                      {product}
-                    </MenuItem>
-                  )
-                })}
-            </Select>
-          </StyledFormControl>
-          {activeProductCategory ? (
-            <StyledFormControl fullWidth>
-              <InputLabel htmlFor="main-prod-cat">Välj produkt</InputLabel>
-              <Select value={activeProduct} onChange={this.handleChangeProduct}>
-                {productsOfCategory &&
-                  Object.keys(productsOfCategory[activeProductCategory]).map(
-                    brand => {
+          {this.state.orderConfirmed && (
+            <ConfirmContainer>
+              <p>Din order är nu skickad</p>
+              <StyledCheck />
+              <StyledButton onClick={this.handleNewOrder}>
+                Skapa ny order
+              </StyledButton>
+            </ConfirmContainer>
+          )}
+          {!this.state.orderConfirmed && (
+            <ContentContainer>
+              <StyledTypography
+                variant="display1"
+                id="simple-modal-description"
+              >
+                Beställ {category.toLowerCase()}
+              </StyledTypography>
+
+              <StyledFormControl fullWidth>
+                <InputLabel htmlFor="main-prod-cat">
+                  Välj produktkategori
+                </InputLabel>
+                <Select
+                  value={activeProductCategory}
+                  onChange={this.handleChangeProductCategory}
+                >
+                  {productsOfCategory &&
+                    Object.keys(productsOfCategory).map(product => {
                       return (
-                        <MenuItem key={brand} value={brand}>
-                          {brand}
+                        <MenuItem key={product} value={product}>
+                          {product}
                         </MenuItem>
                       )
-                    }
-                  )}
-              </Select>
-            </StyledFormControl>
-          ) : (
-            <p />
-          )}
-          {activeProduct ? (
-            <SliderContainer>
-              <Tooltip title="Antal lådor av produkt" placement="top-start">
-                <p>
-                  Ange Antal: {activeProductVolume ? activeProductVolume : ' '}{' '}
-                </p>
-              </Tooltip>
-              <Slider
-                min={0}
-                max={20}
-                step={1}
-                value={activeProductVolume}
-                aria-labelledby="label"
-                onChange={this.handleChangeVolume}
-              />
-            </SliderContainer>
-          ) : (
-            <p />
-          )}
-          {activeProductVolume ? (
-            <StyledButton onClick={this.handleSubmitOrder}>
-              Skicka order
-            </StyledButton>
-          ) : (
-            <p />
+                    })}
+                </Select>
+              </StyledFormControl>
+              {activeProductCategory ? (
+                <StyledFormControl fullWidth>
+                  <InputLabel htmlFor="main-prod-cat">Välj produkt</InputLabel>
+                  <Select
+                    value={activeProduct}
+                    onChange={this.handleChangeProduct}
+                  >
+                    {productsOfCategory &&
+                      Object.keys(
+                        productsOfCategory[activeProductCategory]
+                      ).map(brand => {
+                        return (
+                          <MenuItem key={brand} value={brand}>
+                            {brand}
+                          </MenuItem>
+                        )
+                      })}
+                  </Select>
+                </StyledFormControl>
+              ) : (
+                <p />
+              )}
+
+              {activeProduct ? (
+                <SliderContainer>
+                  <Tooltip title="Antal lådor av produkt" placement="top-start">
+                    <p>
+                      Ange Antal:{' '}
+                      {activeProductVolume ? activeProductVolume : ' '}{' '}
+                    </p>
+                  </Tooltip>
+                  <Slider
+                    min={0}
+                    max={20}
+                    step={1}
+                    value={activeProductVolume}
+                    aria-labelledby="label"
+                    onChange={this.handleChangeVolume}
+                  />
+                </SliderContainer>
+              ) : (
+                <p />
+              )}
+              {activeProductVolume ? (
+                <StyledButton onClick={this.handleSubmitOrder}>
+                  Skicka order
+                </StyledButton>
+              ) : (
+                <p />
+              )}
+            </ContentContainer>
           )}
         </ModalContent>
       </StyledModal>
@@ -196,6 +233,11 @@ const ModalContent = styled.div`
   }
 `
 
+const ContentContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+
 const SliderContainer = styled.div`
   margin-top: 3%;
   p {
@@ -208,5 +250,20 @@ const StyledButton = styled(Button)`
     margin-top: 20%;
     background-color: rgba(53, 99, 236, 0.87);
     color: white;
+  }
+`
+
+const ConfirmContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+`
+const StyledCheck = styled(Check)`
+  &&& {
+    text-align: center;
+    font-size: 105px;
+    color: green;
   }
 `
